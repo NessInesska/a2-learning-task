@@ -1,0 +1,36 @@
+<div class="wrapper">
+  <div class="product-img-and-rating">
+    <img src="../../../assets/jeans.jpg" class="product-image">
+    <div class="product-rating">
+
+      <!--TODO: ngFor-->
+      <mat-icon>star</mat-icon>
+      <mat-icon>star</mat-icon>
+      <mat-icon>star</mat-icon>
+      <mat-icon>star</mat-icon>
+      <mat-icon>star</mat-icon>
+    </div>
+  </div>
+
+  <div class="product-information">
+    <div class="product-title">
+      Title
+    </div>
+    <div class="product-description">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat.
+    </div>
+  </div>
+
+  <div class="product-card-buttons">
+    <p class="product-price"> Price </p>
+    <button class="btn btn-primary product-delete-button" mat-button mat-raised-button
+            color="primary" *ngIf="isAdmin"> Delete
+    </button>
+    <button class="btn btn-primary product-delete-button" mat-button mat-raised-button
+            color="accent"> Details
+    </button>
+  </div>
+
+</div>
