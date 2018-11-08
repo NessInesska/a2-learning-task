@@ -1,0 +1,54 @@
+@import '../../styles/colors';
+
+.wrapper {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  min-width: 300px;
+
+  .container {
+    flex: 1 1 auto;
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    background: $main-page-container-background;
+    width: 80vw;
+    align-self: center;
+    height: 90vh;
+    min-height: fit-content;
+
+    .product-card {
+      background: $product-card-background;
+      margin: 20px;
+      height: 40%;
+      width: 25%;
+      min-height: fit-content;
+      min-width: 200px;
+      box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.75);
+    }
+  }
+
+  .header {
+    flex-shrink: 0;
+    padding: 20px;
+    background: $black;
+    color: $white;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    min-width: 300px;
+  }
+
+  .footer {
+    display: flex;
+    align-content: center;
+    order: 1;
+    width: 100vw;
+    padding: 20px;
+    background: $black;
+    color: $white;
+    margin: 0;
+  }
+}
