@@ -9,6 +9,7 @@ import { AuthPageModule } from './components/auth-page';
 import { ProductCardModule } from './components/product-card';
 import { AuthGuard } from './guards';
 import { MainPageModule } from './components/main-page';
+import { MainPageGuard } from './guards/main-page-guard';
 import { AuthorizationService, RoutingService, UserService, ProductCardService } from './services';
 
 @NgModule({
@@ -27,6 +28,7 @@ import { AuthorizationService, RoutingService, UserService, ProductCardService }
   ],
   providers: [
     AuthGuard,
+    MainPageGuard,
     AuthorizationService,
     ProductCardService,
     RoutingService,

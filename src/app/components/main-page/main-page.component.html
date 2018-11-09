@@ -9,6 +9,56 @@
   </header>
 
   <div class="container">
+
+    <div class="dropdown-wrapper">
+      <div class="dropdown">
+        <button #showFiltersButton class="show-filters-button" (click)="onFiltersClick()">
+          Filter
+        </button>
+
+        <div #dropdownContent class="dropdown-content" *ngIf="initialised">
+          <div class="dropdown-content-wrapper">
+            <div class="availability-filter">
+              Avaliable only
+              <input type="checkbox">
+            </div>
+            <div class="gender-filter">
+              Gender
+              <div>
+                <input type="radio" id="male" value="male"><label for="male"> Male </label>
+              </div>
+              <div>
+                <input type="radio" id="female" value="female"><label for="female"> Female </label>
+              </div>
+              <div>
+                <input type="radio" id="unisex" value="unisex"><label for="unisex"> Unisex </label>
+              </div>
+            </div>
+            <div class="categories-filter">
+              Category
+              <select class="categories-selector">
+                <option > Category 1 </option>
+                <option > Category 2 </option>
+                <option > Category 3 </option>
+                <option > Category 4 </option>
+              </select>
+            </div>
+            <div class="rating-filter">
+              Rating
+              <input type="range">
+            </div>
+            <div class="price-filter">
+              Price
+              <input type="range">
+            </div>
+          </div>
+          <div class="filter-buttons">
+            <button class="apply-filters-button" type="submit"> Apply</button>
+            <button class="clear-filters-button" type="reset"> Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!--TODO: ngFor-->
     <app-product-card class="product-card"></app-product-card>
     <app-product-card class="product-card"></app-product-card>

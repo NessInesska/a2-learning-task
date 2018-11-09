@@ -10,6 +10,10 @@ export class RoutingService {
   constructor(private router: Router) { }
 
   public goToMainPage() {
+    this.router.navigate([ROUTING_PATHES.MAIN_PAGE]);
+  }
+
+  public goToLoginPage() {
     this.router.navigate([ROUTING_PATHES.LOGIN]);
   }
 

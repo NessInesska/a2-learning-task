@@ -13,8 +13,8 @@
   </div>
 
   <div class="product-information">
-    <div class="product-title">
-      Title
+    <div class="product-title" *ngFor="let title of productTitles">
+      {{title}}
     </div>
     <div class="product-description">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -32,5 +32,4 @@
             color="accent"> Details
     </button>
   </div>
-
 </div>

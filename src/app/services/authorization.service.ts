@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
-import { ROUTING_PATHES } from '../constants';
+import { ENDPOINTS, ROUTING_PATHES } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class AuthorizationService {
   }
 
   public login(login, password): Observable<any> {
-    return this.http.post(ROUTING_PATHES.LOGIN, {login, password})
+    return this.http.post(`${environment.baseUrl}${ENDPOINTS.LOGIN}`, {login, password})
       .pipe(tap((tokens) => this.setToken(tokens)));
   }
 }
