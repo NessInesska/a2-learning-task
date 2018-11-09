@@ -11,10 +11,12 @@ import { AuthGuard } from './guards';
 import { MainPageModule } from './components/main-page';
 import { MainPageGuard } from './guards/main-page-guard';
 import { AuthorizationService, RoutingService, UserService, ProductCardService } from './services';
+import { ProductPageComponent } from './components/product-page/product-page.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ProductPageComponent
   ],
   imports: [
     AuthPageModule,
