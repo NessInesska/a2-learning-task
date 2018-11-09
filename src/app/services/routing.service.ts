@@ -13,6 +13,10 @@ export class RoutingService {
     this.router.navigate([ROUTING_PATHES.MAIN_PAGE]);
   }
 
+  public goToLoginPage() {
+    this.router.navigate([ROUTING_PATHES.LOGIN]);
+  }
+
   public navigate(path) {
     this.router.navigate(path);
   }

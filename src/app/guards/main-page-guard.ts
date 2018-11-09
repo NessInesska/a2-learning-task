@@ -14,6 +14,10 @@ export class MainPageGuard implements CanActivate {
   }
 
   public checkLogin(): boolean {
+    if (this.userService.currentUser === null) {
+      return;
+    }
+
     if (this.userService.currentUser !== null) {
       return true;
     } else {
