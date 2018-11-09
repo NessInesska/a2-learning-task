@@ -1,10 +1,12 @@
 @import '../../styles/colors';
+@import '../../styles/fonts';
 
 .wrapper {
   display: flex;
   justify-content: space-around;
   flex-direction: column;
   min-width: 300px;
+  font-family: $font-hiragino-sans-gb;
 
   .container {
     flex: 1 1 auto;
@@ -27,6 +29,74 @@
       min-height: fit-content;
       min-width: 200px;
       box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.75);
+    }
+
+    .dropdown-wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      .dropdown {
+        position: relative;
+
+        .show-filters-button {
+          background: $app-buttons;
+          color: $white;
+          padding: 16px;
+          font-size: 16px;
+          border: none;
+          cursor: pointer;
+        }
+      }
+
+      .dropdown-content {
+        width: 60vw;
+        height: 30vh;
+        min-height: fit-content;
+        min-width: fit-content;
+        position: absolute;
+        background-color: $login-body-background;
+        box-shadow: 4px 13px 37px 0 rgba(0,0,0,0.75);
+
+        .dropdown-content-wrapper {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          padding: 30px;
+
+          > * {
+            display: flex;
+            flex-direction: column;
+            margin: 20px;
+          }
+
+          .categories-selector {
+            background-color: $app-buttons;
+            color: $white;
+            width: 100px;
+            height: 30px;
+            font-size: 13px;
+            margin-top: 20px;
+          }
+
+        }
+
+        .filter-buttons {
+          display: flex;
+          justify-content: flex-end;
+          align-items: flex-end;
+
+          > * {
+            background: $app-buttons;
+            color: $white;
+            padding: 10px;
+            margin: 25px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+          }
+        }
+      }
     }
   }
 
