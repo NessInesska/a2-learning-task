@@ -1,0 +1,59 @@
+<div class="login-page-wrapper">
+  <div class="login-page-wrapper login-page">
+    <div class="login-logo">
+      Login to "Demo Shop"
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+
+      <div class="login-page login-page-inputs form-group"
+           [ngClass]="{ 'has-error': submitted && getFormControls.login.errors }">
+        <label for="login-input"> Your login: </label>
+
+        <div class="login-page-inputs input-and-icon-row">
+          <mat-icon>person</mat-icon>
+          <div class="input-element">
+            <input id="login-input"
+                   type="text"
+                   name="loginInput"
+                   class="form-control"
+                   formControlName="loginInput"
+                   required minlength="3"
+                   autofocus>
+          </div>
+        </div>
+
+        <div *ngIf="loginForm.controls['loginInput'].errors && !!autofocus"
+             class="alert alert-danger"> Login must be at least 3 characters long.
+        </div>
+
+        <!--TODO: messages that login is required-->
+
+        <label for="password-input">Password: </label>
+
+        <div class="login-page-inputs input-and-icon-row">
+          <mat-icon>lock</mat-icon>
+          <div class="input-element">
+            <input id="password-input"
+                   type="password"
+                   class="form-control"
+                   formControlName="passwordInput"
+                   required>
+
+            <!--TODO: message that password is requied-->
+
+          </div>
+        </div>
+      </div>
+
+      <div class="login-page login-submit-button">
+        <button type="submit"
+                mat-button mat-raised-button
+                color="primary"
+                class="btn btn-primary login-button"
+                [disabled]="loginForm.invalid"> Login
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
