@@ -27,6 +27,10 @@ export class MainPageComponent {
     });
   }
 
+  public closeDropdown() {
+    this.isInitialised = false;
+  }
+
   private dropdownFiltersButtonClick(): void {
     if (!!this.dropdownFiltersButton) {
       this.dropdownFiltersButton.nativeElement.click();
