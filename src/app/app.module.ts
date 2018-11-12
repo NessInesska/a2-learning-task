@@ -6,7 +6,9 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { AuthPageModule } from './components/auth-page';
+import { PageHeaderModule } from './components/page-header/page-header.module';
 import { ProductCardModule } from './components/product-card';
+import { ProductPageModule } from './components/product-page/product-page.module';
 import { AuthGuard } from './guards';
 import { MainPageModule } from './components/main-page';
 import { MainPageGuard } from './guards/main-page-guard';
@@ -14,12 +16,14 @@ import { AuthorizationService, RoutingService, UserService, ProductCardService }
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     AuthPageModule,
     MainPageModule,
     ProductCardModule,
+    ProductPageModule,
+    PageHeaderModule,
     BrowserModule,
     RouterModule.forRoot(
       appRoutes

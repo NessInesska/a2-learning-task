@@ -100,25 +100,18 @@
     }
   }
 
-  .header {
-    flex-shrink: 0;
-    padding: 20px;
-    background: $black;
-    color: $white;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    min-width: 300px;
-  }
-
   .footer {
     display: flex;
     align-content: center;
     order: 1;
     width: 100vw;
-    padding: 20px;
+    padding: 20px 0;
     background: $black;
     color: $white;
     margin: 0;
+
+    .text {
+      margin: 0 20px;
+    }
   }
 }

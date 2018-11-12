@@ -2,22 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material';
 import { PageHeaderModule } from '../page-header/page-header.module';
-
-import { ProductCardModule } from '../product-card';
-import { MainPageComponent } from './main-page.component';
+import { ProductPageComponent } from './product-page.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    ProductCardModule,
     MatIconModule,
     PageHeaderModule,
   ],
   declarations: [
-    MainPageComponent
+    ProductPageComponent,
   ],
   exports: [
-    MainPageComponent
+    ProductPageComponent,
   ],
 })
-export class MainPageModule { }
+export class ProductPageModule { }
