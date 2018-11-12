@@ -12,7 +12,7 @@
 
     <div class="dropdown-wrapper">
       <div class="dropdown">
-        <button #showFiltersButton class="show-filters-button" (click)="onFiltersClick()">
+        <button #showFiltersButton class="show-filters-button" (click)="onFiltersClick()" (blur)="closeDropdown()">
           Filter
         </button>
 
