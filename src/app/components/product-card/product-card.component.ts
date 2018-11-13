@@ -19,8 +19,8 @@ export class ProductCardComponent implements OnInit{
   }
 
   public getProductInformation() {
-    this.productService.getProductTitles()
-      .subscribe(titles => this.productTitles = titles);
+    // this.productService.getProductTitles()
+    //   .subscribe(titles => this.productTitles = titles);
   }
 
   public goToProductPage() {
