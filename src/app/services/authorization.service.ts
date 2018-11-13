@@ -1,10 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
 
-import { ENDPOINTS, ROUTING_PATHES } from '../constants';
+import { environment } from '../../environments/environment';
+import { ENDPOINTS } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +21,8 @@ export class AuthorizationService {
     localStorage.setItem('session-token', token);
   }
 
-  public login(login, password): Observable<any> {
-    return this.http.post(`${environment.baseUrl}${ENDPOINTS.LOGIN}`, {login, password})
-      .pipe(tap((tokens) => this.setToken(tokens)));
+  public login(login, password): Observable<HttpResponse<string>> {
+
+    return this.http.post(`${environment.baseUrl}${ENDPOINTS.LOGIN}`, {login, password}, {observe: 'response', responseType: 'text'}, );
   }
 }

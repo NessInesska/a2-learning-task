@@ -11,7 +11,7 @@ export class ProductCardService {
 
   constructor(private http: HttpClient) { }
 
-  public getProductTitles() {
-    return this.http.get(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}`);
-  }
+  // public getProductTitles() {
+  //   return this.http.get(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}`);
+  // }
 }

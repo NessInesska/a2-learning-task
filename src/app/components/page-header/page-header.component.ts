@@ -13,6 +13,7 @@ export class PageHeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  // TODO: implement logout functionality
   // public logout(login) {
   //   this.authService.logout(login);
   // }

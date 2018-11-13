@@ -10,6 +10,8 @@ import { AuthorizationService, RoutingService, UserService } from '../../service
 })
 export class AuthPageComponent {
 
+  public headers;
+
   public loginForm = this.formBuild.group({
     loginInput: ['', Validators.required],
     passwordInput: ['', Validators.required],
@@ -25,14 +27,19 @@ export class AuthPageComponent {
     const password = this.loginForm.controls['passwordInput'].value;
 
     if (this.loginForm.valid) {
-      this.authorizationService.login(login, password)
-        .subscribe(
-          token => this.authorizationService.setToken(token));
-      this.routingService.goToMainPage();
+      this.authorizationService.login(login, password).subscribe(res => {
+        this.handleLogin(res);
+      });
 
       // TODO: set currentUser value from null to logged user for authGuard
       this.userService.currentUser = login;
     }
+    this.routingService.goToMainPage();
+
+  }
+
+  public handleLogin(res) {
+    this.authorizationService.setToken(res.headers.get('session-token'));
   }
 
   public get getFormControls() {

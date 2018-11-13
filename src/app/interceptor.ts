@@ -1,4 +1,4 @@
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -8,18 +8,12 @@ import { STATUS_CODES } from './constants';
 
 
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor {
+export class Interceptor implements HttpInterceptor {
 
   constructor(private routerService: RoutingService,
               private authService: AuthorizationService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    request = request.clone({ withCredentials: true });
-
-    if (!request.headers.has('session-token')) {
-      request = request.clone({ headers: request.headers.set('session-token', this.authService.getToken()) });
-    }
-
 
     return next.handle(request).pipe(tap(error => {
       if (error instanceof HttpErrorResponse) {
