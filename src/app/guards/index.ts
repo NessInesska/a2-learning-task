@@ -1,3 +1,2 @@
-export * from './auth-guard';
-export * from './main-page-guard';
-export * from './product-page-guard';
+export * from './auth-guard.service';
+export * from './main-page.guard';
