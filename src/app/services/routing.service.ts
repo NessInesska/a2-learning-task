@@ -17,6 +17,10 @@ export class RoutingService {
     this.router.navigate([ROUTING_PATHES.LOGIN]);
   }
 
+  public goToProductPage() {
+    this.router.navigate([ROUTING_PATHES.PRODUCT]);
+  }
+
   public navigate(path) {
     this.router.navigate(path);
   }

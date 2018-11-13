@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductCardService } from '../../services';
+import { ProductCardService, RoutingService } from '../../services';
 
 @Component({
   selector: 'app-product-card',
@@ -11,7 +11,8 @@ export class ProductCardComponent implements OnInit{
   public isAdmin: boolean = false;
   public productTitles;
 
-  constructor(private productService: ProductCardService) { }
+  constructor(private productService: ProductCardService,
+              private routingService: RoutingService) { }
 
   public ngOnInit() {
     this.getProductInformation();
@@ -20,5 +21,9 @@ export class ProductCardComponent implements OnInit{
   public getProductInformation() {
     this.productService.getProductTitles()
       .subscribe(titles => this.productTitles = titles);
+  }
+
+  public goToProductPage() {
+    this.routingService.goToProductPage();
   }
 }
