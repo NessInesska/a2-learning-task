@@ -1,22 +1,20 @@
-import { Component, Input } from '@angular/core';
-import { AuthorizationService, RoutingService } from '../../services';
+import { Component, OnInit } from '@angular/core';
+import { AuthorizationService } from '../../services';
 
 @Component({
   selector: 'app-page-header',
   templateUrl: './page-header.component.html',
   styleUrls: ['./page-header.component.scss']
 })
-export class PageHeaderComponent {
+export class PageHeaderComponent implements OnInit {
 
-  @Input() login: string;
+  constructor(private authService: AuthorizationService) { }
 
-  constructor(private authService: AuthorizationService,
-              private routingService: RoutingService) {
+  ngOnInit() {
   }
 
-  public logout(login) {
-    this.authService.logout(login);
-    localStorage.removeItem('session-token');
-    this.routingService.goToLoginPage();
-  }
+  // TODO: implement logout functionality
+  // public logout(login) {
+  //   this.authService.logout(login);
+  // }
 }

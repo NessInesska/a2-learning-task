@@ -22,10 +22,7 @@ export class AuthorizationService {
   }
 
   public login(login, password): Observable<HttpResponse<string>> {
-    return this.http.post(`${environment.baseUrl}${ENDPOINTS.LOGIN}`, {login, password}, {observe: 'response', responseType: 'text'}, );
-  }
 
-  public logout(login) {
-    return this.http.post(`${environment.baseUrl}${ENDPOINTS.LOGOUT}`, {login});
+    return this.http.post(`${environment.baseUrl}${ENDPOINTS.LOGIN}`, {login, password}, {observe: 'response', responseType: 'text'}, );
   }
 }

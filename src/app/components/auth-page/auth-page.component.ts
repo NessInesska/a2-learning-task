@@ -10,6 +10,8 @@ import { AuthorizationService, RoutingService, UserService } from '../../service
 })
 export class AuthPageComponent {
 
+  public headers;
+
   public loginForm = this.formBuild.group({
     loginInput: ['', Validators.required],
     passwordInput: ['', Validators.required],
@@ -31,7 +33,6 @@ export class AuthPageComponent {
 
       // TODO: set currentUser value from null to logged user for authGuard
       this.userService.currentUser = login;
-      this.userService.login = login;
     }
     this.routingService.goToMainPage();
 

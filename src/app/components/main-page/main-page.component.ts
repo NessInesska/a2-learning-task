@@ -1,5 +1,4 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { UserService } from '../../services';
 
 @Component({
   selector: 'app-main-page',
@@ -13,10 +12,8 @@ export class MainPageComponent {
   @ViewChild('dropdownContent') public dropdownContent: ElementRef;
 
   public isInitialised: boolean = false;
-  public login: string = this.userService.login;
 
-  constructor(private userService: UserService) {
-  }
+  constructor() { }
 
   public onFiltersClick(): void {
     if (this.isInitialised) {
