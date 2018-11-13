@@ -7,9 +7,10 @@ import { User } from '../classes';
 })
 export class UserService {
 
-  constructor() { }
-
   public currentUser: User = null;
+  public login: string;
+
+  constructor() { }
 
   public getCurrentUser(): User {
     return this.currentUser;
