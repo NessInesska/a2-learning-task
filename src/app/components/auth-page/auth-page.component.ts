@@ -11,13 +11,14 @@ import { AuthorizationService, RoutingService } from '../../services';
 export class AuthPageComponent {
 
   public loginForm = this.formBuild.group({
-    loginInput: ['', Validators.required],
-    passwordInput: ['', Validators.required],
+    loginInput: ['', [Validators.required, Validators.minLength(3)]],
+    passwordInput: ['', [Validators.required, Validators.minLength(3)]]
   });
 
   constructor(private authorizationService: AuthorizationService,
               private formBuild: FormBuilder,
-              private routingService: RoutingService) { }
+              private routingService: RoutingService) {
+  }
 
   public onLogin() {
     const login = this.loginForm.controls['loginInput'].value;
@@ -37,5 +38,13 @@ export class AuthPageComponent {
 
   public get getFormControls() {
     return this.loginForm.controls;
+  }
+
+  public get loginInput() {
+    return this.loginForm.controls['loginInput'];
+  }
+
+  public get passwordInput() {
+    return this.loginForm.controls['passwordInput'];
   }
 }
