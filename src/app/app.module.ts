@@ -9,7 +9,7 @@ import { AuthPageModule } from './components/auth-page';
 import { PageHeaderModule } from './components/page-header';
 import { ProductCardModule } from './components/product-card';
 import { ProductPageModule } from './components/product-page';
-import { AuthGuard, MainPageGuard } from './guards';
+import { AuthGuard } from './guards';
 import { MainPageModule } from './components/main-page';
 import { Interceptor } from './interceptor';
 import { AuthorizationService, RoutingService, UserService, ProductCardService } from './services';
@@ -25,14 +25,13 @@ import { AuthorizationService, RoutingService, UserService, ProductCardService }
     ProductPageModule,
     PageHeaderModule,
     BrowserModule,
+    HttpClientModule,
     RouterModule.forRoot(
       appRoutes
     ),
-    HttpClientModule,
   ],
   providers: [
     AuthGuard,
-    MainPageGuard,
     AuthorizationService,
     ProductCardService,
     RoutingService,

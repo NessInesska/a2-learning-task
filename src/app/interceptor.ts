@@ -10,8 +10,7 @@ import { STATUS_CODES } from './constants';
 @Injectable()
 export class Interceptor implements HttpInterceptor {
 
-  constructor(private routerService: RoutingService,
-              private authService: AuthorizationService) { }
+  constructor(private routerService: RoutingService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
