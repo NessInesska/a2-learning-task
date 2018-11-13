@@ -7,42 +7,55 @@
 
       <div class="login-page login-page-inputs form-group"
            [ngClass]="{ 'has-error': submitted && getFormControls.login.errors }">
-        <label for="login-input"> Your login: </label>
+        <label for="loginInput"> Your login: </label>
 
         <div class="login-page-inputs input-and-icon-row">
           <mat-icon>person</mat-icon>
           <div class="input-element">
-            <input id="login-input"
+            <input id="loginInput"
+                   name="loginInput"
                    type="text"
                    name="loginInput"
                    class="form-control"
-                   formControlName="loginInput"
-                   required minlength="3"
-                   autofocus>
+                   formControlName="loginInput">
           </div>
         </div>
 
-        <div *ngIf="loginForm.controls['loginInput'].errors && !!autofocus"
-             class="alert alert-danger"> Login must be at least 3 characters long.
+        <div *ngIf="loginInput.invalid && (loginInput.dirty || loginInput.touched)"
+             class="alert alert-danger">
+
+          <div *ngIf="loginInput.errors.required">
+            Login is required.
+          </div>
+          <div *ngIf="loginInput.errors.minlength">
+            Login must be at least 3 characters long.
+          </div>
         </div>
 
-        <!--TODO: messages that login is required-->
-
-        <label for="password-input">Password: </label>
+        <label for="passwordInput">Password: </label>
 
         <div class="login-page-inputs input-and-icon-row">
           <mat-icon>lock</mat-icon>
           <div class="input-element">
-            <input id="password-input"
+            <input id="passwordInput"
+                   name="passwordInput"
                    type="password"
                    class="form-control"
-                   formControlName="passwordInput"
-                   required>
-
-            <!--TODO: message that password is requied-->
-
+                   formControlName="passwordInput">
           </div>
         </div>
+
+        <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)"
+             class="alert alert-danger">
+
+          <div *ngIf="passwordInput.errors.required">
+            Password is required.
+          </div>
+          <div *ngIf="passwordInput.errors.minlength">
+            Password must be at least 3 characters long.
+          </div>
+        </div>
+
       </div>
 
       <div class="login-page login-submit-button">
