@@ -52,15 +52,10 @@
         </div>
       </div>
     </div>
-    <!--TODO: ngFor-->
-    <app-product-card class="product-card"></app-product-card>
-    <app-product-card class="product-card"></app-product-card>
-    <app-product-card class="product-card"></app-product-card>
-    <app-product-card class="product-card"></app-product-card>
-    <app-product-card class="product-card"></app-product-card>
-    <app-product-card class="product-card"></app-product-card>
-    <app-product-card class="product-card"></app-product-card>
-    <app-product-card class="product-card"></app-product-card>
+    <app-product-card class="product-card"
+                      *ngFor="let item of productArray"
+                      [item]="item">
+    </app-product-card>
   </div>
 
   <footer class="footer">
