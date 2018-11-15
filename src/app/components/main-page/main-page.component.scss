@@ -20,13 +20,14 @@
     align-self: center;
     height: 90vh;
     min-height: fit-content;
+    border: 1px solid gainsboro;
 
     .product-card {
       background: $product-card-background;
       margin: 20px;
-      height: 40%;
+      height: fit-content;
+      min-height: 550px;
       width: 25%;
-      min-height: fit-content;
       min-width: 200px;
       box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.75);
     }

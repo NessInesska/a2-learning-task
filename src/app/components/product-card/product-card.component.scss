@@ -6,19 +6,28 @@
   flex-wrap: nowrap;
   padding: 15px;
   margin: 0;
-  border: 1px solid gainsboro;
+  min-height: 550px;
+  justify-content: space-between;
 
-  .product-image {
-    width: 100%;
-  }
+  .product-top-part-wrapper {
 
-  .product-information {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
+    .product-image {
+      width: 100%;
+    }
 
-    .product-description {
-      text-align: justify;
+    .product-information {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+
+      .product-title {
+        font-weight: bold;
+        margin: 5px;
+      }
+
+      .product-description {
+        text-align: justify;
+      }
     }
   }
 

@@ -7,10 +7,10 @@ import { ProductCardComponent } from './product-card.component';
 @NgModule({
   imports: [
     CommonModule,
-    MatIconModule
+    MatIconModule,
   ],
   declarations: [
-    ProductCardComponent
+    ProductCardComponent,
   ],
   exports: [
     ProductCardComponent

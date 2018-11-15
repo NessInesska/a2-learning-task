@@ -1,7 +1,7 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -46,6 +46,9 @@ import { AuthorizationService, RoutingService, UserService, ProductCardService }
   ],
   bootstrap: [
     AppComponent
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
   ],
 })
 export class AppModule { }

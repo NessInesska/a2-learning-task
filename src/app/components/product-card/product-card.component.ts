@@ -1,27 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductCardService, RoutingService } from '../../services';
+import { Component, Input, OnInit } from '@angular/core';
+import * as _ from 'lodash';
+
+import { RoutingService } from '../../services';
 
 @Component({
   selector: 'app-product-card',
   templateUrl: './product-card.component.html',
   styleUrls: ['./product-card.component.scss']
 })
-export class ProductCardComponent implements OnInit{
+export class ProductCardComponent implements OnInit {
+
+  @Input() item;
 
   public isAdmin: boolean = false;
-  public productTitles;
+  public range;
 
-  constructor(private productService: ProductCardService,
-              private routingService: RoutingService) { }
+  constructor(private routingService: RoutingService) {
+  }
 
   public ngOnInit() {
-    this.getProductInformation();
-  }
-
-  public getProductInformation() {
-    // this.productService.getProductTitles()
-    //   .subscribe(titles => this.productTitles = titles);
-  }
+      this.range = _.range(this.item.rating);
+}
 
   public goToProductPage() {
     this.routingService.goToProductPage();

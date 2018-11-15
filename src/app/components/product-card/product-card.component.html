@@ -1,30 +1,24 @@
 <div class="wrapper">
-  <div class="product-img-and-rating">
-    <img src="../../../assets/jeans.jpg" class="product-image">
-    <div class="product-rating">
-
-      <!--TODO: ngFor-->
-      <mat-icon>star</mat-icon>
-      <mat-icon>star</mat-icon>
-      <mat-icon>star</mat-icon>
-      <mat-icon>star</mat-icon>
-      <mat-icon>star</mat-icon>
+  <div class="product-top-part-wrapper">
+    <div class="product-img-and-rating">
+      <img src="{{item.image}}" class="product-image">
+      <div class="product-rating">
+        <mat-icon *ngFor="let i of range">star</mat-icon>
+      </div>
     </div>
-  </div>
 
-  <div class="product-information">
-    <div class="product-title" *ngFor="let title of productTitles">
-      {{title}}
-    </div>
-    <div class="product-description">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat.
+    <div class="product-information">
+      <div class="product-title">
+        {{item.name}}
+      </div>
+      <div class="product-description">
+        {{item.description}}
+      </div>
     </div>
   </div>
 
   <div class="product-card-buttons">
-    <p class="product-price"> Price </p>
+    <p class="product-price"> $ {{item.cost}} </p>
     <button class="btn btn-primary product-delete-button" mat-button mat-raised-button
             color="primary" *ngIf="isAdmin"> Delete
     </button>
