@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Product } from '../../classes';
 
-import { ProductCardService, UserService } from '../../services';
+import { ProductService, UserService } from '../../services';
 
 @Component({
   selector: 'app-main-page',
@@ -19,11 +20,11 @@ export class MainPageComponent implements OnInit {
   public item;
 
   constructor(private userService: UserService,
-              private productCardService: ProductCardService) {
+              private productCardService: ProductService) {
   }
 
   public ngOnInit() {
-    this.productCardService.getProductTitles().subscribe(
+    this.productCardService.getProducts().subscribe(
       products => {
         this.productArray = products;
         this.productArray.forEach(item => {

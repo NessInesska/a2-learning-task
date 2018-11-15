@@ -23,6 +23,7 @@ export class ProductCardComponent implements OnInit {
 }
 
   public goToProductPage() {
-    this.routingService.goToProductPage();
+
+    this.routingService.goToProductPage(this.item.id);
   }
 }

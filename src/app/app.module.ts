@@ -13,7 +13,7 @@ import { ProductPageModule } from './components/product-page';
 import { AuthGuard } from './guards';
 import { MainPageModule } from './components/main-page';
 import { Interceptor } from './interceptor';
-import { AuthorizationService, RoutingService, UserService, ProductCardService } from './services';
+import { AuthorizationService, RoutingService, UserService, ProductService } from './services';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,7 @@ import { AuthorizationService, RoutingService, UserService, ProductCardService }
   providers: [
     AuthGuard,
     AuthorizationService,
-    ProductCardService,
+    ProductService,
     RoutingService,
     UserService,
     {
