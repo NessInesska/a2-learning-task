@@ -8,11 +8,12 @@ import { ENDPOINTS } from '../constants';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductCardService {
+export class ProductService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-  public getProductTitles(): Observable<any> {
+  public getProducts(): Observable<any> {
     return this.http.get<any>(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}`);
   }
 }

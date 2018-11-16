@@ -22,8 +22,12 @@
     <button class="btn btn-primary product-delete-button" mat-button mat-raised-button
             color="primary" *ngIf="isAdmin"> Delete
     </button>
-    <button class="btn btn-primary product-delete-button" mat-button mat-raised-button
-            color="accent" (click)="goToProductPage()"> Details
+    <button class="btn btn-primary product-delete-button"
+            mat-button mat-raised-button
+            color="accent"
+            (click)="goToProductPage($event)"
+            routerLink="['/hero', hero.id]">
+        Details
     </button>
   </div>
 </div>

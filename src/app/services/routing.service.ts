@@ -10,19 +10,19 @@ export class RoutingService {
 
   constructor(private router: Router) { }
 
-  public goToMainPage() {
-    this.router.navigate([ROUTING_PATHES.MAIN_PAGE]);
+  public goToMainPage(): Promise<boolean> {
+    return this.router.navigate([ROUTING_PATHES.MAIN_PAGE]);
   }
 
-  public goToLoginPage() {
-    this.router.navigate([ROUTING_PATHES.LOGIN]);
+  public goToLoginPage(): Promise<boolean> {
+    return this.router.navigate([ROUTING_PATHES.LOGIN]);
   }
 
-  public goToProductPage() {
-    this.router.navigate([ROUTING_PATHES.PRODUCT]);
+  public goToProductPage(id: string): Promise<boolean> {
+    return this.router.navigate([ROUTING_PATHES.PRODUCT, id]);
   }
 
-  public navigate(path) {
-    this.router.navigate(path);
+  public navigate(path): Promise<boolean> {
+    return this.router.navigate(path);
   }
 }

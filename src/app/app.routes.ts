@@ -7,7 +7,7 @@ import { AuthGuard, MainPageGuard } from './guards';
 
 export const appRoutes: Routes = [
   {path: 'main', component: MainPageComponent, canActivate: [AuthGuard]},
-  {path: 'product', component: ProductPageComponent, canActivate: [AuthGuard]},
+  {path: 'product/:id', component: ProductPageComponent, canActivate: [AuthGuard], data: {}},
   {path: 'login', component: AuthPageComponent, canActivate: [MainPageGuard]},
   {path: '**', redirectTo: '/login', pathMatch: 'full'}
 ];
