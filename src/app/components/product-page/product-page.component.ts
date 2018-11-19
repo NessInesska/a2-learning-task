@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Product } from '../../classes';
+
 import { ProductService } from '../../services';
 
 @Component({
@@ -10,12 +10,16 @@ import { ProductService } from '../../services';
 })
 export class ProductPageComponent implements OnInit {
 
-  public product;
+  @ViewChild('buyButton') public buyButton: ElementRef;
 
+  public product;
   public prodArr;
+  public isInitialised: boolean = false;
+  public isConfirmed: boolean = false;
 
   constructor(private route: ActivatedRoute,
-              private productService: ProductService) {
+              private productService: ProductService,
+              private cd: ChangeDetectorRef) {
   }
 
   public ngOnInit() {
@@ -31,4 +35,31 @@ export class ProductPageComponent implements OnInit {
     });
   }
 
+  public showModal(): void {
+    if (this.isInitialised) {
+      this.onBuyButtonClick();
+      return;
+    }
+    this.isInitialised = true;
+    this.cd.detectChanges();
+    setTimeout(() => {
+      this.onBuyButtonClick();
+    });
+  }
+
+  public confirm() {
+    this.productService.patchNumberOfProducts(this.product.id, this.product.count, this.product.soldCount).subscribe(res => console.log(res));
+    this.isConfirmed = true;
+  }
+
+  public closeModal() {
+    this.isInitialised = false;
+    this.isConfirmed = false;
+  }
+
+  private onBuyButtonClick(): void {
+    if (!!this.buyButton) {
+      this.buyButton.nativeElement.click();
+    }
+  }
 }
