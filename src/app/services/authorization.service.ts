@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import { ENDPOINTS } from '../constants';
+import { ENDPOINTS, SESSION_TOKEN } from '../constants';
+import { RoutingService } from './routing.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ import { ENDPOINTS } from '../constants';
 
 export class AuthorizationService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private routingService: RoutingService) { }
 
   public getToken(): string {
     return localStorage.getItem('session-token');
@@ -21,8 +23,21 @@ export class AuthorizationService {
     localStorage.setItem('session-token', token);
   }
 
+  public hasToken(): boolean {
+    if (localStorage.getItem(SESSION_TOKEN)) return true;
+  }
+
+  public removeToken(): void {
+    localStorage.removeItem(SESSION_TOKEN);
+  }
+
+  public handleLogin(res) {
+    this.setToken(res.headers.get(SESSION_TOKEN));
+    this.routingService.goToMainPage();
+  }
+
   public login(login, password): Observable<HttpResponse<string>> {
-    return this.http.post(`${environment.baseUrl}${ENDPOINTS.LOGIN}`, {login, password}, {observe: 'response', responseType: 'text'}, );
+    return this.http.post(`${environment.baseUrl}${ENDPOINTS.LOGIN}`, {login, password}, {observe: 'response', responseType: 'text'});
   }
 
   public logout(login) {

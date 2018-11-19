@@ -6,12 +6,12 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
-import { AuthPageModule } from './components/auth-page';
+import { AuthPageModule } from './pages/auth-page';
 import { PageHeaderModule } from './components/page-header';
 import { ProductCardModule } from './components/product-card';
-import { ProductPageModule } from './components/product-page';
+import { ProductPageModule } from './pages/product-page';
 import { AuthGuard } from './guards';
-import { MainPageModule } from './components/main-page';
+import { MainPageModule } from './pages/main-page';
 import { Interceptor } from './interceptor';
 import { AuthorizationService, RoutingService, UserService, ProductService } from './services';
 

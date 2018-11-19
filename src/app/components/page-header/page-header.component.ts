@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+
 import { AuthorizationService, RoutingService } from '../../services';
 
 @Component({
@@ -16,7 +17,7 @@ export class PageHeaderComponent {
 
   public logout(login) {
     this.authService.logout(login);
-    localStorage.removeItem('session-token');
+    this.authService.removeToken();
     this.routingService.goToLoginPage();
   }
 }
