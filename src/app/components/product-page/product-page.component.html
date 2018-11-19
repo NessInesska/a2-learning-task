@@ -11,11 +11,11 @@
         <div class="product-rating">
 
           <!--TODO: ngFor-->
-          <mat-icon>star</mat-icon>
-          <mat-icon>star</mat-icon>
-          <mat-icon>star</mat-icon>
-          <mat-icon>star</mat-icon>
-          <mat-icon>star</mat-icon>
+          <mat-icon color="primary">star</mat-icon>
+          <mat-icon color="primary">star</mat-icon>
+          <mat-icon color="primary">star</mat-icon>
+          <mat-icon color="primary">star</mat-icon>
+          <mat-icon color="primary">star</mat-icon>
         </div>
 
         <div class="product-price-gender-category">
@@ -28,12 +28,12 @@
         <div>
           {{product.name}}
         </div>
-       {{product.description}}
+        {{product.description}}
       </div>
     </div>
 
     <div class="product-full-page-footer">
-      <button type="submit" class="buy-product-button">
+      <button #buyButton type="submit" class="buy-product-button" (click)="showModal()">
         Buy
       </button>
     </div>
@@ -41,4 +41,35 @@
   <footer class="footer">
     <div class="text"> Copyright "Demo Shop", 2018</div>
   </footer>
+</div>
+
+<div class="modal-layout" *ngIf="isInitialised">
+  <div class="modal-window">
+    <div class="modal-window-wrapper" *ngIf="!isConfirmed">
+      <div class="modal-window-text">
+        <div class="confirm" *ngIf="product.count > 1">
+          Please, confirm that you want to buy {{product.name}}.
+        </div>
+        <div class="confirm" *ngIf="product.count < 1">
+          Sorry, we ran out of stock for {{product.name}}.
+        </div>
+      </div>
+      <div class="buttons">
+        <button type="button" (click)="confirm()" *ngIf="product.count > 1"> Confirm</button>
+        <button type="button" (click)="closeModal()"> Close</button>
+      </div>
+    </div>
+
+    <div class="modal-window-wrapper" *ngIf="isConfirmed">
+      <div class="modal-window-text">
+        <div class="confirm">
+          Thank you for buying {{product.name}}.
+        </div>
+      </div>
+      <div class="buttons">
+        <button type="button" (click)="closeModal()"> Close</button>
+      </div>
+    </div>
+
+  </div>
 </div>

@@ -16,4 +16,8 @@ export class ProductService {
   public getProducts(): Observable<any> {
     return this.http.get<any>(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}`);
   }
+
+  public patchNumberOfProducts(id, count, soldCount): Observable<Response> {
+    return this.http.patch<Response>(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}/${id}`, {count: count - 1, soldCount: soldCount + 1});
+  }
 }

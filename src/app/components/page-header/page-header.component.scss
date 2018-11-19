@@ -16,6 +16,13 @@
 
   .user-info {
     padding-right: 20px;
+
+    button {
+      background: none;
+      color: $white;
+      cursor: pointer;
+      font-size: 15px;
+    }
   }
 
   a {
