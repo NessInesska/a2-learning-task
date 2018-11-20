@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import * as _ from 'lodash';
 
-import { RoutingService } from '../../services';
+import { ProductService, RoutingService } from '../../services';
 
 @Component({
   selector: 'app-product-card',
@@ -14,16 +13,22 @@ export class ProductCardComponent implements OnInit {
 
   public isAdmin: boolean = false;
   public range;
+  public emptyRange;
 
-  constructor(private routingService: RoutingService) {
+  constructor(private routingService: RoutingService,
+              private productService: ProductService) {
   }
 
   public ngOnInit() {
-      this.range = _.range(this.item.rating);
-}
+      this.range = new Array(this.item.rating);
+      this.emptyRange = new Array((5 - this.item.rating));
+  }
 
   public goToProductPage() {
-
-    this.routingService.goToProductPage(this.item.id);
+    this.productService.getProductById(this.item.id)
+      .subscribe(res => {
+        this.productService.item = res;
+        this.routingService.goToProductPage(res.id);
+      });
   }
 }

@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Product } from '../../classes';
 
 import { ProductService, UserService } from '../../services';
 
@@ -14,39 +13,35 @@ export class MainPageComponent implements OnInit {
 
   @ViewChild('dropdownContent') public dropdownContent: ElementRef;
 
-  public isInitialised: boolean = false;
+  public isOpened: boolean = false;
   public login: string = this.userService.login;
   public productArray;
   public item;
 
   constructor(private userService: UserService,
-              private productCardService: ProductService) {
+              private productService: ProductService) {
   }
 
   public ngOnInit() {
-    this.productCardService.getProducts().subscribe(
-      products => {
+    this.item = this.productService.getProducts()
+      .subscribe(products => {
         this.productArray = products;
-        this.productArray.forEach(item => {
-          this.item = item;
-        });
       });
   }
 
   public onFiltersClick(): void {
-    if (this.isInitialised) {
+    if (this.isOpened) {
       this.dropdownFiltersButtonClick();
       return;
     }
-
-    this.isInitialised = true;
+    this.isOpened = true;
     setTimeout(() => {
       this.dropdownFiltersButtonClick();
     });
   }
 
   public closeDropdown() {
-    this.isInitialised = false;
+    this.isOpened = false;
   }
 
   private dropdownFiltersButtonClick(): void {

@@ -4,6 +4,7 @@
       <img src="{{item.image}}" class="product-image">
       <div class="product-rating">
         <mat-icon color="primary" *ngFor="let i of range">star</mat-icon>
+        <mat-icon color="primary" *ngFor="let i of emptyRange">star_border</mat-icon>
       </div>
     </div>
 
@@ -22,11 +23,10 @@
     <button class="btn btn-primary product-delete-button" mat-button mat-raised-button
             color="primary" *ngIf="isAdmin"> Delete
     </button>
-    <button class="btn btn-primary product-delete-button"
+    <button class="btn btn-primary product-details-button"
             mat-button mat-raised-button
             color="accent"
-            (click)="goToProductPage($event)"
-            routerLink="['/hero', hero.id]">
+            (click)="goToProductPage($event)">
         Details
     </button>
   </div>

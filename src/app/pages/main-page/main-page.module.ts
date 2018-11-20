@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material';
 
-import { PageHeaderModule } from '../page-header';
-import { ProductCardModule } from '../product-card';
+import { ModalComponent } from '../../components/modal';
+import { PageHeaderModule } from '../../components/page-header';
+import { ProductCardModule } from '../../components/product-card';
 import { MainPageComponent } from './main-page.component';
 
 @NgModule({
@@ -14,7 +15,8 @@ import { MainPageComponent } from './main-page.component';
     PageHeaderModule,
   ],
   declarations: [
-    MainPageComponent
+    MainPageComponent,
+    ModalComponent,
   ],
   exports: [
     MainPageComponent

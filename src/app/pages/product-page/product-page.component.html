@@ -1,0 +1,44 @@
+<div class="product-full-page">
+  <app-page-header></app-page-header>
+  <div class="container">
+
+    <div class="product-full-page-top-part">
+      <div class="product-full-page-top-left">
+
+        <div class="product-picture">
+          <img src="{{item.image}}">
+        </div>
+        <div class="product-rating">
+          <mat-icon color="primary" *ngFor="let i of range">star</mat-icon>
+          <mat-icon color="primary" *ngFor="let i of emptyRange">star_border</mat-icon>
+        </div>
+
+        <div class="product-price-gender-category">
+          <div> $ {{item.cost}} </div>
+          <div> {{item.gender}} </div>
+          <div> {{item.count}} pieces is left in stock. </div>
+          <div> {{item.category}} </div>
+        </div>
+      </div>
+      <div class="product-description">
+        <div class="product-description-title">
+          {{item.name}}
+        </div>
+        {{item.description}}
+      </div>
+    </div>
+
+    <div class="product-full-page-footer">
+      <button #buyButton
+              type="submit"
+              class="buy-product-button"
+              (click)="showModal()"
+              [disabled]="item.count < 1">
+        Buy
+      </button>
+    </div>
+  </div>
+  <footer class="footer">
+    <div class="text"> Copyright "Demo Shop", 2018</div>
+  </footer>
+</div>

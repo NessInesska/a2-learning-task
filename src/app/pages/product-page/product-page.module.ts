@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material';
 
-import { PageHeaderModule } from '../page-header';
+import { PageHeaderModule } from '../../components/page-header';
+import { ModalService } from '../../services';
 import { ProductPageComponent } from './product-page.component';
 
 @NgModule({
@@ -16,6 +17,9 @@ import { ProductPageComponent } from './product-page.component';
   ],
   exports: [
     ProductPageComponent,
+  ],
+  providers: [
+    ModalService,
   ],
 })
 export class ProductPageModule { }

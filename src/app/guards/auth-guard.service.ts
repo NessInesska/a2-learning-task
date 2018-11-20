@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
+import { ROUTING_PATHES } from '../constants';
 import { AuthorizationService, RoutingService } from '../services';
 
 @Injectable({
@@ -9,7 +10,8 @@ import { AuthorizationService, RoutingService } from '../services';
 export class AuthGuard implements CanActivate {
 
   constructor(private authService: AuthorizationService,
-              private routingService: RoutingService) {}
+              private routingService: RoutingService) {
+  }
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -18,10 +20,10 @@ export class AuthGuard implements CanActivate {
   }
 
   public checkLogin(): boolean {
-    if (localStorage.getItem('session-token')) {
+    if (this.authService.hasToken()) {
       return true;
     } else {
-      this.routingService.navigate(['/login']);
+      this.routingService.navigate([ROUTING_PATHES.LOGIN]);
     }
     return false;
   }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { AuthorizationService, RoutingService } from '../../services';
+import { AuthorizationService } from '../../services';
 
 @Component({
   selector: 'app-auth-page',
@@ -11,29 +11,23 @@ import { AuthorizationService, RoutingService } from '../../services';
 export class AuthPageComponent {
 
   public loginForm = this.formBuild.group({
-    loginInput: ['', [Validators.required, Validators.minLength(3)]],
-    passwordInput: ['', [Validators.required, Validators.minLength(3)]]
+    loginInput: ['', {validators: [Validators.required, Validators.minLength(3)], updateOn: 'blur'} ],
+    passwordInput: ['', {validators: [Validators.required, Validators.minLength(3)], updateOn: 'blur'}]
   });
 
   constructor(private authorizationService: AuthorizationService,
-              private formBuild: FormBuilder,
-              private routingService: RoutingService) {
+              private formBuild: FormBuilder) {
   }
 
   public onLogin() {
-    const login = this.loginForm.controls['loginInput'].value;
-    const password = this.loginForm.controls['passwordInput'].value;
+    const login = this.loginInput.value;
+    const password = this.passwordInput.value;
 
     if (this.loginForm.valid) {
       this.authorizationService.login(login, password).subscribe(res => {
-        this.handleLogin(res);
+        this.authorizationService.handleLogin(res);
       });
     }
-  }
-
-  public handleLogin(res) {
-    this.authorizationService.setToken(res.headers.get('session-token'));
-    this.routingService.goToMainPage();
   }
 
   public get getFormControls() {

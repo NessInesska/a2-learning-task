@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { ROUTING_PATHES, SESSION_TOKEN } from '../constants';
 
-import { RoutingService } from '../services';
+import { AuthorizationService, RoutingService } from '../services';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MainPageGuard implements CanActivate {
 
-  constructor(private routingService: RoutingService) {}
+  constructor(private routingService: RoutingService,
+              private authService: AuthorizationService) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -17,10 +19,10 @@ export class MainPageGuard implements CanActivate {
   }
 
   public checkLogin(): boolean {
-    if (!localStorage.getItem('session-token')) {
+    if (!this.authService.hasToken()) {
       return true;
     } else {
-      this.routingService.navigate(['/main']);
+      this.routingService.navigate([ROUTING_PATHES.MAIN_PAGE]);
     }
     return false;
   }
