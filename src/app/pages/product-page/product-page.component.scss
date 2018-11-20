@@ -37,6 +37,24 @@
           margin: 10px;
           font-weight: bold;
         }
+
+        .product-description-title {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          margin: 10px;
+          font-size: 20px;
+
+          button {
+            background: $app-buttons;
+            color: white;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            width: 150px;
+            height: 30px;
+          }
+        }
       }
 
       .product-full-page-top-left {

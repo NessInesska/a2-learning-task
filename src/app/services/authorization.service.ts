@@ -43,4 +43,7 @@ export class AuthorizationService {
   public logout(login) {
     return this.http.post(`${environment.baseUrl}${ENDPOINTS.LOGOUT}`, {login});
   }
+
+  // TODO: REWRITE BACKEND TO RETURN USER OBJECT to get its roles
+  //
 }

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { ProductService, ModalService } from '../../services';
@@ -18,7 +18,8 @@ export class ProductPageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private productService: ProductService,
-              private modalService: ModalService) {
+              private modalService: ModalService,
+              private cd: ChangeDetectorRef) {
   }
 
   public ngOnInit() {
@@ -27,6 +28,7 @@ export class ProductPageComponent implements OnInit {
     this.item = this.productService.item;
     this.productService.getProductById(id)
       .subscribe(item => this.item = item);
+    this.cd.detectChanges();
     this.range = new Array(this.item.rating);
     this.emptyRange = new Array((5 - this.item.rating));
   }
