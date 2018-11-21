@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { ProductService, RoutingService } from '../../services';
+import { ProductService, RoutingService, UserService } from '../../services';
 
 @Component({
   selector: 'app-product-card',
@@ -10,8 +10,8 @@ import { ProductService, RoutingService } from '../../services';
 export class ProductCardComponent implements OnInit {
 
   @Input() item;
+  @Input() isAdmin;
 
-  public isAdmin: boolean = false;
   public range;
   public emptyRange;
 
@@ -30,5 +30,9 @@ export class ProductCardComponent implements OnInit {
         this.productService.item = res;
         this.routingService.goToProductPage(res.id);
       });
+  }
+
+  public deleteProduct(): void {
+    this.productService.deleteItemById(this.item.id);
   }
 }

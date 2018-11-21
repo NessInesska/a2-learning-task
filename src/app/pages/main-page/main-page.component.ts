@@ -17,6 +17,7 @@ export class MainPageComponent implements OnInit {
   public login: string = this.userService.login;
   public productArray;
   public item;
+  public isAdmin = false;
 
   constructor(private userService: UserService,
               private productService: ProductService) {
@@ -27,6 +28,27 @@ export class MainPageComponent implements OnInit {
       .subscribe(products => {
         this.productArray = products;
       });
+    this.isAdmin = this.userService.isAdmin;
+
+    // this.userService.getRoles();
+    //
+    // setTimeout(() => {
+    //   this.adminRole = this.userService.roles.filter(role => {
+    //     if (role.id === 0) {
+    //       return role;
+    //     }
+    //   });
+    // });
+    //
+    // this.userService.getUserByLogin()
+    //   .subscribe((user: User) => {
+    //     this.userService.currentUser = user;
+    //     console.log(user);
+    //     if (user[0].roleId === this.adminRole[0].id) {
+    //       this.userService.isAdmin = true;
+    //       this.isAdmin = true;
+    //     }
+    //   });
   }
 
   public onFiltersClick(): void {

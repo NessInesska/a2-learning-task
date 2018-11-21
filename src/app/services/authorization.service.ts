@@ -33,7 +33,6 @@ export class AuthorizationService {
 
   public handleLogin(res) {
     this.setToken(res.headers.get(SESSION_TOKEN));
-    this.routingService.goToMainPage();
   }
 
   public login(login, password): Observable<HttpResponse<string>> {
@@ -44,6 +43,4 @@ export class AuthorizationService {
     return this.http.post(`${environment.baseUrl}${ENDPOINTS.LOGOUT}`, {login});
   }
 
-  // TODO: REWRITE BACKEND TO RETURN USER OBJECT to get its roles
-  //
 }

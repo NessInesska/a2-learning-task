@@ -1,20 +1,23 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import { Product } from '../classes';
+import { Category, Product } from '../classes';
 import { ENDPOINTS } from '../constants';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
+export class ProductService implements OnInit {
 
-  public productArray;
   public item;
+  public categories: string[] = [];
 
   constructor(private http: HttpClient) {
+  }
+
+  public ngOnInit() {
   }
 
   public getProducts(): Observable<any> {
@@ -27,5 +30,19 @@ export class ProductService {
 
   public patchNumberOfProducts(id, count, soldCount): Observable<Response> {
     return this.http.patch<Response>(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}/${id}`, {count: count - 1, soldCount: soldCount + 1});
+  }
+
+  public getCategories(): Observable<Category> {
+    return this.http.get<Category>(`${environment.baseUrl}${ENDPOINTS.CATEGORIES}`);
+  }
+
+  public deleteItemById(id: string) {
+    return this.http.delete(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}/${id}`);
+  }
+
+  public getCategoryNames() {
+    this.getCategories().subscribe(res => {
+      this.categories.push(res.name);
+    });
   }
 }

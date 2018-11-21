@@ -14,12 +14,10 @@ import { AuthGuard } from './guards';
 import { MainPageModule } from './pages/main-page';
 import { Interceptor } from './interceptor';
 import { AuthorizationService, RoutingService, UserService, ProductService } from './services';
-import { ProductPageEditComponent } from './components/product-page-edit';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductPageEditComponent,
   ],
   imports: [
     AuthPageModule,
@@ -31,7 +29,8 @@ import { ProductPageEditComponent } from './components/product-page-edit';
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot(
-      appRoutes
+      appRoutes,
+      // { enableTracing: true } // <-- debugging purposes only
     ),
   ],
   providers: [

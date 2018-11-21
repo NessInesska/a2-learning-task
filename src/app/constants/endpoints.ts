@@ -6,4 +6,5 @@ export const ENDPOINTS = {
   PRODUCTS: `${API_PREFIX}/products`,
   ROLES: `${API_PREFIX}/roles`,
   USERS: `${API_PREFIX}/users`,
+  CATEGORIES: `${API_PREFIX}/categories`,
 };

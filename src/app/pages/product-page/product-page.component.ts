@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { ProductService, ModalService } from '../../services';
+import { ProductService, ModalService, RoutingService, UserService } from '../../services';
 
 @Component({
   selector: 'app-product-page',
@@ -13,29 +13,48 @@ export class ProductPageComponent implements OnInit {
   @ViewChild('buyButton') public buyButton: ElementRef;
 
   public item;
-  public range;
-  public emptyRange;
+  public range: number[] = [];
+  public emptyRange: number[] = [];
+  public id: string;
+  public isAdmin = false;
 
   constructor(private route: ActivatedRoute,
               private productService: ProductService,
               private modalService: ModalService,
+              private routingService: RoutingService,
+              private userService: UserService,
               private cd: ChangeDetectorRef) {
   }
 
   public ngOnInit() {
-    const id = this.route.snapshot.params['id'];
+    this.id = this.route.snapshot.params['id'];
 
-    this.item = this.productService.item;
-    this.productService.getProductById(id)
-      .subscribe(item => this.item = item);
+    this.productService.getProductById(this.id)
+      .subscribe(res => {
+        this.productService.item = res;
+        this.item = this.productService.item;
+        this.range = new Array(this.item.rating);
+        this.emptyRange = new Array((5 - this.item.rating));
+      });
+
     this.cd.detectChanges();
-    this.range = new Array(this.item.rating);
-    this.emptyRange = new Array((5 - this.item.rating));
+
+    setTimeout(() => {
+      this.isAdmin = this.userService.isAdmin;
+    });
+
   }
 
   public showModal(): void {
     // TODO: modal service
     // this.modalService.openModal(this.buyButton, this.item);
+
+    this.productService.patchNumberOfProducts(this.item.id, this.item.count, this.item.soldCount)
+      .subscribe(res => this.item = res);
     alert('You have successfully bought ' + this.item.name);
+  }
+
+  public goToEditProductsPage() {
+    this.routingService.goToEditProductPage(this.id);
   }
 }

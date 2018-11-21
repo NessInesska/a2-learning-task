@@ -54,7 +54,8 @@
     </div>
     <app-product-card class="product-card"
                       *ngFor="let item of productArray"
-                      [item]="item">
+                      [item]="item"
+                      [isAdmin]="isAdmin">
     </app-product-card>
   </div>
 
