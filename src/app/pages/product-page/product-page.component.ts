@@ -16,7 +16,7 @@ export class ProductPageComponent implements OnInit {
   public range: number[] = [];
   public emptyRange: number[] = [];
   public id: string;
-  public isAdmin = false;
+  public isAdmin = true;
 
   constructor(private route: ActivatedRoute,
               private productService: ProductService,
@@ -27,6 +27,7 @@ export class ProductPageComponent implements OnInit {
   }
 
   public ngOnInit() {
+    // this.isAdmin = this.userService.isAdmin;
     this.id = this.route.snapshot.params['id'];
 
     this.productService.getProductById(this.id)
@@ -38,11 +39,6 @@ export class ProductPageComponent implements OnInit {
       });
 
     this.cd.detectChanges();
-
-    setTimeout(() => {
-      this.isAdmin = this.userService.isAdmin;
-    });
-
   }
 
   public showModal(): void {

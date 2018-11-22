@@ -1,5 +1,5 @@
 <div class="product-full-page">
-  <app-page-header></app-page-header>
+  <app-page-header [login]="login"></app-page-header>
   <div class="container">
 
     <div class="product-full-page-top-part">
@@ -14,15 +14,14 @@
         </div>
 
         <div class="product-price-gender-category">
-          <div> $ {{item.cost}}</div>
-          <div> {{item.gender}}</div>
-          <div> {{item.count}} pieces is left in stock.</div>
-          <div> {{item.category}}</div>
+          <div class="item-cost"> $ {{item.cost}}</div>
+          <div class="item-gender"> {{item.gender}}</div>
+          <div class="item-count"> {{item.count}} pieces is left in stock.</div>
+          <div class="item-category"> {{item.category}}</div>
         </div>
       </div>
       <div class="product-description">
         <div class="product-description-title">
-          {{item.name}}
           <button class="btn btn-primary product-edit-button"
                   mat-button mat-raised-button
                   color="primary"
@@ -31,6 +30,7 @@
                   (click)="goToEditProductsPage()">
             Edit
           </button>
+          {{item.name}}
         </div>
         {{item.description}}
       </div>

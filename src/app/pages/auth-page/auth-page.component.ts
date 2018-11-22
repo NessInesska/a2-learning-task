@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { forkJoin } from 'rxjs';
 
-import { User } from '../../classes';
 import { AuthorizationService, ProductService, RoutingService, UserService } from '../../services';
 
 @Component({
@@ -15,12 +15,6 @@ export class AuthPageComponent {
     loginInput: ['', {validators: [Validators.required, Validators.minLength(3)], updateOn: 'blur'}],
     passwordInput: ['', {validators: [Validators.required, Validators.minLength(3)], updateOn: 'blur'}]
   });
-
-  // public categories;
-  // public user: User;
-  // public roles;
-  public adminRole;
-  // public isAdmin = false;
 
   constructor(private authorizationService: AuthorizationService,
               private userService: UserService,
@@ -39,21 +33,19 @@ export class AuthPageComponent {
       this.authorizationService.login(login, password).subscribe(res => {
         this.authorizationService.handleLogin(res);
 
-        this.userService.getRoles();
-        this.adminRole = this.userService.roles.filter(role => {
-          if (role.id === 0) {
-            return role;
-          }
-        });
+        let getRoles = this.userService.getRoles();
+        let getCurrentUser = this.userService.getUserByLogin();
 
-        this.userService.getUserByLogin()
-          .subscribe((user: User) => {
-            this.userService.currentUser = user;
-            if (user[0].roleId === this.adminRole[0].id) {
+        forkJoin([getRoles, getCurrentUser])
+          .subscribe(data => {
+            // data[0][0] is admin role
+            // data[1][0] is current user
+            this.userService.adminRole = data[0][0];
+            this.userService.currentUser = data[1][0];
+            if (this.userService.adminRole.id === this.userService.currentUser.roleId) {
               this.userService.isAdmin = true;
-              // this.isAdmin = true;
             }
-          });
+        });
 
         setTimeout(() => {
           this.routingService.goToMainPage();

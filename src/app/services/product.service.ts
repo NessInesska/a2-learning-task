@@ -12,7 +12,7 @@ import { ENDPOINTS } from '../constants';
 export class ProductService implements OnInit {
 
   public item;
-  public categories: string[] = [];
+  public categories;
 
   constructor(private http: HttpClient) {
   }

@@ -21,6 +21,13 @@
     min-height: fit-content;
     flex-direction: column;
 
+    .product-edit-button {
+      display: flex;
+      align-self: flex-end;
+      justify-content: center;
+      margin: 40px 40px 0 0;
+    }
+
     .product-full-page-top-part {
       flex-direction: row;
       align-content: center;
@@ -29,7 +36,7 @@
       margin: 30px 50px;
 
       .product-description {
-        margin: 0 40px;
+        margin: 0 25px;
         text-align: justify;
         display: flex;
         flex-direction: column;
@@ -37,7 +44,7 @@
 
         .product-description-title {
           display: flex;
-          flex-direction: row;
+          flex-direction: column;
           justify-content: space-between;
           align-items: center;
           margin: 10px;
@@ -45,7 +52,7 @@
           font-weight: bold;
 
           .item-name-input {
-            width: 70%;
+            width: 100%;
           }
 
           .product-edit-button {

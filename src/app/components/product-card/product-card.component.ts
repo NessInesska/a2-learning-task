@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 
 import { ProductService, RoutingService, UserService } from '../../services';
 
@@ -16,7 +16,8 @@ export class ProductCardComponent implements OnInit {
   public emptyRange;
 
   constructor(private routingService: RoutingService,
-              private productService: ProductService) {
+              private productService: ProductService,
+              private cd: ChangeDetectorRef) {
   }
 
   public ngOnInit() {
@@ -33,6 +34,6 @@ export class ProductCardComponent implements OnInit {
   }
 
   public deleteProduct(): void {
-    this.productService.deleteItemById(this.item.id);
+    this.productService.deleteItemById(this.item.id).subscribe();
   }
 }

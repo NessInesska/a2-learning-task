@@ -12,7 +12,7 @@ import { ENDPOINTS } from '../constants';
 export class UserService {
 
   public login: string;
-  public roles;
+  public adminRole;
   public currentUser: User;
   public isAdmin = false;
 
@@ -27,10 +27,7 @@ export class UserService {
     return this.http.get<User>(`${environment.baseUrl}${ENDPOINTS.USERS}`, {params});
   }
 
-  public getRoles() {
-    return this.http.get(`${environment.baseUrl}${ENDPOINTS.ROLES}`)
-      .subscribe(roles => {
-        this.roles = roles;
-      });
+  public getRoles(): Observable<any> {
+    return this.http.get<any>(`${environment.baseUrl}${ENDPOINTS.ROLES}`);
   }
 }

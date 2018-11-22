@@ -23,10 +23,10 @@
 
     .product-full-page-top-part {
       flex-direction: row;
-      align-content: center;
       justify-content: center;
       display: flex;
       margin: 30px 50px;
+      flex-wrap: wrap;
 
       .product-description {
         margin: 0 40px;
@@ -34,7 +34,7 @@
 
         .product-description-title {
           display: flex;
-          flex-direction: row;
+          flex-direction: column;
           justify-content: space-between;
           align-items: center;
           margin: 10px;
@@ -48,8 +48,10 @@
             border: none;
             cursor: pointer;
             width: 100px;
-            //height: 30px;
             margin: 10px;
+            display: flex;
+            justify-content: center;
+            align-self: flex-end;
           }
         }
       }
@@ -59,11 +61,17 @@
         flex-direction: column;
         flex-wrap: wrap;
 
+        img {
+          height: auto;
+          width: 90%;
+        }
+
         .product-price-gender-category {
           display: flex;
           flex-direction: row;
           justify-content: space-between;
           margin: 20px;
+          flex-wrap: wrap;
         }
       }
     }

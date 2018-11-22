@@ -2,6 +2,14 @@
   <app-page-header></app-page-header>
   <div class="container">
 
+    <button class="btn btn-primary product-edit-button"
+            mat-button mat-raised-button
+            color="primary"
+            [disabled]="true"
+            (click)="goToEditProductsPage($event)">
+      Edit
+    </button>
+
     <form [formGroup]="editMainPageForm" (ngSubmit)="onSubmit">
       <div class="product-full-page-top-part">
         <div class="product-full-page-top-left">
@@ -28,16 +36,16 @@
             </mat-form-field>
 
             <!--<div *ngIf="itemCostInput.invalid && (itemCostInput.dirty || itemCostInput.touched)"-->
-                 <!--class="alert alert-danger">-->
+            <!--class="alert alert-danger">-->
 
-              <!--<div *ngIf="itemCostInput.errors.required">-->
-                <!--Product name is required.-->
-              <!--</div>-->
+            <!--<div *ngIf="itemCostInput.errors.required">-->
+            <!--Product name is required.-->
+            <!--</div>-->
             <!--</div>-->
 
             <mat-form-field class="form-field">
               <mat-select placeholder="Gender">
-                <mat-option *ngFor="let gender of genders" [value]="genders.name">
+                <mat-option *ngFor="let gender of genders" [value]="gender.name">
                   {{gender.name}}
                 </mat-option>
               </mat-select>
@@ -45,7 +53,7 @@
 
             <mat-form-field class="form-field">
               <mat-select placeholder="Category">
-                <mat-option *ngFor="let category of genders" [value]="genders.name">
+                <mat-option *ngFor="let category of categories" [value]="category.name">
                   {{category.name}}
                 </mat-option>
               </mat-select>
@@ -66,13 +74,6 @@
                      placeholder="{{item.name}}"
                      formControlName="itemNameInput">
             </mat-form-field>
-            <button class="btn btn-primary product-edit-button"
-                    mat-button mat-raised-button
-                    color="primary"
-                    [disabled]="true"
-                    (click)="goToEditProductsPage($event)">
-              Edit
-            </button>
           </div>
           <mat-form-field>
             <textarea id="descriptionInput"
@@ -83,7 +84,8 @@
                       class="form-control"
                       placeholder="{{item.description}}"
                       formControlName="descriptionInput">
-          </textarea>
+
+            </textarea>
           </mat-form-field>
         </div>
       </div>
@@ -100,7 +102,8 @@
                 type="reset"
                 mat-button mat-raised-button
                 class="buy-product-button"
-                [disabled]="item.count < 1">
+                [disabled]="item.count < 1"
+                (click)="onCancel()">
           Cancel
         </button>
       </div>
