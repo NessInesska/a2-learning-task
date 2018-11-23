@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { AuthorizationService, RoutingService } from './services';
+import { RoutingService } from './services';
 import { ENDPOINTS, STATUS_CODES } from './constants';
 
 
