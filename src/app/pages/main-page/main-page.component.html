@@ -5,49 +5,65 @@
 
     <div class="dropdown-wrapper">
       <div class="dropdown">
-        <button #showFiltersButton class="show-filters-button" (click)="onFiltersClick()" (blur)="closeDropdown()">
+        <button #showFiltersButton
+                mat-button
+                mat-raised-button
+                class="show-filters-button"
+                (click)="onFiltersClick()"
+                (focus)="closeDropdown()">
           Filter
         </button>
 
         <div #dropdownContent class="dropdown-content" *ngIf="isOpened">
           <div class="dropdown-content-wrapper">
             <div class="availability-filter">
-              Avaliable only
+              <div class="title"> Avaliable only</div>
               <input type="checkbox">
             </div>
             <div class="gender-filter">
-              Gender
+              <div class="title"> Gender</div>
               <div>
-                <input type="radio" id="male" value="male"><label for="male"> Male </label>
+                <input type="radio" id="male" value="male" name="gender"><label for="male"> Male </label>
               </div>
               <div>
-                <input type="radio" id="female" value="female"><label for="female"> Female </label>
+                <input type="radio" id="female" value="female" name="gender"><label for="female"> Female </label>
               </div>
               <div>
-                <input type="radio" id="unisex" value="unisex"><label for="unisex"> Unisex </label>
+                <input type="radio" id="unisex" value="unisex" name="gender"><label for="unisex"> Unisex </label>
               </div>
             </div>
             <div class="categories-filter">
-              Category
-              <select class="categories-selector">
-                <option > Category 1 </option>
-                <option > Category 2 </option>
-                <option > Category 3 </option>
-                <option > Category 4 </option>
-              </select>
+              <div class="title"> Category</div>
+              <mat-select placeholder="Category">
+                <mat-option *ngFor="let category of categories" [value]="category.name">
+                  {{category.name}}
+                </mat-option>
+              </mat-select>
             </div>
             <div class="rating-filter">
-              Rating
+              <div class="title"> Rating</div>
               <input type="range">
             </div>
             <div class="price-filter">
-              Price
+              <div class="title"> Price</div>
               <input type="range">
             </div>
           </div>
           <div class="filter-buttons">
-            <button class="apply-filters-button" type="submit"> Apply</button>
-            <button class="clear-filters-button" type="reset"> Clear</button>
+            <button mat-button
+                    mat-raised-button
+                    class="apply-filters-button"
+                    type="submit"
+                    (click)="filterProducts()">
+              Apply
+            </button>
+            <button class="clear-filters-button"
+                    mat-button
+                    mat-raised-button
+                    type="reset"
+                    (click)="closeDropdown()">
+              Cancel
+            </button>
           </div>
         </div>
       </div>

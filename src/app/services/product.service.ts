@@ -32,6 +32,11 @@ export class ProductService implements OnInit {
     return this.http.patch<Response>(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}/${id}`, {count: count - 1, soldCount: soldCount + 1});
   }
 
+  public patchEditedProduct(data, id: string): Observable<Response> {
+    return this.http.patch<Response>(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}/${id}`,
+      {name: data.itemNameInput, description: data.descriptionInput, cost: data.itemCostInput, gender: data.gender});
+  }
+
   public getCategories(): Observable<Category> {
     return this.http.get<Category>(`${environment.baseUrl}${ENDPOINTS.CATEGORIES}`);
   }

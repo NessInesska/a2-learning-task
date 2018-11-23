@@ -21,13 +21,16 @@
   <div class="product-card-buttons">
     <p class="product-price"> $ {{item.cost}} </p>
     <button class="btn btn-primary product-details-button"
-            mat-button mat-raised-button
+            mat-button
+            mat-raised-button
             color="primary"
-            *ngIf="isAdmin" (click)="deleteProduct()">
+            *ngIf="isAdmin"
+            (click)="deleteProduct()">
       Delete
     </button>
     <button class="btn btn-primary product-details-button"
-            mat-button mat-raised-button
+            mat-button
+            mat-raised-button
             color="accent"
             routerLink="[/product, item.id]"
             (click)="goToProductPage()">

@@ -25,12 +25,13 @@
       flex-direction: row;
       justify-content: center;
       display: flex;
-      margin: 30px 50px;
+      margin: 30px;
       flex-wrap: wrap;
 
       .product-description {
         margin: 0 40px;
         text-align: justify;
+        width: 45%;
 
         .product-description-title {
           display: flex;
@@ -60,6 +61,12 @@
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
+        width: 45%;
+
+        .product-picture {
+          width: 100%;
+          height: auto;
+        }
 
         img {
           height: auto;

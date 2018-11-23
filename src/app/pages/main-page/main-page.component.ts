@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { forkJoin } from 'rxjs';
 
 import { ProductService, UserService } from '../../services';
 
@@ -18,6 +19,7 @@ export class MainPageComponent implements OnInit, OnChanges {
   public productArray;
   public item;
   public isAdmin = false;
+  public categories;
 
   constructor(private userService: UserService,
               private productService: ProductService,
@@ -29,11 +31,22 @@ export class MainPageComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit() {
-    this.item = this.productService.getProducts()
-      .subscribe(products => {
-        this.productArray = products;
-        this.isAdmin = this.userService.isAdmin;
-      });
+    const getCategories = this.productService.getCategories();
+    const getProductItems = this.productService.getProducts();
+
+    forkJoin([getCategories, getProductItems]).subscribe( data => {
+      // data [0] is categories
+      // data [1] is products
+      this.categories = data[0];
+      this.productArray = data[1];
+      this.isAdmin = this.userService.isAdmin;
+    });
+
+    // this.item = this.productService.getProducts()
+    //   .subscribe(products => {
+    //     this.productArray = products;
+    //     this.isAdmin = this.userService.isAdmin;
+    //   });
   }
 
   public onFiltersClick(): void {

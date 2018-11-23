@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnChanges, OnInit, SimpleChange } from '@angular/core';
+import { FormBuilder, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { ProductService, RoutingService } from '../../../services';
 @Component({
   selector: 'app-product-page-edit-component',
   templateUrl: './product-page-edit.component.html',
-  styleUrls: ['./product-page-edit.component.scss']
+  styleUrls: ['./product-page-edit.component.scss'],
 })
 export class ProductPageEditComponent implements OnInit {
 
@@ -32,13 +32,13 @@ export class ProductPageEditComponent implements OnInit {
               private route: ActivatedRoute) {
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.genders = GENDERS;
 
-    let getCategories = this.productService.getCategories();
-    let getCurrentProduct = this.productService.getProductById(this.id);
+    const getCategories = this.productService.getCategories();
+    const getCurrentProduct = this.productService.getProductById(this.id);
 
-    forkJoin([getCategories, getCurrentProduct]).subscribe( data => {
+    forkJoin([getCategories, getCurrentProduct]).subscribe(data => {
       // data[0] is categories
       // data[1] is currentProduct
       this.productService.categories = data[0];
@@ -48,10 +48,13 @@ export class ProductPageEditComponent implements OnInit {
   }
 
   public onSubmit() {
-    if (this.editMainPageForm.invalid) {
-      return;
-    } else {
-      console.log(this.itemNameInput.value + ' ' + this.descriptionInput.value);
+    if (this.editMainPageForm.valid) {
+      this.productService.patchEditedProduct(this.editMainPageForm.value, this.id)
+        .subscribe(res => {
+          this.item = res;
+          this.routingService.goToProductPage(this.id);
+        });
+      return this.editMainPageForm.value;
     }
   }
 
@@ -66,7 +69,4 @@ export class ProductPageEditComponent implements OnInit {
   public get descriptionInput() {
     return this.editMainPageForm.controls['descriptionInput'];
   }
-
-  // private
-
 }

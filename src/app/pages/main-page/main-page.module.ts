@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatIconModule } from '@angular/material';
+import { MatButtonModule, MatIconModule, MatOptionModule, MatSelectModule } from '@angular/material';
 
 import { ModalComponent } from '../../components/modal';
 import { PageHeaderModule } from '../../components/page-header';
@@ -13,6 +13,9 @@ import { MainPageComponent } from './main-page.component';
     ProductCardModule,
     MatIconModule,
     PageHeaderModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatButtonModule,
   ],
   declarations: [
     MainPageComponent,
