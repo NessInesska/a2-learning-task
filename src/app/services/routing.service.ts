@@ -26,6 +26,10 @@ export class RoutingService {
     return this.router.navigate([ROUTING_PATHES.PRODUCT, id, ROUTING_PATHES.EDIT]);
   }
 
+  public goToNotFoundPage(): Promise<boolean> {
+    return this.router.navigate([ROUTING_PATHES.NOT_FOUND]);
+  }
+
   public navigate(path): Promise<boolean> {
     return this.router.navigate(path);
   }

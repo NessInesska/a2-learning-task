@@ -3,4 +3,5 @@ export const ROUTING_PATHES = {
   MAIN_PAGE: '/main',
   PRODUCT: '/product',
   EDIT: 'edit',
+  NOT_FOUND: '/404',
 };

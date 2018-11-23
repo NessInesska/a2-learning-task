@@ -24,6 +24,9 @@ export class Interceptor implements HttpInterceptor {
         if (error.status === STATUS_CODES.UNAUTHORIZED) {
           this.routerService.goToLoginPage();
         }
+        if (error.status === STATUS_CODES.NOT_FOUND) {
+          this.routerService.goToNotFoundPage();
+        }
       }
     }));
   }
