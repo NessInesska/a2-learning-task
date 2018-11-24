@@ -34,7 +34,7 @@ export class ProductService implements OnInit {
 
   public patchEditedProduct(data, id: string): Observable<Response> {
     return this.http.patch<Response>(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}/${id}`,
-      {name: data.itemNameInput, description: data.descriptionInput, cost: data.itemCostInput, gender: data.gender});
+      {name: data.itemNameInput, description: data.descriptionInput, cost: data.itemCostInput, gender: data.gender, categoryId: data.categorySelect.value});
   }
 
   public getCategories(): Observable<Category> {
@@ -43,11 +43,5 @@ export class ProductService implements OnInit {
 
   public deleteItemById(id: string) {
     return this.http.delete(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}/${id}`);
-  }
-
-  public getCategoryNames() {
-    this.getCategories().subscribe(res => {
-      this.categories.push(res.name);
-    });
   }
 }

@@ -41,12 +41,6 @@ export class MainPageComponent implements OnInit, OnChanges {
       this.productArray = data[1];
       this.isAdmin = this.userService.isAdmin;
     });
-
-    // this.item = this.productService.getProducts()
-    //   .subscribe(products => {
-    //     this.productArray = products;
-    //     this.isAdmin = this.userService.isAdmin;
-    //   });
   }
 
   public onFiltersClick(): void {
@@ -62,6 +56,10 @@ export class MainPageComponent implements OnInit, OnChanges {
 
   public closeDropdown() {
     this.isOpened = false;
+  }
+
+  public filterProducts() {
+
   }
 
   private dropdownFiltersButtonClick(): void {

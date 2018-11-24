@@ -22,7 +22,9 @@ export class ProductPageEditComponent implements OnInit {
   public editMainPageForm = this.formBuild.group({
     itemNameInput: ['', Validators.required],
     descriptionInput: ['', Validators.required],
-    itemCostInput: ['', {validators: [Validators.required, Validators.min(0), Validators.pattern('[0-9]*')]}]
+    itemCostInput: ['', {validators: [Validators.required, Validators.min(0), Validators.pattern('[0-9]*')]}],
+    categorySelect: [''],
+    genderSelect: [''],
   });
 
 
@@ -69,4 +71,10 @@ export class ProductPageEditComponent implements OnInit {
   public get descriptionInput() {
     return this.editMainPageForm.controls['descriptionInput'];
   }
+
+  public get categorySelect() {
+    return this.editMainPageForm.controls['categorySelect'];
+  }
+
+
 }

@@ -31,7 +31,7 @@
                      type="text"
                      class="form-control"
                      pattern="[0-9]*"
-                     placeholder="{{item.cost}}"
+                     placeholder="{{item.cost | currency}}"
                      formControlName="itemCostInput">
             </mat-form-field>
 
@@ -43,7 +43,8 @@
             <!--</div>-->
 
             <mat-form-field class="form-field">
-              <mat-select placeholder="Gender">
+              <mat-select placeholder="Gender"
+                          formControlName="genderSelect">
                 <mat-option *ngFor="let gender of genders" [value]="gender.name">
                   {{gender.name}}
                 </mat-option>
@@ -51,8 +52,10 @@
             </mat-form-field>
 
             <mat-form-field class="form-field">
-              <mat-select placeholder="Category">
-                <mat-option *ngFor="let category of categories" [value]="category.name">
+              <mat-select placeholder="Category"
+                          formControlName="categorySelect">
+                <mat-option *ngFor="let category of categories"
+                            [value]="category.name">
                   {{category.name}}
                 </mat-option>
               </mat-select>

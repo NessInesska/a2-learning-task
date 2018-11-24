@@ -14,9 +14,9 @@
         </div>
 
         <div class="product-price-gender-category">
-          <div class="item-cost"> $ {{item.cost}}</div>
+          <div class="item-cost"> {{item.cost | currency}}</div>
           <div class="item-gender"> {{item.gender}}</div>
-          <div class="item-count"> {{item.count}} pieces is left in stock.</div>
+          <div class="item-count"> {{item.count | number}} pieces is left in stock.</div>
           <div class="item-category"> {{item.category}}</div>
         </div>
       </div>
