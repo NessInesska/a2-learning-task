@@ -10,6 +10,7 @@ import { AuthorizationService, RoutingService } from '../../services';
 export class PageHeaderComponent {
 
   @Input() login: string;
+  @Input() notFound;
 
   constructor(private authService: AuthorizationService,
               private routingService: RoutingService) {

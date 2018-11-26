@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { AuthPageComponent } from './pages/auth-page';
+import { ErrorNotFoundPageComponent } from './pages/error-not-found-page';
 import { MainPageComponent } from './pages/main-page';
 import { AuthGuard, MainPageGuard } from './guards';
 import { ProductPageComponent } from './pages/product-page';
@@ -11,5 +12,6 @@ export const appRoutes: Routes = [
   {path: 'product/:id', component: ProductPageComponent, canActivate: [AuthGuard]},
   {path: 'product/:id/edit', component: ProductPageEditComponent},
   {path: 'login', component: AuthPageComponent, canActivate: [MainPageGuard]},
+  {path: '404', component: ErrorNotFoundPageComponent},
   {path: '**', redirectTo: '/login', pathMatch: 'full'}
 ];
