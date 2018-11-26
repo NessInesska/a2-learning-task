@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import { Product } from '../classes';
+import { Category, Product } from '../classes';
 import { ENDPOINTS } from '../constants';
 
 @Injectable({
@@ -11,8 +11,8 @@ import { ENDPOINTS } from '../constants';
 })
 export class ProductService {
 
-  public productArray;
   public item;
+  public categories;
 
   constructor(private http: HttpClient) {
   }
@@ -27,5 +27,22 @@ export class ProductService {
 
   public patchNumberOfProducts(id, count, soldCount): Observable<Response> {
     return this.http.patch<Response>(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}/${id}`, {count: count - 1, soldCount: soldCount + 1});
+  }
+
+  public patchEditedProduct(data, id: string): Observable<Response> {
+    return this.http.patch<Response>(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}/${id}`,
+      {name: data.itemNameInput,
+        description: data.descriptionInput,
+        cost: data.itemCostInput,
+        gender: data.genderSelect,
+        categoryId: data.categorySelect});
+  }
+
+  public getCategories(): Observable<Category> {
+    return this.http.get<Category>(`${environment.baseUrl}${ENDPOINTS.CATEGORIES}`);
+  }
+
+  public deleteItemById(id: string) {
+    return this.http.delete(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}/${id}`);
   }
 }

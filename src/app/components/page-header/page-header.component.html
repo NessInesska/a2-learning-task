@@ -4,8 +4,8 @@
     <mat-icon>shopping_cart</mat-icon>
     </a>
   </div>
-  <div class="user-info">
-    Hello, user :)
+  <div class="user-info" *ngIf="!notFound">
+    Hello, {{login}} :)
     <button (click)="logout(login)"> Logout </button>
   </div>
 </header>

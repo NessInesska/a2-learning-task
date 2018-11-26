@@ -1,0 +1,136 @@
+<div class="product-full-page">
+  <app-page-header [login]="login"></app-page-header>
+  <div class="container">
+
+    <button class="btn btn-primary product-edit-button"
+            mat-button mat-raised-button
+            color="primary"
+            [disabled]="true"
+            (click)="goToEditProductsPage($event)">
+      Edit
+    </button>
+
+    <form [formGroup]="editMainPageForm" (ngSubmit)="onSubmit()">
+      <div class="product-full-page-top-part">
+        <div class="product-full-page-top-left">
+
+          <div class="product-picture">
+            <img src="{{item.image}}">
+          </div>
+          <div class="product-rating">
+            <mat-icon color="primary" *ngFor="let i of range">star</mat-icon>
+            <mat-icon color="primary" *ngFor="let i of emptyRange">star_border</mat-icon>
+          </div>
+
+          <div class="product-price-gender-category">
+
+            <div class="item-cost-column">
+              <mat-form-field class="form-field item-name-input">
+                <input id="itemCostInput"
+                       matInput
+                       name="itemCostInput"
+                       type="text"
+                       class="form-control"
+                       pattern="[0-9]*"
+                       placeholder="{{item.cost | currency}}"
+                       formControlName="itemCostInput">
+              </mat-form-field>
+
+              <div *ngIf="itemCostInput.invalid && (itemCostInput.dirty || itemCostInput.touched)"
+                   class="alert alert-danger">
+                <div *ngIf="itemCostInput.errors.required">
+                  Item cost is required.
+                </div>
+                <div *ngIf="itemCostInput.errors?.pattern">
+                  Item cost should be numeric.
+                </div>
+              </div>
+            </div>
+
+            <mat-form-field class="form-field">
+              <mat-select placeholder="Gender"
+                          formControlName="genderSelect">
+                <mat-option *ngFor="let gender of genders" [value]="gender.name">
+                  {{gender.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="form-field">
+              <mat-select placeholder="Category"
+                          formControlName="categorySelect">
+                <mat-option *ngFor="let category of categories"
+                            [value]="category.name">
+                  {{category.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+
+            <div> {{item.category}}</div>
+          </div>
+        </div>
+        <div class="product-description">
+          <div class="product-description-title">
+            <mat-form-field class="item-name-input">
+              <input id="itemNameInput"
+                     matInput
+                     name="itemNameInput"
+                     type="text"
+                     class="form-control"
+                     placeholder="{{item.name}}"
+                     formControlName="itemNameInput">
+            </mat-form-field>
+          </div>
+
+          <div *ngIf="itemNameInput.invalid && (itemNameInput.dirty || itemNameInput.touched)"
+               class="alert alert-danger">
+            <div *ngIf="itemNameInput.errors.required">
+              Product name is required.
+            </div>
+          </div>
+
+          <mat-form-field>
+            <textarea id="descriptionInput"
+                      matInput
+                      rows="5"
+                      name="descriptionInput"
+                      type="text"
+                      class="form-control"
+                      placeholder="{{item.description}}"
+                      formControlName="descriptionInput">
+
+            </textarea>
+          </mat-form-field>
+
+          <div *ngIf="descriptionInput.invalid && (descriptionInput.dirty || descriptionInput.touched)"
+               class="alert alert-danger">
+            <div *ngIf="descriptionInput.errors.required">
+              Description is required.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-full-page-footer">
+        <button #buyButton
+                type="submit"
+                mat-button mat-raised-button
+                class="buy-product-button"
+                [disabled]="editMainPageForm.invalid">
+          Save
+        </button>
+        <button #buyButton
+                type="reset"
+                mat-button mat-raised-button
+                class="buy-product-button"
+                (click)="onCancel()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+  <footer class="footer">
+    <div class="text"> Copyright "Demo Shop", 2018</div>
+  </footer>
+</div>

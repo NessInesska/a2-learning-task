@@ -5,4 +5,6 @@ export const ENDPOINTS = {
   LOGOUT: `${API_PREFIX}/logout`,
   PRODUCTS: `${API_PREFIX}/products`,
   ROLES: `${API_PREFIX}/roles`,
+  USERS: `${API_PREFIX}/users`,
+  CATEGORIES: `${API_PREFIX}/categories`,
 };

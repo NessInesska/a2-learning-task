@@ -1,17 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { STATUS_CODES } from '../../constants';
 
 import { ProductService, RoutingService } from '../../services';
 
 @Component({
   selector: 'app-product-card',
   templateUrl: './product-card.component.html',
-  styleUrls: ['./product-card.component.scss']
+  styleUrls: ['./product-card.component.scss'],
 })
 export class ProductCardComponent implements OnInit {
 
   @Input() item;
+  @Input() isAdmin;
+  @Output() remove: EventEmitter<any> = new EventEmitter();
 
-  public isAdmin: boolean = false;
   public range;
   public emptyRange;
 
@@ -30,5 +32,14 @@ export class ProductCardComponent implements OnInit {
         this.productService.item = res;
         this.routingService.goToProductPage(res.id);
       });
+  }
+
+  public deleteProduct() {
+    this.productService.deleteItemById(this.item.id).subscribe((result: Response) => {
+      if (result.status === STATUS_CODES.NOT_FOUND) {
+        this.routingService.goToNotFoundPage();
+      }
+      this.remove.emit(null);
+    });
   }
 }

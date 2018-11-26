@@ -14,10 +14,12 @@ import { AuthGuard } from './guards';
 import { MainPageModule } from './pages/main-page';
 import { Interceptor } from './interceptor';
 import { AuthorizationService, RoutingService, UserService, ProductService } from './services';
+import { ErrorNotFoundPageComponent } from './pages/error-not-found-page';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ErrorNotFoundPageComponent,
   ],
   imports: [
     AuthPageModule,
@@ -29,7 +31,7 @@ import { AuthorizationService, RoutingService, UserService, ProductService } fro
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot(
-      appRoutes
+      appRoutes,
     ),
   ],
   providers: [

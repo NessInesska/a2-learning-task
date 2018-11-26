@@ -34,18 +34,24 @@
   .product-card-buttons {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
+    flex-wrap: wrap;
     align-items: center;
-    padding: 10px;
+    min-width: fit-content;
+
+    .product-card-user-buttons {
+      display: flex;
+      justify-content: space-between;
+      width: -webkit-fill-available;
+      margin-top: 10px;
+    }
 
     .product-details-button {
       background: $app-buttons;
       color: white;
-      padding: 10px;
       font-size: 14px;
       border: none;
       cursor: pointer;
     }
   }
-
 }
