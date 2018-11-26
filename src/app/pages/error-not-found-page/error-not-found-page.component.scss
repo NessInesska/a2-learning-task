@@ -1,0 +1,31 @@
+@import '../../styles/colors';
+@import '../../styles/fonts';
+
+.wrapper {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  min-width: 300px;
+  font-family: $font-hiragino-sans-gb;
+
+  .not-found {
+    color: $alert-message;
+    text-align: center;
+    height: 75vh;
+  }
+
+  .footer {
+    display: flex;
+    align-content: center;
+    order: 1;
+    width: 100vw;
+    padding: 20px 0;
+    background: $black;
+    color: $white;
+
+    .text {
+      padding: 0 20px;
+    }
+  }
+}
+

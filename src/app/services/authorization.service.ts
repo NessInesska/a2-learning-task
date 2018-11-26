@@ -31,9 +31,13 @@ export class AuthorizationService {
     localStorage.removeItem(SESSION_TOKEN);
   }
 
+  public clearLocalStorage(): void {
+    localStorage.removeItem('login');
+    localStorage.removeItem('isAdmin');
+  }
+
   public handleLogin(res) {
     this.setToken(res.headers.get(SESSION_TOKEN));
-    this.routingService.goToMainPage();
   }
 
   public login(login, password): Observable<HttpResponse<string>> {
@@ -43,4 +47,5 @@ export class AuthorizationService {
   public logout(login) {
     return this.http.post(`${environment.baseUrl}${ENDPOINTS.LOGOUT}`, {login});
   }
+
 }

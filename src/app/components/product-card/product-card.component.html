@@ -19,15 +19,24 @@
   </div>
 
   <div class="product-card-buttons">
-    <p class="product-price"> $ {{item.cost}} </p>
-    <button class="btn btn-primary product-delete-button" mat-button mat-raised-button
-            color="primary" *ngIf="isAdmin"> Delete
-    </button>
     <button class="btn btn-primary product-details-button"
-            mat-button mat-raised-button
-            color="accent"
-            (click)="goToProductPage($event)">
-        Details
+            mat-button
+            mat-raised-button
+            color="primary"
+            *ngIf="isAdmin"
+            (click)="deleteProduct($event)">
+      Delete
     </button>
+
+    <div class="product-card-user-buttons">
+      {{item.cost | currency}}
+      <button class="btn btn-primary product-details-button"
+              mat-button
+              mat-raised-button
+              color="accent"
+              (click)="goToProductPage()">
+        Details
+      </button>
+    </div>
   </div>
 </div>

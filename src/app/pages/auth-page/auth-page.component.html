@@ -15,7 +15,6 @@
             <input id="loginInput"
                    name="loginInput"
                    type="text"
-                   name="loginInput"
                    class="form-control"
                    formControlName="loginInput">
           </div>
@@ -23,12 +22,14 @@
 
         <div *ngIf="loginInput.invalid && (loginInput.dirty || loginInput.touched)"
              class="alert alert-danger">
-
           <div *ngIf="loginInput.errors.required">
             Login is required.
           </div>
           <div *ngIf="loginInput.errors.minlength">
             Login must be at least 3 characters long.
+          </div>
+          <div *ngIf="loginInput.errors?.pattern">
+            Login must include only english letters.
           </div>
         </div>
 
@@ -54,7 +55,14 @@
           <div *ngIf="passwordInput.errors.minlength">
             Password must be at least 3 characters long.
           </div>
+          <div *ngIf="passwordInput.errors?.pattern">
+            Password must include only english letters.
+          </div>
+          <div *ngIf="wrongPassword">
+            Wrong password
+          </div>
         </div>
+
 
       </div>
 

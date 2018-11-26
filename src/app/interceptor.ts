@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { AuthorizationService, RoutingService } from './services';
+import { RoutingService } from './services';
 import { ENDPOINTS, STATUS_CODES } from './constants';
 
 
@@ -23,6 +23,9 @@ export class Interceptor implements HttpInterceptor {
       if (error instanceof HttpErrorResponse) {
         if (error.status === STATUS_CODES.UNAUTHORIZED) {
           this.routerService.goToLoginPage();
+        }
+        if (error.status === STATUS_CODES.NOT_FOUND) {
+          this.routerService.goToNotFoundPage();
         }
       }
     }));

@@ -1,5 +1,5 @@
-@import '../../styles/colors';
-@import '../../styles/fonts';
+@import '../../../styles/colors';
+@import '../../../styles/fonts';
 
 .product-full-page {
   display: flex;
@@ -15,21 +15,37 @@
     justify-content: center;
     flex-wrap: wrap;
     background: $main-page-container-background;
+    width: 80vw;
     align-self: center;
     height: 90vh;
     min-height: fit-content;
     flex-direction: column;
 
+    .product-edit-button {
+      display: flex;
+      align-self: flex-end;
+      justify-content: center;
+      margin: 40px 40px 0 0;
+    }
+
     .product-full-page-top-part {
       flex-direction: row;
-      justify-content: center;
+      align-content: center;
+      justify-content: space-around;
       display: flex;
-      margin: 30px;
+      margin: 30px 50px;
 
       .product-description {
-        margin: 0 40px;
+        margin: 0 25px;
         text-align: justify;
-        width: 45%;
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+
+        .alert-danger {
+          padding: 0 20px 20px 20px;
+          color: $alert-message;
+        }
 
         .product-description-title {
           display: flex;
@@ -40,6 +56,10 @@
           font-size: 20px;
           font-weight: bold;
 
+          .item-name-input {
+            width: 100%;
+          }
+
           .product-edit-button {
             background: $app-buttons;
             color: white;
@@ -48,9 +68,11 @@
             cursor: pointer;
             width: 100px;
             margin: 10px;
-            display: flex;
-            justify-content: center;
-            align-self: flex-end;
+
+            &:disabled {
+              background: $product-page-disabled;
+              cursor: not-allowed;
+            }
           }
         }
       }
@@ -58,24 +80,31 @@
       .product-full-page-top-left {
         display: flex;
         flex-direction: column;
-        width: 45%;
-
-        .product-picture {
-          width: 100%;
-          height: auto;
-        }
-
-        img {
-          height: auto;
-          width: 90%;
-        }
+        flex-wrap: wrap;
+        align-items: center;
 
         .product-price-gender-category {
           display: flex;
           flex-direction: row;
           justify-content: space-between;
           margin: 20px;
-          flex-wrap: wrap;
+
+          .form-field {
+            width: 30%;
+          }
+
+          .item-cost-column {
+            display: flex;
+            flex-direction: column;
+
+            mat-form-field {
+              width: 85%;
+            }
+
+            .alert-danger {
+              color: $alert-message;
+            }
+          }
         }
       }
     }
@@ -94,7 +123,7 @@
         border: none;
         cursor: pointer;
         width: 300px;
-        height: 30px;
+        margin: 10px;
 
         &:disabled {
           background: $product-page-disabled;
