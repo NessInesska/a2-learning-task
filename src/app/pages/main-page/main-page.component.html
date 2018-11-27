@@ -14,6 +14,12 @@
           Filter
         </button>
 
+        <mat-select #genderFilter placeholder="Category" formControlName="genderFilterControl">
+          <mat-option *ngFor="let gender of genders" [value]="gender">
+            {{gender}}
+          </mat-option>
+        </mat-select>
+
         <div #dropdownContent class="dropdown-content" *ngIf="isOpened">
           <div class="dropdown-content-wrapper">
             <div class="availability-filter">
@@ -22,9 +28,9 @@
             </div>
             <div class="gender-filter">
               <div class="title"> Gender</div>
-              <mat-select placeholder="Category" formControlName="sexFilterControl">
-                <mat-option *ngFor="let option of sexOptions" [value]="option">
-                  {{option}}
+              <mat-select placeholder="Category" formControlName="genderFilterControl">
+                <mat-option *ngFor="let gender of genders" [value]="gender">
+                  {{gender}}
                 </mat-option>
               </mat-select>
             </div>
@@ -65,7 +71,7 @@
       </div>
     </div>
     <app-product-card class="product-card"
-                      *ngFor="let item of productArray"
+                      *ngFor="let item of _filteredProducts.value"
                       [item]="item"
                       [isAdmin]="isAdmin"
                       (remove)="update($event)">
