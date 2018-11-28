@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
+import { ModalComponent } from './components/modal';
 import { AuthPageModule } from './pages/auth-page';
 import { PageHeaderModule } from './components/page-header';
 import { ProductCardModule } from './components/product-card';
@@ -20,6 +21,10 @@ import { ErrorNotFoundPageComponent } from './pages/error-not-found-page';
   declarations: [
     AppComponent,
     ErrorNotFoundPageComponent,
+    ModalComponent,
+  ],
+  entryComponents: [
+    ModalComponent,
   ],
   imports: [
     AuthPageModule,

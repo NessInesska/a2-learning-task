@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule } from '@angular/material';
+import { MatButtonModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
 
 import { PageHeaderModule } from '../../components/page-header';
@@ -21,6 +21,7 @@ import { ProductPageComponent } from './product-page.component';
     MatIconModule,
     MatInputModule,
     MatSelectModule,
+    MatDialogModule,
   ],
   declarations: [
     ProductPageComponent,
