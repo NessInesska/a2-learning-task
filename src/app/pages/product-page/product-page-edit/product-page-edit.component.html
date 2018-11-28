@@ -90,6 +90,9 @@
             <div *ngIf="itemNameInput.errors.required">
               Product name is required.
             </div>
+            <div *ngIf="itemNameInput.errors?.pattern">
+              Product name should contain only English language.
+            </div>
           </div>
 
           <mat-form-field>
@@ -109,6 +112,9 @@
                class="alert alert-danger">
             <div *ngIf="descriptionInput.errors.required">
               Description is required.
+            </div>
+            <div *ngIf="descriptionInput.errors?.pattern">
+              Descripion should contain only English language.
             </div>
           </div>
         </div>
