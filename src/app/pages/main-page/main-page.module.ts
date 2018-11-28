@@ -1,6 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule, MatIconModule, MatOptionModule, MatSelectModule } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  MatButtonModule, MatCheckboxModule,
+  MatExpansionModule,
+  MatIconModule,
+  MatInputModule,
+  MatOptionModule,
+  MatSelectModule, MatSliderModule
+} from '@angular/material';
 
 import { ModalComponent } from '../../components/modal';
 import { PageHeaderModule } from '../../components/page-header';
@@ -16,6 +24,12 @@ import { MainPageComponent } from './main-page.component';
     MatOptionModule,
     MatSelectModule,
     MatButtonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatExpansionModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatSliderModule,
   ],
   declarations: [
     MainPageComponent,

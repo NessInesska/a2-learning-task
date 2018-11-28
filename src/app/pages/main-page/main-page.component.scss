@@ -38,55 +38,16 @@
       width: 100%;
 
       .dropdown {
-        position: relative;
-
-        .show-filters-button {
-          background: $app-buttons;
-          color: $white;
-          font-size: 16px;
-          border: none;
-          cursor: pointer;
-        }
-      }
-
-      .dropdown-content {
-        width: 60vw;
-        height: 30vh;
-        min-height: fit-content;
-        min-width: fit-content;
-        position: absolute;
-        background-color: $login-body-background;
-        box-shadow: 4px 13px 37px 0 rgba(0,0,0,0.75);
-
-        .dropdown-content-wrapper {
+        .filters-form {
           display: flex;
+          flex-direction: row;
           flex-wrap: wrap;
-          justify-content: space-between;
-          padding: 30px;
+          justify-content: space-around;
 
           > * {
-            display: flex;
-            flex-direction: column;
             margin: 20px;
+            width: 150px;
           }
-
-          .categories-selector {
-            background-color: $app-buttons;
-            color: $white;
-            width: 100px;
-            height: 30px;
-            font-size: 13px;
-            margin-top: 20px;
-          }
-
-          .categories-filter {
-            width: 15%;
-          }
-
-          .title {
-            font-weight: 600;
-          }
-
         }
 
         .filter-buttons {
@@ -104,6 +65,7 @@
           }
         }
       }
+
     }
   }
 
