@@ -1,7 +1,9 @@
-import { ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { BehaviorSubject, forkJoin } from 'rxjs';
+import { coerceNumberProperty } from '@angular/cdk/coercion';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
 
+import { LOCAL_STORAGE } from '../../constants';
 import { ProductService, UserService } from '../../services';
 
 @Component({
@@ -9,70 +11,146 @@ import { ProductService, UserService } from '../../services';
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.scss'],
 })
-export class MainPageComponent implements OnInit, OnChanges {
+export class MainPageComponent implements OnInit {
 
-  @ViewChild('showFiltersButton') public dropdownFiltersButton: ElementRef;
-
-  @ViewChild('dropdownContent') public dropdownContent: ElementRef;
-
-  public isOpened: boolean = false;
   public login: string;
   public productArray;
   public item;
   public isAdmin = false;
   public categories;
+  public panelOpenState = false;
+
+  public genders = ['Woman', 'Man', 'Unisex'];
+  public _products = new BehaviorSubject<any[]>([]);
+  public _filteredProducts = new BehaviorSubject<any[]>([]);
+
+  public filtersInput = this.formBuild.group({
+    genderFilterControl: new FormControl(),
+    categoryFilterControl: new FormControl(),
+    availabilityFilterControl: new FormControl(),
+    ratingFilterControl: new FormControl(),
+    priceFilterControl: new FormControl(),
+  });
+
+  public showTicks = false;
+  public autoTicks = false;
 
   constructor(private userService: UserService,
-              private productService: ProductService,
-              private cd: ChangeDetectorRef) {
-  }
-
-  public ngOnChanges(): void {
-    this.cd.detectChanges();
+              private formBuild: FormBuilder,
+              private productService: ProductService) {
   }
 
   public ngOnInit() {
-    const getCategories = this.productService.getCategories();
-    const getProductItems = this.productService.getProducts();
-
-    forkJoin([getCategories, getProductItems]).subscribe( data => {
-      // data [0] is categories
-      // data [1] is products
-      this.categories = data[0];
-      this.productArray = data[1];
-      this.login = localStorage.getItem('login');
-      if (localStorage.getItem('isAdmin')) {
-        this.isAdmin = true;
-      }
-    });
-  }
-
-  public onFiltersClick(): void {
-    if (this.isOpened) {
-      this.dropdownFiltersButtonClick();
-      return;
-    }
-    this.isOpened = true;
+    this._products.next(this.getProductsInfo());
     setTimeout(() => {
-      this.dropdownFiltersButtonClick();
-    });
-  }
-
-  public closeDropdown() {
-    this.isOpened = false;
-  }
-
-  public filterProducts() {
-
+      this.setFilters();
+    }, 500);
   }
 
   public update() {
     this.productArray.item = null;
   }
 
-  private dropdownFiltersButtonClick(): void {
-    if (!!this.dropdownFiltersButton) {
-      this.dropdownFiltersButton.nativeElement.click();
-    }
+  public clearFormControls(): void {
+    this.genderFilterControl.setValue('');
+    this.categoryFilterControl.setValue('');
+    this.availabilityFilterControl.setValue('');
+    this.ratingFilterControl.setValue('');
+    this.priceFilterControl.setValue('');
+  }
+
+  public get genderFilterControl() {
+    return this.filtersInput.controls['genderFilterControl'];
+  }
+
+  public get categoryFilterControl() {
+    return this.filtersInput.controls['categoryFilterControl'];
+  }
+
+  public get availabilityFilterControl() {
+    return this.filtersInput.controls['availabilityFilterControl'];
+  }
+
+  public get ratingFilterControl() {
+    return this.filtersInput.controls['ratingFilterControl'];
+  }
+
+  public get priceFilterControl() {
+    return this.filtersInput.controls['priceFilterControl'];
+  }
+
+  public get tickInterval(): number | 'auto' {
+    return this.showTicks ? (this.autoTicks ? 'auto' : this._tickInterval) : 0;
+  }
+
+  public set tickInterval(value) {
+    this._tickInterval = coerceNumberProperty(value);
+  }
+
+  private _tickInterval = 1;
+
+  private getProductsInfo(): any {
+    const getCategories = this.productService.getCategories();
+    const getProductItems = this.productService.getProducts();
+
+    forkJoin([getCategories, getProductItems]).subscribe(data => {
+      // data [0] is categories
+      // data [1] is products
+      this.categories = data[0];
+      this._products.next(data[1]);
+      this.login = localStorage.getItem('login');
+      if (localStorage.getItem(LOCAL_STORAGE.IS_ADMIN)) {
+        this.isAdmin = true;
+      }
+    });
+  }
+
+  private setFilters() {
+    this._filteredProducts.next(this._products.value);
+
+    combineLatest(
+      this._products,
+      this.genderFilterControl.valueChanges,
+      this.categoryFilterControl.valueChanges,
+      this.availabilityFilterControl.valueChanges,
+      this.ratingFilterControl.valueChanges,
+      this.priceFilterControl.valueChanges,
+    ).subscribe(([productArray,
+                       genderFilter,
+                       categoryFilter,
+                       availabilityFilter,
+                       ratingFilter,
+                       priceFilter]) => {
+      let filteredProducts = [...productArray];
+
+      if (genderFilter) {
+        filteredProducts = filteredProducts
+          .filter(product => product.gender === genderFilter);
+      }
+
+      if (categoryFilter) {
+        filteredProducts = filteredProducts.filter(product => product.categoryId === categoryFilter);
+      }
+
+      if (availabilityFilter) {
+        filteredProducts = filteredProducts.filter(product => product.count > 0);
+      }
+
+      if (ratingFilter) {
+        filteredProducts = filteredProducts.filter(product => product.rating === ratingFilter);
+      }
+
+      if (priceFilter) {
+        filteredProducts = filteredProducts.filter(product => product.cost > priceFilter);
+      }
+
+      this._filteredProducts.next(filteredProducts);
+    });
+
+    this.genderFilterControl.setValue('');
+    this.categoryFilterControl.setValue('');
+    this.availabilityFilterControl.setValue('');
+    this.ratingFilterControl.setValue('');
+    this.priceFilterControl.setValue('');
   }
 }
