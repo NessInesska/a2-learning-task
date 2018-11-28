@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import { ENDPOINTS, SESSION_TOKEN } from '../constants';
+import { ENDPOINTS, LOCAL_STORAGE, SESSION_TOKEN } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class AuthorizationService {
   }
 
   public hasToken(): boolean {
-    if (localStorage.getItem(SESSION_TOKEN)) return true;
+    if (localStorage.getItem(SESSION_TOKEN)) { return true; }
   }
 
   public removeToken(): void {
@@ -30,8 +30,12 @@ export class AuthorizationService {
   }
 
   public clearLocalStorage(): void {
-    localStorage.removeItem('login');
-    localStorage.removeItem('isAdmin');
+    localStorage.removeItem(LOCAL_STORAGE.LOGIN);
+    localStorage.removeItem(LOCAL_STORAGE.IS_ADMIN);
+  }
+
+  public hasIsAdmin(): boolean {
+    if (localStorage.getItem(LOCAL_STORAGE.IS_ADMIN)) { return true; }
   }
 
   public handleLogin(res): void {
