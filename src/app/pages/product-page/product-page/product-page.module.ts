@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
 
-import { PageHeaderModule } from '../../components/page-header';
-import { ModalService } from '../../services';
-import { ProductPageEditComponent } from './product-page-edit';
+import { PageHeaderModule } from '../../../components/page-header/index';
+import { ModalService } from '../../../services/index';
+import { ProductPageEditComponent } from '../product-page-edit/index';
 import { ProductPageComponent } from './product-page.component';
 
 @NgModule({

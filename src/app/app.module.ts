@@ -10,7 +10,7 @@ import { ModalComponent } from './components/modal';
 import { AuthPageModule } from './pages/auth-page';
 import { PageHeaderModule } from './components/page-header';
 import { ProductCardModule } from './components/product-card';
-import { ProductPageModule } from './pages/product-page';
+import { ProductPageModule } from './pages/product-page/product-page';
 import { AuthGuard } from './guards';
 import { MainPageModule } from './pages/main-page';
 import { Interceptor } from './interceptor';

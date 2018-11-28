@@ -1,5 +1,5 @@
-import { Component, OnChanges, OnInit, SimpleChange } from '@angular/core';
-import { FormBuilder, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 

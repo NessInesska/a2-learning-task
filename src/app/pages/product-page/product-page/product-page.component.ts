@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
-import { ModalComponent } from '../../components/modal';
-import { ProductService, ModalService, RoutingService, UserService } from '../../services';
+import { ModalComponent } from '../../../components/modal/index';
+import { ProductService, ModalService, RoutingService, UserService } from '../../../services/index';
 
 @Component({
   selector: 'app-product-page',

@@ -1,7 +1,7 @@
 export const ROUTING_PATHES = {
   LOGIN: '/login',
   MAIN_PAGE: '/main',
-  PRODUCT: '/product',
+  PRODUCT: '/product-page',
   EDIT: 'edit',
   NOT_FOUND: '/404',
 };
