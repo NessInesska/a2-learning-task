@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
 
-import { LOCAL_STORAGE } from '../../constants';
-import { ProductService, UserService } from '../../services';
+import { LOCAL_STORAGE, STATUS_CODES } from '../../constants';
+import { ProductService, RoutingService, UserService } from '../../services';
 
 @Component({
   selector: 'app-main-page',
@@ -19,6 +19,7 @@ export class MainPageComponent implements OnInit {
   public isAdmin = false;
   public categories;
   public panelOpenState = false;
+  public searchString = '';
 
   public genders = ['Woman', 'Man', 'Unisex'];
   public _products = new BehaviorSubject<any[]>([]);
@@ -37,6 +38,7 @@ export class MainPageComponent implements OnInit {
 
   constructor(private userService: UserService,
               private formBuild: FormBuilder,
+              private routingService: RoutingService,
               private productService: ProductService) {
   }
 
@@ -47,8 +49,15 @@ export class MainPageComponent implements OnInit {
     }, 500);
   }
 
-  public update() {
-    this.productArray.item = null;
+  public removeProductCard(id) {
+    this.productService.deleteItemById(id).subscribe((result: Response) => {
+      if (result.status === STATUS_CODES.NOT_FOUND) {
+        this.routingService.goToNotFoundPage();
+      }
+    this._filteredProducts.next(this._filteredProducts.value
+      .filter( product => product.id !== id));
+    });
+
   }
 
   public clearFormControls(): void {
@@ -124,8 +133,7 @@ export class MainPageComponent implements OnInit {
       let filteredProducts = [...productArray];
 
       if (genderFilter) {
-        filteredProducts = filteredProducts
-          .filter(product => product.gender === genderFilter);
+        filteredProducts = filteredProducts.filter(product => product.gender === genderFilter);
       }
 
       if (categoryFilter) {

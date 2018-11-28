@@ -71,14 +71,19 @@
             </div>
           </mat-expansion-panel>
         </mat-accordion>
+        <form  class="searchString">
+          <mat-form-field>
+            <input matInput placeholder="Search" [(ngModel)]="searchString" name="searchString">
+          </mat-form-field>
+        </form>
       </div>
     </div>
 
     <app-product-card class="product-card"
-                      *ngFor="let item of _filteredProducts.value"
+                      *ngFor="let item of (_filteredProducts.value | search: searchString)"
                       [item]="item"
                       [isAdmin]="isAdmin"
-                      (remove)="update($event)">
+                      (remove)="removeProductCard($event)">
     </app-product-card>
   </div>
 

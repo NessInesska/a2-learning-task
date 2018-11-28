@@ -13,6 +13,7 @@ import {
 
 import { PageHeaderModule } from '../../components/page-header';
 import { ProductCardModule } from '../../components/product-card';
+import { SearchPipe } from '../../pipes/search.pipe';
 import { MainPageComponent } from './main-page.component';
 
 @NgModule({
@@ -33,6 +34,7 @@ import { MainPageComponent } from './main-page.component';
   ],
   declarations: [
     MainPageComponent,
+    SearchPipe,
   ],
   exports: [
     MainPageComponent
