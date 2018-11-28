@@ -1,8 +1,10 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
-import { ProductService, ModalService, RoutingService, UserService } from '../../services';
+import { ModalComponent } from '../../../components/modal/index';
+import { ProductService, ModalService, RoutingService, UserService } from '../../../services/index';
 
 @Component({
   selector: 'app-product-page',
@@ -27,7 +29,8 @@ export class ProductPageComponent implements OnInit {
               private modalService: ModalService,
               private routingService: RoutingService,
               private userService: UserService,
-              private cd: ChangeDetectorRef) {
+              private cd: ChangeDetectorRef,
+              public dialog: MatDialog) {
   }
 
   public ngOnInit() {
@@ -52,20 +55,26 @@ export class ProductPageComponent implements OnInit {
         }
       });
 
-        this.range = new Array(this.item.rating);
-        this.emptyRange = new Array((5 - this.item.rating));
-      });
+      this.range = new Array(this.item.rating);
+      this.emptyRange = new Array((5 - this.item.rating));
+    });
 
     this.cd.detectChanges();
   }
 
   public showModal(): void {
-    // TODO: modal service
-    // this.modalService.openModal(this.buyButton, this.item);
 
     this.productService.patchNumberOfProducts(this.item.id, this.item.count, this.item.soldCount)
       .subscribe(res => this.item = res);
-    alert('You have successfully bought ' + this.item.name);
+
+    const dialogRef = this.dialog.open(ModalComponent, {
+      panelClass: 'custom-dialog-container',
+      data: this.item.name
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
   public goToEditProductsPage() {

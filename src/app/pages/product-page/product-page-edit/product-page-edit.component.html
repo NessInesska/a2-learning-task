@@ -2,7 +2,7 @@
   <app-page-header [login]="login"></app-page-header>
   <div class="container">
 
-    <button class="btn btn-primary product-edit-button"
+    <button class="product-edit-button"
             mat-button mat-raised-button
             color="primary"
             [disabled]="true"
@@ -32,6 +32,7 @@
                        type="text"
                        class="form-control"
                        pattern="[0-9]*"
+                       value="{{item.cost}}"
                        placeholder="{{item.cost | currency}}"
                        formControlName="itemCostInput">
               </mat-form-field>
@@ -78,6 +79,7 @@
                      name="itemNameInput"
                      type="text"
                      class="form-control"
+                     value="{{item.name}}"
                      placeholder="{{item.name}}"
                      formControlName="itemNameInput">
             </mat-form-field>
@@ -98,8 +100,8 @@
                       type="text"
                       class="form-control"
                       placeholder="{{item.description}}"
+                      value="{{item.description}}"
                       formControlName="descriptionInput">
-
             </textarea>
           </mat-form-field>
 

@@ -1,10 +1,9 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { ENDPOINTS, SESSION_TOKEN } from '../constants';
-import { RoutingService } from './routing.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +11,7 @@ import { RoutingService } from './routing.service';
 
 export class AuthorizationService {
 
-  constructor(private http: HttpClient,
-              private routingService: RoutingService) { }
+  constructor(private http: HttpClient) { }
 
   public getToken(): string {
     return localStorage.getItem('session-token');
@@ -36,7 +34,7 @@ export class AuthorizationService {
     localStorage.removeItem('isAdmin');
   }
 
-  public handleLogin(res) {
+  public handleLogin(res): void {
     this.setToken(res.headers.get(SESSION_TOKEN));
   }
 

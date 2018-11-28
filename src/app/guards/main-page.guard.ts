@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { ROUTING_PATHES, SESSION_TOKEN } from '../constants';
+import { ROUTING_PATHES } from '../constants';
 
 import { AuthorizationService, RoutingService } from '../services';
 

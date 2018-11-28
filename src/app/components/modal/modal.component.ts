@@ -1,20 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-
-import { ProductService } from '../../services';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent {
 
-  public item;
-
-  constructor(private productService: ProductService) {
-  }
-
-  ngOnInit() {
-    this.item = this.productService.item;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
   }
 }

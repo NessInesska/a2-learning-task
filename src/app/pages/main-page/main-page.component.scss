@@ -38,11 +38,14 @@
       width: 100%;
 
       .dropdown {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+
         .filters-form {
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
-          justify-content: space-around;
 
           > * {
             margin: 20px;
@@ -64,8 +67,11 @@
             cursor: pointer;
           }
         }
-      }
 
+        .filters-accordion {
+          width: 70%;
+        }
+      }
     }
   }
 

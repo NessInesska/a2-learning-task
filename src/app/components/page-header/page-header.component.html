@@ -1,11 +1,11 @@
 <header class="header">
   <div class="header-logo">
-    <a routerLink="['/main']">
+    <a routerLink="['/main']" class="header-anchor">
     <mat-icon>shopping_cart</mat-icon>
     </a>
   </div>
   <div class="user-info" *ngIf="!notFound">
     Hello, {{login}} :)
-    <button (click)="logout(login)"> Logout </button>
+    <button class="logout-button" (click)="logout(login)"> Logout </button>
   </div>
 </header>

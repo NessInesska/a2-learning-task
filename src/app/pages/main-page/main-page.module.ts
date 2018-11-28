@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  MatButtonModule, MatCheckboxModule,
+  MatButtonModule,
+  MatCheckboxModule,
   MatExpansionModule,
   MatIconModule,
   MatInputModule,
@@ -10,9 +11,9 @@ import {
   MatSelectModule, MatSliderModule
 } from '@angular/material';
 
-import { ModalComponent } from '../../components/modal';
 import { PageHeaderModule } from '../../components/page-header';
 import { ProductCardModule } from '../../components/product-card';
+import { SearchPipe } from '../../pipes/search.pipe';
 import { MainPageComponent } from './main-page.component';
 
 @NgModule({
@@ -33,7 +34,7 @@ import { MainPageComponent } from './main-page.component';
   ],
   declarations: [
     MainPageComponent,
-    ModalComponent,
+    SearchPipe,
   ],
   exports: [
     MainPageComponent
