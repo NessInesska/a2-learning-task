@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
@@ -14,6 +14,14 @@ import { ProductService, RoutingService } from '../../../services';
 })
 export class ProductPageEditComponent implements OnInit {
 
+  @Input() rating: number;
+  @Input() itemId: number;
+
+  @Output() ratingClick: EventEmitter<any> = new EventEmitter<any>();
+  inputName: string;
+
+
+
   public genders: Gender[] = [];
   public item;
   public categories;
@@ -25,16 +33,17 @@ export class ProductPageEditComponent implements OnInit {
       validators: [Validators.required, Validators.pattern('[a-zA-Z ]*')],
       updateOn: 'blur'
     }],
-    descriptionInput: ['', {
+    descriptionInput: [{
       validators: [Validators.required, Validators.pattern('[a-zA-Z ]*')],
       updateOn: 'blur'
     }],
-    itemCostInput: ['', {
+    itemCostInput: [{
       validators: [Validators.required, Validators.min(0), Validators.pattern('[0-9]*')],
       updateOn: 'blur'
     }],
-    categorySelect: [''],
-    genderSelect: [''],
+    categorySelect: ['', Validators.required],
+    genderSelect: ['', Validators.required],
+    ratingSelect: [Validators.required],
   });
 
   constructor(private productService: ProductService,
@@ -44,6 +53,8 @@ export class ProductPageEditComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.inputName = this.itemId + '_rating';
+
     this.genders = GENDERS;
 
     const getCategories = this.productService.getCategories();
@@ -68,6 +79,15 @@ export class ProductPageEditComponent implements OnInit {
         });
       return this.editMainPageForm.value;
     }
+  }
+
+  public onRatingClick(rating: number): void {
+    this.rating = rating;
+    this.editMainPageForm.controls['ratingSelect'].setValue(rating);
+    this.ratingClick.emit({
+      itemId: this.itemId,
+      rating: rating
+    });
   }
 
   public onCancel() {

@@ -17,13 +17,27 @@
           <div class="product-picture">
             <img src="{{item.image}}">
           </div>
+
           <div class="product-rating">
-            <mat-icon color="primary" *ngFor="let i of range">star</mat-icon>
-            <mat-icon color="primary" *ngFor="let i of emptyRange">star_border</mat-icon>
+              <fieldset class="rating">
+                <input type="radio" [name]="inputName" value="5" [checked]="rating===5"/>
+                <label title="Rocks!" (click)='onRatingClick(5)'>5 stars</label>
+
+                <input type="radio" [name]="inputName" value="4" [checked]="rating===4"/>
+                <label title="Pretty good" (click)='onRatingClick(4)'>4 stars</label>
+
+                <input type="radio" [name]="inputName" value="3" [checked]="rating===3"/>
+                <label title="Meh" (click)='onRatingClick(3)'>3 stars</label>
+
+                <input type="radio" [name]="inputName" value="2" [checked]="rating===2"/>
+                <label title="Kinda bad" (click)='onRatingClick(2)'>2 stars</label>
+
+                <input type="radio" [name]="inputName" value="1" [checked]="rating===1"/>
+                <label title="Sucks big time" (click)='onRatingClick(1)'>1 star</label>
+              </fieldset>
           </div>
 
           <div class="product-price-gender-category">
-
             <div class="item-cost-column">
               <mat-form-field class="form-field item-name-input">
                 <input id="itemCostInput"
@@ -67,7 +81,6 @@
               </mat-select>
             </mat-form-field>
 
-
             <div> {{item.category}}</div>
           </div>
         </div>
@@ -84,7 +97,6 @@
                      formControlName="itemNameInput">
             </mat-form-field>
           </div>
-
           <div *ngIf="itemNameInput.invalid && (itemNameInput.dirty || itemNameInput.touched)"
                class="alert alert-danger">
             <div *ngIf="itemNameInput.errors.required">
@@ -94,7 +106,6 @@
               Product name should contain only English language.
             </div>
           </div>
-
           <mat-form-field>
             <textarea id="descriptionInput"
                       matInput
@@ -107,7 +118,6 @@
                       formControlName="descriptionInput">
             </textarea>
           </mat-form-field>
-
           <div *ngIf="descriptionInput.invalid && (descriptionInput.dirty || descriptionInput.touched)"
                class="alert alert-danger">
             <div *ngIf="descriptionInput.errors.required">
@@ -119,7 +129,6 @@
           </div>
         </div>
       </div>
-
       <div class="product-full-page-footer">
         <button #buyButton
                 type="submit"

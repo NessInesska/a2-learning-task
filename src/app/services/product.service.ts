@@ -35,7 +35,9 @@ export class ProductService {
         description: data.descriptionInput,
         cost: data.itemCostInput,
         gender: data.genderSelect,
-        categoryId: data.categorySelect});
+        categoryId: data.categorySelect,
+        rating: data.ratingSelect
+      });
   }
 
   public getCategories(): Observable<Category> {
