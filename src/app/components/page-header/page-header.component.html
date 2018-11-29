@@ -1,8 +1,6 @@
 <header class="header">
   <div class="header-logo">
-    <a routerLink="['/main']" class="header-anchor">
-    <mat-icon>shopping_cart</mat-icon>
-    </a>
+    <mat-icon> <a (click)="goToMainPage()">shopping_cart</a></mat-icon>
   </div>
   <div class="user-info" *ngIf="!notFound">
     Hello, {{login}} :)

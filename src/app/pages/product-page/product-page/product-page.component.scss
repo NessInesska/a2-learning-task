@@ -8,97 +8,116 @@
   min-width: 300px;
   font-family: $font-hiragino-sans-gb;
 
-  .container {
-    flex: 1 1 auto;
-    margin: 0;
+  .back-wrapper {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    background: $main-page-container-background;
-    align-self: center;
-    height: 90vh;
-    min-height: fit-content;
-    flex-direction: column;
+    flex-direction: row;
 
-    .product-full-page-top-part {
-      flex-direction: row;
-      justify-content: center;
+    .back-to-main-page {
+      padding: 20px;
+      cursor: pointer;
       display: flex;
-      margin: 30px;
+      align-content: center;
 
-      .product-description {
-        margin: 0 40px;
-        text-align: justify;
-        width: 45%;
+      &:hover {
+        background: #D9DDE2;
+      }
 
-        .product-description-title {
+      .arrow-left-icon {
+        color: $app-buttons;
+      }
+    }
+
+    .container {
+      flex: 1 1 auto;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      background: $main-page-container-background;
+      align-self: center;
+      height: 90vh;
+      min-height: fit-content;
+
+      .product-full-page-top-part {
+        flex-direction: row;
+        justify-content: center;
+        display: flex;
+        margin: 30px;
+        width: 80%;
+
+        .product-description {
+          margin: 0 40px;
+          text-align: justify;
+          width: 45%;
+
+          .product-description-title {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px;
+            font-size: 20px;
+            font-weight: bold;
+
+            .product-edit-button {
+              background: $app-buttons;
+              color: white;
+              font-size: 15px;
+              border: none;
+              cursor: pointer;
+              width: 100px;
+              margin: 10px;
+              display: flex;
+              justify-content: center;
+              align-self: flex-end;
+            }
+          }
+        }
+
+        .product-full-page-top-left {
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
-          align-items: center;
-          margin: 10px;
-          font-size: 20px;
-          font-weight: bold;
+          width: 45%;
 
-          .product-edit-button {
-            background: $app-buttons;
-            color: white;
-            font-size: 15px;
-            border: none;
-            cursor: pointer;
-            width: 100px;
-            margin: 10px;
+          .product-picture {
+            width: 100%;
+            height: auto;
+          }
+
+          img {
+            height: auto;
+            width: 90%;
+          }
+
+          .product-price-gender-category {
             display: flex;
-            justify-content: center;
-            align-self: flex-end;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: 20px;
+            flex-wrap: wrap;
           }
         }
       }
 
-      .product-full-page-top-left {
+      .product-full-page-footer {
+        width: 100%;
+        height: 10vh;
         display: flex;
-        flex-direction: column;
-        width: 45%;
+        justify-content: center;
+        align-items: center;
 
-        .product-picture {
-          width: 100%;
-          height: auto;
-        }
+        .buy-product-button {
+          background: $app-buttons;
+          color: white;
+          font-size: 20px;
+          border: none;
+          cursor: pointer;
+          width: 300px;
 
-        img {
-          height: auto;
-          width: 90%;
-        }
-
-        .product-price-gender-category {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          margin: 20px;
-          flex-wrap: wrap;
-        }
-      }
-    }
-
-    .product-full-page-footer {
-      width: 100%;
-      height: 10vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      .buy-product-button {
-        background: $app-buttons;
-        color: white;
-        font-size: 20px;
-        border: none;
-        cursor: pointer;
-        width: 300px;
-        height: 30px;
-
-        &:disabled {
-          background: $product-page-disabled;
-          cursor: not-allowed;
+          &:disabled {
+            background: $product-page-disabled;
+            cursor: not-allowed;
+          }
         }
       }
     }

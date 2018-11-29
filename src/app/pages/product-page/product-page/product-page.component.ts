@@ -1,10 +1,11 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
-import { ModalComponent } from '../../../components/modal/index';
-import { ProductService, ModalService, RoutingService, UserService } from '../../../services/index';
+import { ModalComponent } from '../../../components/modal';
+import { ProductService, ModalService, RoutingService, UserService } from '../../../services';
 
 @Component({
   selector: 'app-product-page',
@@ -30,7 +31,8 @@ export class ProductPageComponent implements OnInit {
               private routingService: RoutingService,
               private userService: UserService,
               private cd: ChangeDetectorRef,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private location: Location) {
   }
 
   public ngOnInit() {
@@ -79,5 +81,9 @@ export class ProductPageComponent implements OnInit {
 
   public goToEditProductsPage() {
     this.routingService.goToEditProductPage(this.id);
+  }
+
+  public goToMainPage() {
+    this.location.back();
   }
 }
