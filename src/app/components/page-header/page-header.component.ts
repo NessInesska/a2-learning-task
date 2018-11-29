@@ -22,4 +22,8 @@ export class PageHeaderComponent {
     this.authService.clearLocalStorage();
     this.routingService.goToLoginPage();
   }
+
+  public goToMainPage() {
+    this.routingService.goToMainPage();
+  }
 }
