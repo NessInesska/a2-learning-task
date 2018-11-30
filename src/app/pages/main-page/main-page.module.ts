@@ -5,15 +5,17 @@ import {
   MatButtonModule,
   MatCheckboxModule,
   MatExpansionModule,
+  MatGridListModule,
   MatIconModule,
   MatInputModule,
   MatOptionModule,
-  MatSelectModule, MatSliderModule
+  MatSelectModule,
+  MatSliderModule
 } from '@angular/material';
 
 import { PageHeaderModule } from '../../components/page-header';
 import { ProductCardModule } from '../../components/product-card';
-import { SearchPipe } from '../../pipes/search.pipe';
+import { SearchPipe } from '../../pipes';
 import { MainPageComponent } from './main-page.component';
 
 @NgModule({
@@ -31,6 +33,7 @@ import { MainPageComponent } from './main-page.component';
     MatInputModule,
     MatCheckboxModule,
     MatSliderModule,
+    MatGridListModule,
   ],
   declarations: [
     MainPageComponent,

@@ -20,6 +20,7 @@ export class MainPageComponent implements OnInit {
   public categories;
   public panelOpenState = false;
   public searchString = '';
+  public tilesNumber;
 
   public genders = ['Woman', 'Man', 'Unisex'];
   public _products = new BehaviorSubject<any[]>([]);
@@ -47,6 +48,7 @@ export class MainPageComponent implements OnInit {
     setTimeout(() => {
       this.setFilters();
     }, 500);
+    this.tilesNumber = new Array(20);
   }
 
   public removeProductCard(id) {

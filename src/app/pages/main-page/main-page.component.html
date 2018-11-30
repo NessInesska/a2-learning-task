@@ -1,93 +1,202 @@
-<div class="wrapper">
-  <app-page-header [login]="login"></app-page-header>
+<mat-grid-list cols="12" rowHeight="fit">
 
-  <div class="container">
-    <div class="dropdown-wrapper">
-      <div class="dropdown">
-        <mat-accordion class="filters-accordion">
-          <mat-expansion-panel (opened)="panelOpenState = true"
-                               (closed)="panelOpenState = false">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Filters
-              </mat-panel-title>
-            </mat-expansion-panel-header>
+  <mat-grid-tile [colspan]="12">
+    <app-page-header [login]="login"></app-page-header>
+  </mat-grid-tile>
 
-            <form [formGroup]="filtersInput" class="filters-form">
-              <mat-checkbox formControlName="availabilityFilterControl"
-                            color="primary"> Avaliable only
-              </mat-checkbox>
+  <mat-grid-tile [colspan]="1"></mat-grid-tile>
 
-              <div class="gender-filter"> Gender
-                <mat-select #genderFilter placeholder="Gender" formControlName="genderFilterControl">
-                  <mat-option *ngFor="let gender of genders" [value]="gender">
-                    {{gender}}
-                  </mat-option>
-                </mat-select>
-              </div>
+  <!--<mat-grid-tile [colspan]="10">-->
+  <mat-grid-list cols="10" rowHeight="fit" class="list">
+    <div class="dropdown">
+      <mat-accordion class="filters-accordion">
+        <mat-expansion-panel (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Filters
+            </mat-panel-title>
+          </mat-expansion-panel-header>
 
-              <div class="category-filter"> Category
-                <mat-select #categoryFilter placeholder="Category" formControlName="categoryFilterControl">
-                  <mat-option *ngFor="let category of categories" [value]="category.id">
-                    {{category.name}}
-                  </mat-option>
-                </mat-select>
-              </div>
+          <form [formGroup]="filtersInput" class="filters-form">
+            <mat-checkbox formControlName="availabilityFilterControl"
+                          color="primary"> Avaliable only
+            </mat-checkbox>
 
-              <div class="rating-filter"> Rating
-                <mat-slider
-                  class="example-margin"
-                  [max]="5"
-                  [min]="0"
-                  [step]="1"
-                  [thumbLabel]="true"
-                  [tickInterval]="tickInterval"
-                  color="primary"
-                  formControlName="ratingFilterControl">
-                </mat-slider>
-              </div>
-
-              <div class="price-filter"> Price more than
-                <mat-slider
-                  class="example-margin"
-                  [max]="1000"
-                  [min]="0"
-                  [step]="1"
-                  [thumbLabel]="true"
-                  [tickInterval]="tickInterval"
-                  color="primary"
-                  formControlName="priceFilterControl">
-                </mat-slider>
-              </div>
-            </form>
-            <div class="filter-buttons">
-              <button class="clear-filters-button"
-                      mat-button
-                      mat-raised-button
-                      type="reset"
-                      (click)="clearFormControls()">
-                Cancel
-              </button>
+            <div class="gender-filter"> Gender
+              <mat-select #genderFilter placeholder="Gender" formControlName="genderFilterControl">
+                <mat-option *ngFor="let gender of genders" [value]="gender">
+                  {{gender}}
+                </mat-option>
+              </mat-select>
             </div>
-          </mat-expansion-panel>
-        </mat-accordion>
-        <form  class="searchString">
-          <mat-form-field>
-            <input matInput placeholder="Search" [(ngModel)]="searchString" name="searchString">
-          </mat-form-field>
-        </form>
-      </div>
+
+            <div class="category-filter"> Category
+              <mat-select #categoryFilter placeholder="Category" formControlName="categoryFilterControl">
+                <mat-option *ngFor="let category of categories" [value]="category.id">
+                  {{category.name}}
+                </mat-option>
+              </mat-select>
+            </div>
+
+            <div class="rating-filter"> Rating
+              <mat-slider
+                class="example-margin"
+                [max]="5"
+                [min]="0"
+                [step]="1"
+                [thumbLabel]="true"
+                [tickInterval]="tickInterval"
+                color="primary"
+                formControlName="ratingFilterControl">
+              </mat-slider>
+            </div>
+
+            <div class="price-filter"> Price more than
+              <mat-slider
+                class="example-margin"
+                [max]="1000"
+                [min]="0"
+                [step]="1"
+                [thumbLabel]="true"
+                [tickInterval]="tickInterval"
+                color="primary"
+                formControlName="priceFilterControl">
+              </mat-slider>
+            </div>
+          </form>
+          <div class="filter-buttons">
+            <button class="clear-filters-button"
+                    mat-button
+                    mat-raised-button
+                    type="reset"
+                    (click)="clearFormControls()">
+              Cancel
+            </button>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <form class="searchString">
+        <mat-form-field>
+          <input matInput placeholder="Search" [(ngModel)]="searchString" name="searchString">
+        </mat-form-field>
+      </form>
     </div>
+  </mat-grid-list>
+  <!--</mat-grid-tile>-->
 
-    <app-product-card class="product-card"
-                      *ngFor="let item of (_filteredProducts.value | search: searchString)"
-                      [item]="item"
-                      [isAdmin]="isAdmin"
-                      (remove)="removeProductCard($event)">
-    </app-product-card>
-  </div>
+  <mat-grid-tile [colspan]="10">
+    <div class="product-cards">
+      <app-product-card class="product-card"
+                        *ngFor="let item of (_filteredProducts.value | search: searchString)"
+                        [item]="item"
+                        [isAdmin]="isAdmin"
+                        (remove)="removeProductCard($event)">
+      </app-product-card>
+    </div>
+  </mat-grid-tile>
 
-  <footer class="footer">
-    <div class="text"> Copyright "Demo Shop", 2018</div>
-  </footer>
-</div>
+  <mat-grid-tile [colspan]="1"></mat-grid-tile>
+
+  <mat-grid-tile [colspan]="12">
+    <footer class="footer">
+      <div class="text"> Copyright "Demo Shop", 2018</div>
+    </footer>
+  </mat-grid-tile>
+
+</mat-grid-list>
+
+
+<!--<div class="wrapper">-->
+<!--<app-page-header [login]="login"></app-page-header>-->
+
+<!--<div class="container">-->
+<!--<div class="dropdown-wrapper">-->
+<!--<div class="dropdown">-->
+<!--<mat-accordion class="filters-accordion">-->
+<!--<mat-expansion-panel (opened)="panelOpenState = true"-->
+<!--(closed)="panelOpenState = false">-->
+<!--<mat-expansion-panel-header>-->
+<!--<mat-panel-title>-->
+<!--Filters-->
+<!--</mat-panel-title>-->
+<!--</mat-expansion-panel-header>-->
+
+<!--<form [formGroup]="filtersInput" class="filters-form">-->
+<!--<mat-checkbox formControlName="availabilityFilterControl"-->
+<!--color="primary"> Avaliable only-->
+<!--</mat-checkbox>-->
+
+<!--<div class="gender-filter"> Gender-->
+<!--<mat-select #genderFilter placeholder="Gender" formControlName="genderFilterControl">-->
+<!--<mat-option *ngFor="let gender of genders" [value]="gender">-->
+<!--{{gender}}-->
+<!--</mat-option>-->
+<!--</mat-select>-->
+<!--</div>-->
+
+<!--<div class="category-filter"> Category-->
+<!--<mat-select #categoryFilter placeholder="Category" formControlName="categoryFilterControl">-->
+<!--<mat-option *ngFor="let category of categories" [value]="category.id">-->
+<!--{{category.name}}-->
+<!--</mat-option>-->
+<!--</mat-select>-->
+<!--</div>-->
+
+<!--<div class="rating-filter"> Rating-->
+<!--<mat-slider-->
+<!--class="example-margin"-->
+<!--[max]="5"-->
+<!--[min]="0"-->
+<!--[step]="1"-->
+<!--[thumbLabel]="true"-->
+<!--[tickInterval]="tickInterval"-->
+<!--color="primary"-->
+<!--formControlName="ratingFilterControl">-->
+<!--</mat-slider>-->
+<!--</div>-->
+
+<!--<div class="price-filter"> Price more than-->
+<!--<mat-slider-->
+<!--class="example-margin"-->
+<!--[max]="1000"-->
+<!--[min]="0"-->
+<!--[step]="1"-->
+<!--[thumbLabel]="true"-->
+<!--[tickInterval]="tickInterval"-->
+<!--color="primary"-->
+<!--formControlName="priceFilterControl">-->
+<!--</mat-slider>-->
+<!--</div>-->
+<!--</form>-->
+<!--<div class="filter-buttons">-->
+<!--<button class="clear-filters-button"-->
+<!--mat-button-->
+<!--mat-raised-button-->
+<!--type="reset"-->
+<!--(click)="clearFormControls()">-->
+<!--Cancel-->
+<!--</button>-->
+<!--</div>-->
+<!--</mat-expansion-panel>-->
+<!--</mat-accordion>-->
+<!--<form class="searchString">-->
+<!--<mat-form-field>-->
+<!--<input matInput placeholder="Search" [(ngModel)]="searchString" name="searchString">-->
+<!--</mat-form-field>-->
+<!--</form>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--<app-product-card class="product-card"-->
+<!--*ngFor="let item of (_filteredProducts.value | search: searchString)"-->
+<!--[item]="item"-->
+<!--[isAdmin]="isAdmin"-->
+<!--(remove)="removeProductCard($event)">-->
+<!--</app-product-card>-->
+<!--</div>-->
+
+<!--<footer class="footer">-->
+<!--<div class="text"> Copyright "Demo Shop", 2018</div>-->
+<!--</footer>-->
+<!--</div>-->
