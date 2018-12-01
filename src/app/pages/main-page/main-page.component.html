@@ -1,10 +1,13 @@
-<div class="wrapper">
+<div class="row">
   <app-page-header [login]="login"></app-page-header>
+</div>
 
-  <div class="container">
-    <div class="dropdown-wrapper">
-      <div class="dropdown">
-        <mat-accordion class="filters-accordion">
+<div class="row">
+  <div class="col-xs-1"></div>
+  <div class="col-xs-10">
+    <div class="row filters-and-search">
+      <div class="col-xs-8">
+        <mat-accordion>
           <mat-expansion-panel (opened)="panelOpenState = true"
                                (closed)="panelOpenState = false">
             <mat-expansion-panel-header>
@@ -14,53 +17,67 @@
             </mat-expansion-panel-header>
 
             <form [formGroup]="filtersInput" class="filters-form">
-              <mat-checkbox formControlName="availabilityFilterControl"
-                            color="primary"> Avaliable only
-              </mat-checkbox>
+              <div class="row">
 
-              <div class="gender-filter"> Gender
-                <mat-select #genderFilter placeholder="Gender" formControlName="genderFilterControl">
-                  <mat-option *ngFor="let gender of genders" [value]="gender">
-                    {{gender}}
-                  </mat-option>
-                </mat-select>
-              </div>
+                <div class="box">
+                  <mat-checkbox formControlName="availabilityFilterControl"
+                                color="primary"> Available only
+                  </mat-checkbox>
+                </div>
 
-              <div class="category-filter"> Category
-                <mat-select #categoryFilter placeholder="Category" formControlName="categoryFilterControl">
-                  <mat-option *ngFor="let category of categories" [value]="category.id">
-                    {{category.name}}
-                  </mat-option>
-                </mat-select>
-              </div>
+                <div class="box">
+                  <div class="gender-filter"> Gender
+                    <mat-select #genderFilter placeholder="Gender" formControlName="genderFilterControl">
+                      <mat-option *ngFor="let gender of genders" [value]="gender">
+                        {{gender}}
+                      </mat-option>
+                    </mat-select>
+                  </div>
+                </div>
 
-              <div class="rating-filter"> Rating
-                <mat-slider
-                  class="example-margin"
-                  [max]="5"
-                  [min]="0"
-                  [step]="1"
-                  [thumbLabel]="true"
-                  [tickInterval]="tickInterval"
-                  color="primary"
-                  formControlName="ratingFilterControl">
-                </mat-slider>
-              </div>
+                <div class="box">
+                  <div class="category-filter"> Category
+                    <mat-select #categoryFilter placeholder="Category" formControlName="categoryFilterControl">
+                      <mat-option *ngFor="let category of categories" [value]="category.id">
+                        {{category.name}}
+                      </mat-option>
+                    </mat-select>
+                  </div>
+                </div>
 
-              <div class="price-filter"> Price more than
-                <mat-slider
-                  class="example-margin"
-                  [max]="1000"
-                  [min]="0"
-                  [step]="1"
-                  [thumbLabel]="true"
-                  [tickInterval]="tickInterval"
-                  color="primary"
-                  formControlName="priceFilterControl">
-                </mat-slider>
+                <div class="box">
+                  <div class="rating-filter"> Rating
+                    <mat-slider
+                      class="example-margin"
+                      [max]="5"
+                      [min]="0"
+                      [step]="1"
+                      [thumbLabel]="true"
+                      [tickInterval]="tickInterval"
+                      color="primary"
+                      formControlName="ratingFilterControl">
+                    </mat-slider>
+                  </div>
+                </div>
+
+                <div class="box">
+                  <div class="price-filter"> Price more than
+                    <mat-slider
+                      class="example-margin"
+                      [max]="1000"
+                      [min]="0"
+                      [step]="1"
+                      [thumbLabel]="true"
+                      [tickInterval]="tickInterval"
+                      color="primary"
+                      formControlName="priceFilterControl">
+                    </mat-slider>
+                  </div>
+                </div>
               </div>
             </form>
-            <div class="filter-buttons">
+
+            <div class="end-xs">
               <button class="clear-filters-button"
                       mat-button
                       mat-raised-button
@@ -71,7 +88,10 @@
             </div>
           </mat-expansion-panel>
         </mat-accordion>
-        <form  class="searchString">
+      </div>
+
+      <div class="box">
+        <form class="searchString">
           <mat-form-field>
             <input matInput placeholder="Search" [(ngModel)]="searchString" name="searchString">
           </mat-form-field>
@@ -79,14 +99,18 @@
       </div>
     </div>
 
-    <app-product-card class="product-card"
-                      *ngFor="let item of (_filteredProducts.value | search: searchString)"
-                      [item]="item"
-                      [isAdmin]="isAdmin"
-                      (remove)="removeProductCard($event)">
-    </app-product-card>
+    <div class="row products">
+      <app-product-card class="product-card"
+                        *ngFor="let item of (_filteredProducts.value | search: searchString)"
+                        [item]="item"
+                        [isAdmin]="isAdmin"
+                        (remove)="removeProductCard($event)">
+      </app-product-card>
+    </div>
   </div>
+</div>
 
+<div class="row">
   <footer class="footer">
     <div class="text"> Copyright "Demo Shop", 2018</div>
   </footer>
