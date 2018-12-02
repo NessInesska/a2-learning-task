@@ -26,7 +26,7 @@
       }
 
       &:hover {
-        background: #D9DDE2;
+        background: $go-back-button-background;
       }
 
       .arrow-left-icon {
@@ -101,5 +101,29 @@
     .text {
       padding: 0 20px;
     }
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .back-to-main-page {
+    max-width: 200px;
+    height: 50px;
+  }
+
+  .picture-and-description {
+    display: flex;
+    flex-direction: column;
+
+    .product-info-pic {
+      width: 90vw;
+    }
+  }
+
+  .col-xs-6 {
+    max-width: 90vw;
+  }
+
+  .right {
+    display: none;
   }
 }

@@ -7,9 +7,20 @@
 }
 
 .filters-and-search {
-  margin-top: 15px;
   min-width: fit-content;
-  justify-content: space-around;
+  justify-content: center;
+
+  .searchString {
+    width: 90%;
+
+    .search-input {
+      width: 100%;
+    }
+  }
+
+  .mat-accordion {
+    width: 90%;
+  }
 
   .row {
     justify-content: space-around;
@@ -32,7 +43,7 @@
   .product-card {
     background: $product-card-background;
     font-family: $font-hiragino-sans-gb;
-    margin: 20px;
+    margin: 20px 10px;
     height: fit-content;
     min-height: 500px;
     width: 25%;
@@ -53,5 +64,29 @@
 
   .text {
     margin: 0 20px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .row {
+    .product-card {
+      width: 300px;
+    }
+  }
+
+  .left {
+    display: none;
+  }
+
+  .right {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .row {
+    .product-card {
+      width: 300px;
+    }
   }
 }

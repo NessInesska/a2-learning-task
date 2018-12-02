@@ -33,7 +33,7 @@ export class ProductPageEditComponent implements OnInit {
       validators: [Validators.required, Validators.pattern('[a-zA-Z ]*')],
       updateOn: 'blur'
     }],
-    descriptionInput: [{
+    descriptionInput: ['', {
       validators: [Validators.required, Validators.pattern('[a-zA-Z ]*')],
       updateOn: 'blur'
     }],
