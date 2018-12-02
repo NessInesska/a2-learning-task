@@ -1,22 +1,29 @@
 @import '../../../styles/colors';
 @import '../../../styles/fonts';
+@import '~flexboxgrid';
 
-.product-full-page {
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
-  min-width: 300px;
-  font-family: $font-hiragino-sans-gb;
+:host {
+  height: 100vh;
 
-  .back-wrapper {
-    display: flex;
-    flex-direction: row;
+  .row {
+    font-family: $font-hiragino-sans-gb;
+    margin: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
 
     .back-to-main-page {
       padding: 20px;
       cursor: pointer;
       display: flex;
-      align-content: center;
+
+      a {
+        align-items: flex-start;
+        display: flex;
+      }
 
       &:hover {
         background: #D9DDE2;
@@ -27,98 +34,57 @@
       }
     }
 
-    .container {
-      flex: 1 1 auto;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      background: $main-page-container-background;
-      align-self: center;
-      height: 90vh;
-      min-height: fit-content;
+  .product-edit-button {
+    background: $app-buttons;
+    color: white;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+    align-self: flex-end;
+  }
 
-      .product-full-page-top-part {
-        flex-direction: row;
-        justify-content: center;
-        display: flex;
-        margin: 30px;
-        width: 80%;
+  .item-name {
+    font-weight: 700;
+    margin: 0 20px 20px 20px;
+    font-size: 25px;
+  }
 
-        .product-description {
-          margin: 0 40px;
-          text-align: justify;
-          width: 45%;
+  .description {
+    text-align: justify;
+    margin: 0 20px;
+  }
 
-          .product-description-title {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            margin: 10px;
-            font-size: 20px;
-            font-weight: bold;
 
-            .product-edit-button {
-              background: $app-buttons;
-              color: white;
-              font-size: 15px;
-              border: none;
-              cursor: pointer;
-              width: 100px;
-              margin: 10px;
-              display: flex;
-              justify-content: center;
-              align-self: flex-end;
-            }
-          }
-        }
+  .product-info {
+    justify-content: space-around;
 
-        .product-full-page-top-left {
-          display: flex;
-          flex-direction: column;
-          width: 45%;
+    > * {
+      margin: 20px;
+    }
+  }
 
-          .product-picture {
-            width: 100%;
-            height: auto;
-          }
+  .buy-product-button {
+    margin: 20px;
 
-          img {
-            height: auto;
-            width: 90%;
-          }
+    .product-page-buttons {
+      background: $app-buttons;
+      color: white;
+      font-size: 20px;
+      border: none;
+      cursor: pointer;
+      width: 300px;
 
-          .product-price-gender-category {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            margin: 20px;
-            flex-wrap: wrap;
-          }
-        }
+      &:disabled {
+        background: $product-page-disabled;
+        cursor: not-allowed;
       }
 
-      .product-full-page-footer {
-        width: 100%;
-        height: 10vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        .buy-product-button {
-          background: $app-buttons;
-          color: white;
-          font-size: 20px;
-          border: none;
-          cursor: pointer;
-          width: 300px;
-
-          &:disabled {
-            background: $product-page-disabled;
-            cursor: not-allowed;
-          }
-        }
+      .edit {
+        width: auto;
       }
     }
   }

@@ -1,54 +1,62 @@
-<div class="product-full-page">
-  <app-page-header [login]="login"></app-page-header>
+<div class="contain">
+  <div class="row">
+    <app-page-header [login]="login"></app-page-header>
+  </div>
 
-  <div class="back-wrapper">
-    <div class="back-to-main-page">
-      <a class="navigate-back-button" (click)="goToMainPage()">
-        <mat-icon class="arrow-left-icon">keyboard_arrow_left</mat-icon>
-        <label>Back</label>
-      </a>
+  <div class="row">
+    <div class="col-xs-1 back-to-main-page">
+        <a class="navigate-back-button" (click)="goToMainPage()">
+          <mat-icon class="arrow-left-icon">keyboard_arrow_left</mat-icon>
+          <label>Back</label>
+        </a>
     </div>
 
-    <div class="container">
-      <div class="product-full-page-top-part">
-        <div class="product-full-page-top-left">
+    <div class="col-xs-11">
+      <div class="row edit-button end-xs">
+        <button class="product-edit-button"
+                mat-button mat-raised-button
+                color="primary"
+                *ngIf="isAdmin"
+                routerLink="['/product, item.id, /edit']"
+                (click)="goToEditProductsPage()">
+          Edit
+        </button>
+      </div>
 
-          <div class="product-picture">
+      <div class="row item-name center-xs">
+        {{item.name}}
+      </div>
+
+      <div class="row">
+        <div class="col-xs-5">
+
+          <div class="row">
             <img src="{{item.image}}">
           </div>
-          <div class="product-rating">
+
+          <div class="row product-rating">
             <mat-icon color="primary" *ngFor="let i of range">star</mat-icon>
             <mat-icon color="primary" *ngFor="let i of emptyRange">star_border</mat-icon>
           </div>
 
-          <div class="product-price-gender-category">
-            <div class="item-cost"> {{item.cost | currency}}</div>
-            <div class="item-gender"> {{item.gender}}</div>
-            <div class="item-count"> {{item.count | number}} pieces is left in stock.</div>
-            <div class="item-category"> {{categoryName}}</div>
+          <div class="row product-info">
+            <div class="box"> {{item.cost | currency}}</div>
+            <div class="box"> {{item.gender}}</div>
+            <div class="box"> {{categoryName}}</div>
+            <div class="box"> {{item.count | number}} pieces is left in stock.</div>
           </div>
         </div>
-        <div class="product-description">
-          <div class="product-description-title">
-            <button class="product-edit-button"
-                    mat-button mat-raised-button
-                    color="primary"
-                    *ngIf="isAdmin"
-                    routerLink="['/product, item.id, /edit']"
-                    (click)="goToEditProductsPage()">
-              Edit
-            </button>
-            {{item.name}}
-          </div>
+
+        <div class="col-xs-6 description">
           {{item.description}}
         </div>
       </div>
 
-      <div class="product-full-page-footer">
+      <div class="row center-xs buy-product-button">
         <button #buyButton
                 mat-button mat-raised-button
                 type="submit"
-                class="buy-product-button"
+                class="product-page-buttons"
                 (click)="showModal()"
                 [disabled]="item.count < 1">
           Buy
@@ -56,7 +64,11 @@
       </div>
     </div>
   </div>
-  <footer class="footer">
-    <div class="text"> Copyright "Demo Shop", 2018</div>
-  </footer>
+
+
+  <div class="row">
+    <footer class="footer">
+      <div class="text"> Copyright "Demo Shop", 2018</div>
+    </footer>
+  </div>
 </div>
