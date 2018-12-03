@@ -1,92 +1,92 @@
 @import '../../styles/colors';
 @import '../../styles/fonts';
+@import '~flexboxgrid';
 
-.wrapper {
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
-  min-width: 300px;
-  font-family: $font-hiragino-sans-gb;
+.row {
+  margin: 0;
+}
 
-  .container {
-    flex: 1 1 auto;
-    padding: 20px;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    background: $main-page-container-background;
-    width: 80vw;
-    align-self: center;
-    height: 90vh;
-    min-height: fit-content;
-    border: 1px solid gainsboro;
+.filters-and-search {
+  min-width: fit-content;
+  justify-content: center;
 
-    .product-card {
-      background: $product-card-background;
-      margin: 20px;
-      height: fit-content;
-      min-height: 550px;
-      width: 25%;
-      min-width: 200px;
-      box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.75);
-    }
+  .searchString {
+    width: 90%;
 
-    .dropdown-wrapper {
-      display: flex;
-      flex-direction: column;
+    .search-input {
       width: 100%;
-
-      .dropdown {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-
-        .filters-form {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
-
-          > * {
-            margin: 20px;
-            width: 150px;
-          }
-        }
-
-        .filter-buttons {
-          display: flex;
-          justify-content: flex-end;
-          align-items: flex-end;
-
-          > * {
-            background: $app-buttons;
-            color: $white;
-            margin: 25px;
-            font-size: 14px;
-            border: none;
-            cursor: pointer;
-          }
-        }
-
-        .filters-accordion {
-          width: 70%;
-        }
-      }
     }
   }
 
-  .footer {
-    display: flex;
-    align-content: center;
-    order: 1;
-    width: 100vw;
-    padding: 20px 0;
-    background: $black;
-    color: $white;
-    margin: 0;
+  .mat-accordion {
+    width: 90%;
+  }
 
-    .text {
-      margin: 0 20px;
+  .row {
+    justify-content: space-around;
+
+    > * {
+      margin: 20px;
+    }
+  }
+
+  .clear-filters-button {
+    background: $app-buttons;
+    color: $white;
+  }
+
+}
+
+.products {
+  justify-content: space-around;
+
+  .product-card {
+    background: $product-card-background;
+    font-family: $font-hiragino-sans-gb;
+    margin: 20px 10px;
+    height: fit-content;
+    min-height: 500px;
+    width: 25%;
+    min-width: 200px;
+    box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.75);
+  }
+}
+
+.footer {
+  display: flex;
+  align-content: center;
+  order: 1;
+  width: 100vw;
+  padding: 20px 0;
+  background: $black;
+  color: $white;
+  margin: 0;
+
+  .text {
+    margin: 0 20px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .row {
+    .product-card {
+      width: 300px;
+    }
+  }
+
+  .left {
+    display: none;
+  }
+
+  .right {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .row {
+    .product-card {
+      width: 300px;
     }
   }
 }
