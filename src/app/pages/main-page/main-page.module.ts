@@ -7,7 +7,7 @@ import {
   MatExpansionModule,
   MatIconModule,
   MatInputModule,
-  MatOptionModule,
+  MatOptionModule, MatProgressSpinnerModule,
   MatSelectModule,
   MatSliderModule
 } from '@angular/material';
@@ -31,7 +31,8 @@ import { MainPageComponent } from './main-page.component';
     MatExpansionModule,
     MatInputModule,
     MatCheckboxModule,
-    MatSliderModule
+    MatSliderModule,
+    MatProgressSpinnerModule,
   ],
   declarations: [
     MainPageComponent,

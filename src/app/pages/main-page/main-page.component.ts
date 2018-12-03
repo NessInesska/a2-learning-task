@@ -20,6 +20,7 @@ export class MainPageComponent implements OnInit {
   public categories;
   public panelOpenState = false;
   public searchString = '';
+  public isLoading = false;
 
   public genders = ['Woman', 'Man', 'Unisex'];
   public _products = new BehaviorSubject<any[]>([]);
@@ -43,10 +44,12 @@ export class MainPageComponent implements OnInit {
   }
 
   public ngOnInit() {
+    this.isLoading = true;
     this._products.next(this.getProductsInfo());
     setTimeout(() => {
       this.setFilters();
-    }, 500);
+      this.isLoading = false;
+    }, 1000);
   }
 
   public removeProductCard(id) {
@@ -99,6 +102,7 @@ export class MainPageComponent implements OnInit {
   private _tickInterval = 1;
 
   private getProductsInfo(): any {
+    this.isLoading = true;
     const getCategories = this.productService.getCategories();
     const getProductItems = this.productService.getProducts();
 
