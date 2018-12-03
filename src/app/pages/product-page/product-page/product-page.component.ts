@@ -71,7 +71,7 @@ export class ProductPageComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ModalComponent, {
       panelClass: 'custom-dialog-container',
-      data: this.item.name
+      data: 'You have bought ' + this.item.name
     });
 
     dialogRef.afterClosed().subscribe(result => {
