@@ -1,9 +1,14 @@
 @import '../../styles/colors';
 @import '../../styles/fonts';
 @import '~flexboxgrid';
+//@import '~hammerjs';
 
 .row {
   margin: 0;
+
+  .filters {
+    align-items: center;
+  }
 
   .spinner {
     height: 70vh;
@@ -35,11 +40,27 @@
     > * {
       margin: 20px;
     }
+
+    .rating-filter {
+      text-align: center;
+    }
+
+    .price-filter {
+      text-align: center;
+    }
   }
 
   .clear-filters-button {
     background: $app-buttons;
     color: $white;
+  }
+
+  .gender {
+    width: 80px;
+  }
+
+  .category {
+    width: 150px;
   }
 
 }

@@ -1,6 +1,7 @@
 import { coerceNumberProperty } from '@angular/cdk/coercion';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
+import { forEach } from '@angular/router/src/utils/collection';
 import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
 
 import { LOCAL_STORAGE, STATUS_CODES } from '../../constants';
@@ -21,10 +22,13 @@ export class MainPageComponent implements OnInit {
   public panelOpenState = false;
   public searchString = '';
   public isLoading = false;
+  public maxPriceValue: number;
+  public minPriceValue: number;
 
-  public genders = ['Woman', 'Man', 'Unisex'];
+  public genders: string[] = ['Woman', 'Man', 'Unisex'];
   public _products = new BehaviorSubject<any[]>([]);
   public _filteredProducts = new BehaviorSubject<any[]>([]);
+  public pricesArray: number [] = [];
 
   public filtersInput = this.formBuild.group({
     genderFilterControl: new FormControl(),
@@ -45,6 +49,7 @@ export class MainPageComponent implements OnInit {
 
   public ngOnInit() {
     this.isLoading = true;
+    // this._products.next(this.getMaxProductPrice());
     this._products.next(this.getProductsInfo());
     setTimeout(() => {
       this.setFilters();
@@ -60,7 +65,6 @@ export class MainPageComponent implements OnInit {
     this._filteredProducts.next(this._filteredProducts.value
       .filter( product => product.id !== id));
     });
-
   }
 
   public clearFormControls(): void {
@@ -115,6 +119,12 @@ export class MainPageComponent implements OnInit {
       if (localStorage.getItem(LOCAL_STORAGE.IS_ADMIN)) {
         this.isAdmin = true;
       }
+      this._products.forEach((productArr) => {
+        productArr.filter(pr => this.pricesArray.push(+pr.cost));
+      });
+
+      this.maxPriceValue = Math.max.apply(null, this.pricesArray);
+      this.minPriceValue = Math.min.apply(null, this.pricesArray);
     });
   }
 
