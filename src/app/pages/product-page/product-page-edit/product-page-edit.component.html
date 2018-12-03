@@ -160,7 +160,6 @@
       </form>
     </div>
   </div>
-
   <div class="col-xs-1 right"></div>
 </div>
 
@@ -169,7 +168,7 @@
           type="submit"
           mat-button mat-raised-button
           class="buy-product-button"
-          [disabled]="editMainPageForm.invalid">
+          [disabled]="editMainPageForm.invalid" (click)="onSubmit()">
     Save
   </button>
   <button #buyButton

@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
 import { Gender } from '../../../classes/gender.class';
+import { ModalComponent } from '../../../components/modal';
 import { GENDERS } from '../../../constants';
 import { ProductService, RoutingService } from '../../../services';
 
@@ -21,7 +23,6 @@ export class ProductPageEditComponent implements OnInit {
   inputName: string;
 
 
-
   public genders: Gender[] = [];
   public item;
   public categories;
@@ -30,15 +31,15 @@ export class ProductPageEditComponent implements OnInit {
 
   public editMainPageForm = this.formBuild.group({
     itemNameInput: ['', {
-      validators: [Validators.required, Validators.pattern('[a-zA-Z ]*')],
+      validators: [Validators.required, Validators.pattern('[a-zA-Z0-9.,! ]*')],
       updateOn: 'blur'
     }],
     descriptionInput: ['', {
-      validators: [Validators.required, Validators.pattern('[a-zA-Z ]*')],
+      validators: [Validators.required, Validators.pattern('[a-zA-Z0-9.,! ]*')],
       updateOn: 'blur'
     }],
     itemCostInput: [{
-      validators: [Validators.required, Validators.min(0), Validators.pattern('[0-9]*')],
+      validators: [Validators.required, Validators.min(0), Validators.pattern('[0-9.$ ]*')],
       updateOn: 'blur'
     }],
     categorySelect: ['', Validators.required],
@@ -49,7 +50,8 @@ export class ProductPageEditComponent implements OnInit {
   constructor(private productService: ProductService,
               private formBuild: FormBuilder,
               private routingService: RoutingService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              public dialog: MatDialog) {
   }
 
   public ngOnInit() {
@@ -71,6 +73,11 @@ export class ProductPageEditComponent implements OnInit {
   }
 
   public onSubmit() {
+    const dialogRef = this.dialog.open(ModalComponent, {
+      panelClass: 'custom-dialog-container',
+      data: 'You have edited this page'
+    });
+
     if (this.editMainPageForm.valid) {
       this.productService.patchEditedProduct(this.editMainPageForm.value, this.id)
         .subscribe(res => {
@@ -79,6 +86,9 @@ export class ProductPageEditComponent implements OnInit {
         });
       return this.editMainPageForm.value;
     }
+    dialogRef.afterClosed().subscribe(result => {
+      this.routingService.goToProductPage(this.id);
+    });
   }
 
   public onRatingClick(rating: number): void {
@@ -91,7 +101,14 @@ export class ProductPageEditComponent implements OnInit {
   }
 
   public onCancel() {
-    this.routingService.goToProductPage(this.id);
+    const dialogRef = this.dialog.open(ModalComponent, {
+      panelClass: 'custom-dialog-container',
+      data: 'You have cancelled editing this page'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.routingService.goToProductPage(this.id);
+    });
   }
 
   public get itemNameInput() {
