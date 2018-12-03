@@ -14,46 +14,45 @@
     </div>
 
     <div class="row filters-and-search">
-        <mat-accordion>
-          <mat-expansion-panel (opened)="panelOpenState = true"
-                               (closed)="panelOpenState = false">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Filters
-              </mat-panel-title>
-            </mat-expansion-panel-header>
+      <mat-accordion>
+        <mat-expansion-panel (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Filters
+            </mat-panel-title>
+          </mat-expansion-panel-header>
 
-            <form [formGroup]="filtersInput" class="filters-form">
-              <div class="row">
+          <form [formGroup]="filtersInput" class="filters-form">
+            <div class="row filters">
 
-                <div class="box">
-                  <mat-checkbox formControlName="availabilityFilterControl"
-                                color="primary"> Available only
-                  </mat-checkbox>
-                </div>
+              <div class="box">
+                <mat-checkbox formControlName="availabilityFilterControl"
+                              color="primary"> Available only
+                </mat-checkbox>
+              </div>
 
-                <div class="box">
-                  <div class="gender-filter"> Gender
-                    <mat-select #genderFilter placeholder="Gender" formControlName="genderFilterControl">
-                      <mat-option *ngFor="let gender of genders" [value]="gender">
-                        {{gender}}
-                      </mat-option>
-                    </mat-select>
-                  </div>
-                </div>
+              <div class="box gender">
+                <mat-select #genderFilter placeholder="Gender" formControlName="genderFilterControl">
+                  <mat-option *ngFor="let gender of genders" [value]="gender">
+                    {{gender}}
+                  </mat-option>
+                </mat-select>
+              </div>
 
-                <div class="box">
-                  <div class="category-filter"> Category
-                    <mat-select #categoryFilter placeholder="Category" formControlName="categoryFilterControl">
-                      <mat-option *ngFor="let category of categories" [value]="category.id">
-                        {{category.name}}
-                      </mat-option>
-                    </mat-select>
-                  </div>
-                </div>
+              <div class="box category">
+                <mat-select #categoryFilter placeholder="Category" formControlName="categoryFilterControl">
+                  <mat-option *ngFor="let category of categories" [value]="category.id">
+                    {{category.name}}
+                  </mat-option>
+                </mat-select>
+              </div>
 
-                <div class="box">
-                  <div class="rating-filter"> Rating
+              <div class="box rating">
+                <div class="rating-filter">
+                  Rating
+                  <div class="box">
+                    From 0
                     <mat-slider
                       class="example-margin"
                       [max]="5"
@@ -64,37 +63,44 @@
                       color="primary"
                       formControlName="ratingFilterControl">
                     </mat-slider>
+                    To 5
                   </div>
                 </div>
+              </div>
 
-                <div class="box">
-                  <div class="price-filter"> Price more than
+              <div class="box price">
+                <div class="price-filter">
+                  Price
+                  <div class="box">
+                    From {{minPriceValue}}
                     <mat-slider
                       class="example-margin"
-                      [max]="1000"
-                      [min]="0"
+                      [max]="maxPriceValue"
+                      [min]="minPriceValue"
                       [step]="1"
                       [thumbLabel]="true"
                       [tickInterval]="tickInterval"
                       color="primary"
                       formControlName="priceFilterControl">
                     </mat-slider>
+                    To {{maxPriceValue}}
                   </div>
                 </div>
               </div>
-            </form>
-
-            <div class="end-xs">
-              <button class="clear-filters-button"
-                      mat-button
-                      mat-raised-button
-                      type="reset"
-                      (click)="clearFormControls()">
-                Cancel
-              </button>
             </div>
-          </mat-expansion-panel>
-        </mat-accordion>
+          </form>
+
+          <div class="end-xs">
+            <button class="clear-filters-button"
+                    mat-button
+                    mat-raised-button
+                    type="reset"
+                    (click)="clearFormControls()">
+              Reset
+            </button>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
     </div>
 
     <div class="row products" *ngIf="!isLoading">
