@@ -1,38 +1,34 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
+import { ModalComponent } from '../components/modal';
 import { ProductService } from './product.service';
+import { RoutingService } from './routing.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ModalService {
 
-  public isOpened: boolean = false;
   public item = this.productService.item;
+  public isUnauthorised = false;
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService,
+              private routingService: RoutingService,
+              private dialog: MatDialog) {
   }
 
-  public openModal(buyButton: ElementRef, item) {
-    if (this.isOpened) {
-      this.onBuyButtonClick(buyButton, item);
-      return;
-    }
-    this.isOpened = true;
-    setTimeout(() => {
-      this.onBuyButtonClick(buyButton, item);
+  public openModal(data, isUnauthorised?: boolean) {
+    this.isUnauthorised = isUnauthorised;
+
+    const dialogRef = this.dialog.open(ModalComponent, {
+      panelClass: 'custom-dialog-container',
+      data: [data, isUnauthorised]
     });
-  }
 
-  public closeModal() {
-    this.isOpened = false;
-  }
-
-  private onBuyButtonClick(buyButton: ElementRef, item): void {
-    if (buyButton) {
-      buyButton.nativeElement.click();
-      this.productService.patchNumberOfProducts(item.id, item.count, item.soldCount)
-        .subscribe(res => console.log(res));
-    }
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      this.isUnauthorised = false;
+    });
   }
 }
