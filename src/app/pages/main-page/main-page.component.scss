@@ -4,6 +4,13 @@
 
 .row {
   margin: 0;
+
+  .spinner {
+    height: 70vh;
+    width: 100vw;
+    justify-content: center;
+    margin-top: 50px;
+  }
 }
 
 .filters-and-search {
