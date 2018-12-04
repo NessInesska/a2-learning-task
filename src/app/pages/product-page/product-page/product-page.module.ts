@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule } from '@angular/material';
+import { MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material/select';
 
-import { PageHeaderModule } from '../../../components/page-header/index';
-import { ModalService } from '../../../services/index';
-import { ProductPageEditComponent } from '../product-page-edit/index';
+import { PageHeaderModule } from '../../../components/page-header';
+import { ProductPageEditComponent } from '../product-page-edit';
 import { ProductPageComponent } from './product-page.component';
 
 @NgModule({
@@ -21,7 +20,6 @@ import { ProductPageComponent } from './product-page.component';
     MatIconModule,
     MatInputModule,
     MatSelectModule,
-    MatDialogModule,
   ],
   declarations: [
     ProductPageComponent,
@@ -29,9 +27,6 @@ import { ProductPageComponent } from './product-page.component';
   ],
   exports: [
     ProductPageComponent,
-  ],
-  providers: [
-    ModalService,
   ],
 })
 export class ProductPageModule { }
