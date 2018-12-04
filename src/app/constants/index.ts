@@ -5,3 +5,4 @@ export * from './token.constants';
 export * from './gender.constants';
 export * from './local-storage.constants';
 export * from './login-form-controls.constants';
+export * from './messages.constants';

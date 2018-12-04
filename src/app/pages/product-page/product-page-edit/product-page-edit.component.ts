@@ -1,13 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
 import { Gender } from '../../../classes/gender.class';
-import { ModalComponent } from '../../../components/modal';
-import { GENDERS } from '../../../constants';
-import { ProductService, RoutingService } from '../../../services';
+import { GENDERS, MESSAGES } from '../../../constants';
+import { AuthorizationService, ModalService, ProductService, RoutingService } from '../../../services';
 
 @Component({
   selector: 'app-product-page-edit-component',
@@ -27,7 +25,7 @@ export class ProductPageEditComponent implements OnInit {
   public item;
   public categories;
   public id = this.route.snapshot.params['id'];
-  public login;
+  public login: string;
 
   public editMainPageForm = this.formBuild.group({
     itemNameInput: ['', {
@@ -50,11 +48,14 @@ export class ProductPageEditComponent implements OnInit {
   constructor(private productService: ProductService,
               private formBuild: FormBuilder,
               private routingService: RoutingService,
+              private authService: AuthorizationService,
               private route: ActivatedRoute,
-              public dialog: MatDialog) {
+              private modalService: ModalService) {
   }
 
   public ngOnInit() {
+    // this.editMainPageForm
+
     this.inputName = this.itemId + '_rating';
 
     this.genders = GENDERS;
@@ -68,15 +69,13 @@ export class ProductPageEditComponent implements OnInit {
       this.productService.categories = data[0];
       this.categories = this.productService.categories;
       this.item = data[1];
-      this.login = localStorage.getItem('login');
+      this.login = this.authService.getLogin();
     });
   }
 
-  public onSubmit() {
-    const dialogRef = this.dialog.open(ModalComponent, {
-      panelClass: 'custom-dialog-container',
-      data: 'You have edited this page'
-    });
+  public onSubmit(): void {
+
+    this.modalService.openModal({message: MESSAGES.YOU_EDITED_PRODUCT_PAGE, isUnauthorised: false});
 
     if (this.editMainPageForm.valid) {
       this.productService.patchEditedProduct(this.editMainPageForm.value, this.id)
@@ -86,9 +85,6 @@ export class ProductPageEditComponent implements OnInit {
         });
       return this.editMainPageForm.value;
     }
-    dialogRef.afterClosed().subscribe(result => {
-      this.routingService.goToProductPage(this.id);
-    });
   }
 
   public onRatingClick(rating: number): void {
@@ -100,30 +96,24 @@ export class ProductPageEditComponent implements OnInit {
     });
   }
 
-  public onCancel() {
-    const dialogRef = this.dialog.open(ModalComponent, {
-      panelClass: 'custom-dialog-container',
-      data: 'You have cancelled editing this page'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.routingService.goToProductPage(this.id);
-    });
+  public onCancel(): void {
+    this.modalService.openModal({message: MESSAGES.YOU_CANCELLED_EDITING_PAGE, isUnauthorised: false});
+    this.routingService.goToProductPage(this.id);
   }
 
-  public get itemNameInput() {
+  public get itemNameInput(): AbstractControl {
     return this.editMainPageForm.controls['itemNameInput'];
   }
 
-  public get descriptionInput() {
+  public get descriptionInput(): AbstractControl {
     return this.editMainPageForm.controls['descriptionInput'];
   }
 
-  public get itemCostInput() {
+  public get itemCostInput(): AbstractControl {
     return this.editMainPageForm.controls['itemCostInput'];
   }
 
-  public get categorySelect() {
+  public get categorySelect(): AbstractControl {
     return this.editMainPageForm.controls['categorySelect'];
   }
 }

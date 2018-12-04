@@ -10,20 +10,20 @@ import { AuthorizationService, RoutingService } from '../../services';
 export class PageHeaderComponent {
 
   @Input() login: string;
-  @Input() notFound;
+  @Input() notFound: boolean;
 
   constructor(private authService: AuthorizationService,
               private routingService: RoutingService) {
   }
 
-  public logout(login) {
+  public logout(login): void {
     this.authService.logout(login);
     this.authService.removeToken();
     this.authService.clearLocalStorage();
     this.routingService.goToLoginPage();
   }
 
-  public goToMainPage() {
+  public goToMainPage(): void {
     this.routingService.goToMainPage();
   }
 }

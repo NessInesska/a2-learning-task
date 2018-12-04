@@ -12,7 +12,9 @@ export class GlobalErrorHandler implements ErrorHandler {
     if (error instanceof HttpErrorResponse) {
     const modal = this.injector.get(ModalService);
 
-    modal.openModal(error.message, true);
+    setTimeout(() => {
+      modal.openModal({message: error.message, isUnauthorised: true});
+    });
 
     throw error;
     }

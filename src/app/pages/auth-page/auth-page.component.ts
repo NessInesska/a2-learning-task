@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
 
-import { LOCAL_STORAGE, STATUS_CODES, LOGIN_FORM_CONTROLS } from '../../constants';
-import { AuthorizationService, ProductService, RoutingService, UserService } from '../../services';
+import { LOCAL_STORAGE, STATUS_CODES, LOGIN_FORM_CONTROLS, MESSAGES } from '../../constants';
+import { AuthorizationService, ModalService, ProductService, RoutingService, UserService } from '../../services';
 
 @Component({
   selector: 'app-auth-page',
@@ -24,17 +24,18 @@ export class AuthPageComponent {
     }]
   });
 
-  public wrongPassword = false;
+  public wrongPassword: boolean = false;
 
   constructor(private authorizationService: AuthorizationService,
               private userService: UserService,
               private productService: ProductService,
               private routingService: RoutingService,
+              private modalService: ModalService,
               private cd: ChangeDetectorRef,
               private formBuild: FormBuilder) {
   }
 
-  public onLogin() {
+  public onLogin(): void {
     const login = this.loginInput.value;
     const password = this.passwordInput.value;
 
@@ -68,7 +69,7 @@ export class AuthPageComponent {
         (res: Response) => {
           if (res.status === STATUS_CODES.BAD_REQUEST) {
             this.wrongPassword = true;
-            alert('wrong login and/or password');
+            this.modalService.openModal({message: MESSAGES.WRONG_LOGIN_PASSWORD, isUnauthorised: false});
           } else if (res.status === STATUS_CODES.NOT_FOUND) {
             this.routingService.goToNotFoundPage();
           } else if (res.status === STATUS_CODES.INTERNAL_SERVER_ERROR) {
@@ -78,15 +79,15 @@ export class AuthPageComponent {
     }
   }
 
-  public get getFormControls() {
+  public get getFormControls(): object {
     return this.loginForm.controls;
   }
 
-  public get loginInput() {
+  public get loginInput(): AbstractControl {
     return this.loginForm.controls[LOGIN_FORM_CONTROLS.LOGIN_INPUT];
   }
 
-  public get passwordInput() {
+  public get passwordInput(): AbstractControl {
     return this.loginForm.controls[LOGIN_FORM_CONTROLS.PASSWORD_INPUT];
   }
 }

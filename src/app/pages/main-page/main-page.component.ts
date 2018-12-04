@@ -1,11 +1,11 @@
 import { coerceNumberProperty } from '@angular/cdk/coercion';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
-import { forEach } from '@angular/router/src/utils/collection';
+import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
 
+import { Product } from '../../classes';
 import { LOCAL_STORAGE, STATUS_CODES } from '../../constants';
-import { ProductService, RoutingService, UserService } from '../../services';
+import { AuthorizationService, ProductService, RoutingService, UserService } from '../../services';
 
 @Component({
   selector: 'app-main-page',
@@ -14,9 +14,9 @@ import { ProductService, RoutingService, UserService } from '../../services';
 })
 export class MainPageComponent implements OnInit {
 
+  public hasLogin: boolean = false;
   public login: string;
-  public productArray;
-  public item;
+  public item: Product;
   public isAdmin = false;
   public categories;
   public panelOpenState = false;
@@ -26,11 +26,11 @@ export class MainPageComponent implements OnInit {
   public minPriceValue: number;
 
   public genders: string[] = ['Woman', 'Man', 'Unisex'];
-  public _products = new BehaviorSubject<any[]>([]);
-  public _filteredProducts = new BehaviorSubject<any[]>([]);
+  public _products: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
+  public _filteredProducts: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
   public pricesArray: number [] = [];
 
-  public filtersInput = this.formBuild.group({
+  public filtersInput: FormGroup = this.formBuild.group({
     genderFilterControl: new FormControl(),
     categoryFilterControl: new FormControl(),
     availabilityFilterControl: new FormControl(),
@@ -44,12 +44,13 @@ export class MainPageComponent implements OnInit {
   constructor(private userService: UserService,
               private formBuild: FormBuilder,
               private routingService: RoutingService,
-              private productService: ProductService) {
+              private productService: ProductService,
+              private authService: AuthorizationService) {
   }
 
   public ngOnInit() {
+    this.login = this.authService.getLogin();
     this.isLoading = true;
-    // this._products.next(this.getMaxProductPrice());
     this._products.next(this.getProductsInfo());
     setTimeout(() => {
       this.setFilters();
@@ -57,7 +58,7 @@ export class MainPageComponent implements OnInit {
     }, 1000);
   }
 
-  public removeProductCard(id) {
+  public removeProductCard(id: string): void {
     this.productService.deleteItemById(id).subscribe((result: Response) => {
       if (result.status === STATUS_CODES.NOT_FOUND) {
         this.routingService.goToNotFoundPage();
@@ -75,23 +76,23 @@ export class MainPageComponent implements OnInit {
     this.priceFilterControl.setValue('');
   }
 
-  public get genderFilterControl() {
+  public get genderFilterControl(): AbstractControl {
     return this.filtersInput.controls['genderFilterControl'];
   }
 
-  public get categoryFilterControl() {
+  public get categoryFilterControl(): AbstractControl {
     return this.filtersInput.controls['categoryFilterControl'];
   }
 
-  public get availabilityFilterControl() {
+  public get availabilityFilterControl(): AbstractControl {
     return this.filtersInput.controls['availabilityFilterControl'];
   }
 
-  public get ratingFilterControl() {
+  public get ratingFilterControl(): AbstractControl {
     return this.filtersInput.controls['ratingFilterControl'];
   }
 
-  public get priceFilterControl() {
+  public get priceFilterControl(): AbstractControl {
     return this.filtersInput.controls['priceFilterControl'];
   }
 
@@ -115,10 +116,13 @@ export class MainPageComponent implements OnInit {
       // data [1] is products
       this.categories = data[0];
       this._products.next(data[1]);
-      this.login = localStorage.getItem('login');
-      if (localStorage.getItem(LOCAL_STORAGE.IS_ADMIN)) {
+
+      this.hasLogin = this.authService.hasLogin();
+
+      if (this.authService.hasIsAdmin()) {
         this.isAdmin = true;
       }
+
       this._products.forEach((productArr) => {
         productArr.filter(pr => this.pricesArray.push(+pr.cost));
       });
@@ -128,7 +132,7 @@ export class MainPageComponent implements OnInit {
     });
   }
 
-  private setFilters() {
+  private setFilters(): void {
     this._filteredProducts.next(this._products.value);
 
     combineLatest(

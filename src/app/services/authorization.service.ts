@@ -13,6 +13,7 @@ export class AuthorizationService {
 
   constructor(private http: HttpClient) { }
 
+  // TODO: move all work with localStorage to separate service
   public getToken(): string {
     return localStorage.getItem('session-token');
   }
@@ -36,6 +37,14 @@ export class AuthorizationService {
 
   public hasIsAdmin(): boolean {
     if (localStorage.getItem(LOCAL_STORAGE.IS_ADMIN)) { return true; }
+  }
+
+  public hasLogin(): boolean {
+    if (localStorage.getItem(LOCAL_STORAGE.LOGIN)) {return true; }
+  }
+
+  public getLogin(): string {
+    return localStorage.getItem(LOCAL_STORAGE.LOGIN);
   }
 
   public handleLogin(res): void {

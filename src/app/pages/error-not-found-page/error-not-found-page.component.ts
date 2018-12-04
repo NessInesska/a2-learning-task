@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 export class ErrorNotFoundPageComponent {
 
-  public notFound = true;
+  public notFound: boolean = true;
 }

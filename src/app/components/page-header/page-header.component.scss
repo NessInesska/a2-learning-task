@@ -1,4 +1,5 @@
 @import '../../styles/colors';
+@import '../../styles/fonts';
 
 .header {
   flex-shrink: 0;
@@ -9,6 +10,7 @@
   justify-content: space-between;
   min-width: 300px;
   width: 100vw;
+  font-family: $font-hiragino-sans-gb;
 
   .header-logo {
     padding: 0 20px;
