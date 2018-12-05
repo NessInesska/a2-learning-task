@@ -116,6 +116,10 @@
       </app-product-card>
     </div>
 
+    <div class="row center-xs middle-xs nothing-to-show" *ngIf="!isLoading && (_filteredProducts.value.length === 0)">
+      Sorry, there is nothing to show.
+    </div>
+
     <div class="row spinner" *ngIf="isLoading">
       <mat-spinner color="primary"></mat-spinner>
     </div>

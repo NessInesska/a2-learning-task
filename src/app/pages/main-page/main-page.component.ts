@@ -23,6 +23,7 @@ export class MainPageComponent implements OnInit {
   public isLoading = false;
   public maxPriceValue: number;
   public minPriceValue: number;
+  public isNothingFound: boolean = false;
 
   public genders: string[] = ['Woman', 'Man', 'Unisex'];
   public _products: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);

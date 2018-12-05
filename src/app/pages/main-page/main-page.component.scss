@@ -70,6 +70,13 @@
   }
 }
 
+.nothing-to-show {
+  height: 60vh;
+  font-family: $font-hiragino-sans-gb;
+  font-size: 30px;
+  text-align: center;
+}
+
 @media only screen and (max-width: 800px) {
   .row {
     .product-card {
