@@ -1,10 +1,9 @@
-import { coerceNumberProperty } from '@angular/cdk/coercion';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
 
 import { Product } from '../../classes';
-import { LOCAL_STORAGE, STATUS_CODES } from '../../constants';
+import { STATUS_CODES } from '../../constants';
 import { AuthorizationService, ProductService, RoutingService, UserService } from '../../services';
 
 @Component({
@@ -98,10 +97,6 @@ export class MainPageComponent implements OnInit {
 
   public get tickInterval(): number | 'auto' {
     return this.showTicks ? (this.autoTicks ? 'auto' : this._tickInterval) : 0;
-  }
-
-  public set tickInterval(value) {
-    this._tickInterval = coerceNumberProperty(value);
   }
 
   private _tickInterval = 1;

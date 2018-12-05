@@ -55,10 +55,11 @@ export class AuthPageComponent {
               // data[1][0] is current user
               this.userService.adminRole = data[0][0];
               this.userService.currentUser = data[1][0];
-              localStorage.setItem(LOCAL_STORAGE.LOGIN, this.userService.currentUser.login);
+
+              this.authorizationService.setLocalStorageItem(LOCAL_STORAGE.LOGIN, this.userService.currentUser.login);
               if (this.userService.adminRole.id === this.userService.currentUser.roleId) {
                 this.userService.isAdmin = true;
-                localStorage.setItem(LOCAL_STORAGE.IS_ADMIN, this.userService.isAdmin.toString());
+                this.authorizationService.setLocalStorageItem(LOCAL_STORAGE.IS_ADMIN, this.userService.isAdmin.toString());
               }
             });
 

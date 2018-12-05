@@ -1,22 +1,22 @@
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { RoutingService } from './services';
-import { ENDPOINTS, STATUS_CODES } from './constants';
-
+import { AuthorizationService, RoutingService } from './services';
+import { ENDPOINTS, LOCAL_STORAGE, STATUS_CODES } from './constants';
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
 
-  constructor(private routerService: RoutingService) {
+  constructor(private routerService: RoutingService,
+              private authService: AuthorizationService) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    if (!request.url.includes(ENDPOINTS.LOGIN) && !request.headers.has('session-token')) {
-      request = request.clone({headers: request.headers.set('session-token', localStorage.getItem('session-token'))});
+    if (!request.url.includes(ENDPOINTS.LOGIN) && !request.headers.has(LOCAL_STORAGE.SESSION_TOKEN)) {
+      request = request.clone({headers: request.headers.set(LOCAL_STORAGE.SESSION_TOKEN, this.authService.getToken())});
     }
 
     return next.handle(request).pipe(tap(error => {

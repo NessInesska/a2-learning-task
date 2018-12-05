@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
 
 import { User } from '../classes';
+import { Role } from '../classes/role.class';
 import { ENDPOINTS } from '../constants';
 
 @Injectable({
@@ -24,10 +24,10 @@ export class UserService {
 
     params = params.append('login', this.login);
 
-    return this.http.get<User>(`${environment.baseUrl}${ENDPOINTS.USERS}`, {params});
+    return this.http.get<User>(`${ENDPOINTS.USERS}`, {params});
   }
 
-  public getRoles(): Observable<any> {
-    return this.http.get<any>(`${environment.baseUrl}${ENDPOINTS.ROLES}`);
+  public getRoles(): Observable<Role> {
+    return this.http.get<Role>(`${ENDPOINTS.ROLES}`);
   }
 }

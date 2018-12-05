@@ -33,19 +33,23 @@
               </div>
 
               <div class="box gender">
-                <mat-select #genderFilter placeholder="Gender" formControlName="genderFilterControl">
-                  <mat-option *ngFor="let gender of genders" [value]="gender">
-                    {{gender}}
-                  </mat-option>
-                </mat-select>
+                <mat-form-field>
+                  <mat-select #genderFilter placeholder="Gender" formControlName="genderFilterControl">
+                    <mat-option *ngFor="let gender of genders" [value]="gender">
+                      {{gender}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
               </div>
 
               <div class="box category">
-                <mat-select #categoryFilter placeholder="Category" formControlName="categoryFilterControl">
-                  <mat-option *ngFor="let category of categories" [value]="category.id">
-                    {{category.name}}
-                  </mat-option>
-                </mat-select>
+                <mat-form-field>
+                  <mat-select #categoryFilter placeholder="Category" formControlName="categoryFilterControl">
+                    <mat-option *ngFor="let category of categories" [value]="category.id">
+                      {{category.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
               </div>
 
               <div class="box rating">
@@ -121,7 +125,5 @@
 </div>
 
 <div class="row">
-  <footer class="footer">
-    <div class="text"> Copyright "Demo Shop", 2018</div>
-  </footer>
+  <app-page-footer></app-page-footer>
 </div>

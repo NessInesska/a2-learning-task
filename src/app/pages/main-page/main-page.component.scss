@@ -37,7 +37,7 @@
     justify-content: space-around;
 
     > * {
-      margin: 20px;
+      margin: 15px;
     }
 
     .rating-filter {
@@ -53,15 +53,6 @@
     background: $app-buttons;
     color: $white;
   }
-
-  .gender {
-    width: 80px;
-  }
-
-  .category {
-    width: 150px;
-  }
-
 }
 
 .products {
@@ -76,21 +67,6 @@
     width: 25%;
     min-width: 200px;
     box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.75);
-  }
-}
-
-.footer {
-  display: flex;
-  align-content: center;
-  order: 1;
-  width: 100vw;
-  padding: 20px 0;
-  background: $black;
-  color: $white;
-  margin: 0;
-
-  .text {
-    margin: 0 20px;
   }
 }
 

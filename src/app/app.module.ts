@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { ModalComponent } from './components/modal';
+import { PageFooterModule } from './components/page-footer/page-footer.module';
 import { GlobalErrorHandler } from './global-error-handler';
 import { AuthPageModule } from './pages/auth-page';
 import { PageHeaderModule } from './components/page-header';
@@ -18,12 +19,14 @@ import { MainPageModule } from './pages/main-page';
 import { Interceptor } from './interceptor';
 import { AuthorizationService, RoutingService, UserService, ProductService, ModalService } from './services';
 import { ErrorNotFoundPageComponent } from './pages/error-not-found-page';
+import { InternalServerErrorComponent } from './pages/internal-server-error';
 
 @NgModule({
   declarations: [
     AppComponent,
     ErrorNotFoundPageComponent,
     ModalComponent,
+    InternalServerErrorComponent,
   ],
   entryComponents: [
     ModalComponent,
@@ -34,6 +37,7 @@ import { ErrorNotFoundPageComponent } from './pages/error-not-found-page';
     ProductCardModule,
     ProductPageModule,
     PageHeaderModule,
+    PageFooterModule,
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,

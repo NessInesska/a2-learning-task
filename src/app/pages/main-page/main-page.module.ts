@@ -12,6 +12,7 @@ import {
   MatSliderModule
 } from '@angular/material';
 
+import { PageFooterModule } from '../../components/page-footer/page-footer.module';
 import { PageHeaderModule } from '../../components/page-header';
 import { ProductCardModule } from '../../components/product-card';
 import { SearchPipe } from '../../pipes';
@@ -23,6 +24,7 @@ import { MainPageComponent } from './main-page.component';
     ProductCardModule,
     MatIconModule,
     PageHeaderModule,
+    PageFooterModule,
     MatOptionModule,
     MatSelectModule,
     MatButtonModule,

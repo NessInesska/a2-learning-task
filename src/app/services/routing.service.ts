@@ -30,6 +30,10 @@ export class RoutingService {
     return this.router.navigate([ROUTING_PATHES.NOT_FOUND]);
   }
 
+  public goToServerErrorPage(): Promise<boolean> {
+    return this.router.navigate([ROUTING_PATHES.INTERNAL_SERVER_ERROR]);
+  }
+
   public navigate(path): Promise<boolean> {
     return this.router.navigate(path);
   }

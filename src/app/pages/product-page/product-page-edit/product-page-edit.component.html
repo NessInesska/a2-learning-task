@@ -3,27 +3,26 @@
     <app-page-header [login]="login"></app-page-header>
   </div>
 
-  <div class="col-xs-1  back-to-main-page">
-    <a class="navigate-back-button" (click)="goToMainPage()">
-      <mat-icon class="arrow-left-icon">keyboard_arrow_left</mat-icon>
-      <label>Back</label>
-    </a>
-  </div>
-
-  <div class="col-xs">
-    <div class="row end-xs">
-      <button class="product-edit-button"
-              mat-button mat-raised-button
-              color="primary"
-              [disabled]="true"
-              (click)="goToEditProductsPage($event)">
-        Edit
-      </button>
+  <div class="row main-row">
+    <div class="col-xs-1 back-to-main-page">
+      <a class="navigate-back-button" (click)="goToMainPage()">
+        <mat-icon class="arrow-left-icon">keyboard_arrow_left</mat-icon>
+        <label>Back</label>
+      </a>
     </div>
 
-    <div class="row">
-      <form [formGroup]="editMainPageForm" (ngSubmit)="onSubmit()" class="col-xs-12">
+    <div class="col-xs">
+      <div class="row end-xs">
+        <button class="product-edit-button"
+                mat-button mat-raised-button
+                color="primary"
+                [disabled]="true"
+                (click)="goToEditProductsPage($event)">
+          Edit
+        </button>
+      </div>
 
+      <form [formGroup]="editMainPageForm" (ngSubmit)="onSubmit()">
         <div class="row center-xs">
           <mat-form-field class="item-name-input">
             <input id="itemNameInput"
@@ -88,7 +87,7 @@
                 </mat-form-field>
               </div>
 
-              <div class="row box">
+              <div class="row">
                 <div *ngIf="itemCostInput.invalid && (itemCostInput.dirty || itemCostInput.touched)"
                      class="alert alert-danger">
                   <div *ngIf="itemCostInput.errors.required">
@@ -126,7 +125,7 @@
             </div>
           </div>
 
-          <div class="col-xs-5 description">
+          <div class="col-xs description">
             <div class="row">
               <mat-form-field>
                 <textarea id="descriptionInput"
@@ -157,31 +156,27 @@
           </div>
         </div>
       </form>
+
+      <div class="row center-xs product-full-page-footer">
+        <button #buyButton
+                type="submit"
+                mat-button mat-raised-button
+                class="buy-product-button"
+                [disabled]="editMainPageForm.invalid" (click)="onSubmit()">
+          Save
+        </button>
+        <button #buyButton
+                type="reset"
+                mat-button mat-raised-button
+                class="buy-product-button"
+                (click)="onCancel()">
+          Cancel
+        </button>
+      </div>
     </div>
   </div>
-  <div class="col-xs-1 right"></div>
-</div>
 
-<div class="row center-xs middle-xs product-full-page-footer">
-  <button #buyButton
-          type="submit"
-          mat-button mat-raised-button
-          class="buy-product-button"
-          [disabled]="editMainPageForm.invalid" (click)="onSubmit()">
-    Save
-  </button>
-  <button #buyButton
-          type="reset"
-          mat-button mat-raised-button
-          class="buy-product-button"
-          (click)="onCancel()">
-    Cancel
-  </button>
-</div>
-
-
-<div class="row">
-  <footer class="footer">
-    <div class="text"> Copyright "Demo Shop", 2018</div>
-  </footer>
+  <div class="row">
+    <app-page-footer></app-page-footer>
+  </div>
 </div>
