@@ -1,11 +1,11 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
-import { ModalComponent } from '../../../components/modal';
-import { ProductService, ModalService, RoutingService, UserService } from '../../../services';
+import { Product } from '../../../classes';
+import { MESSAGES } from '../../../constants';
+import { ProductService, ModalService, RoutingService, UserService, AuthorizationService } from '../../../services';
 
 @Component({
   selector: 'app-product-page',
@@ -20,9 +20,8 @@ export class ProductPageComponent implements OnInit {
   public range: number[] = [];
   public emptyRange: number[] = [];
   public id: string;
-  public isAdmin = false;
+  public isAdmin: boolean = false;
   public login: string;
-  public category;
   public categoryName: string;
 
   constructor(private route: ActivatedRoute,
@@ -30,8 +29,8 @@ export class ProductPageComponent implements OnInit {
               private modalService: ModalService,
               private routingService: RoutingService,
               private userService: UserService,
+              private authService: AuthorizationService,
               private cd: ChangeDetectorRef,
-              public dialog: MatDialog,
               private location: Location) {
   }
 
@@ -46,16 +45,13 @@ export class ProductPageComponent implements OnInit {
       // data[1] is currentProduct
       this.productService.categories = data[0];
       this.item = data[1];
-      if (localStorage.getItem('isAdmin')) {
+      if (this.authService.hasIsAdmin()) {
         this.isAdmin = true;
       }
-      this.login = localStorage.getItem('login');
+      this.login = this.authService.getLogin();
 
-      this.category = this.productService.categories.filter(cat => {
-        if (cat.id === this.item.categoryId) {
-          this.categoryName = cat.name;
-        }
-      });
+      const category = this.productService.categories.find(categor => categor.id === this.item.categoryId);
+      this.categoryName = category ? category.name : null;
 
       this.range = new Array(this.item.rating);
       this.emptyRange = new Array((5 - this.item.rating));
@@ -65,25 +61,17 @@ export class ProductPageComponent implements OnInit {
   }
 
   public showModal(): void {
-
     this.productService.patchNumberOfProducts(this.item.id, this.item.count, this.item.soldCount)
       .subscribe(res => this.item = res);
 
-    const dialogRef = this.dialog.open(ModalComponent, {
-      panelClass: 'custom-dialog-container',
-      data: 'You have bought ' + this.item.name
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+    this.modalService.openModal({message: MESSAGES.YOU_BOUGHT + this.item.name, isUnauthorised: false});
   }
 
-  public goToEditProductsPage() {
+  public goToEditProductsPage(): void {
     this.routingService.goToEditProductPage(this.id);
   }
 
-  public goToMainPage() {
+  public goToMainPage(): void {
     this.location.back();
   }
 }

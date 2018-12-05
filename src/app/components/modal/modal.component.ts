@@ -1,6 +1,7 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
-import { RoutingService } from '../../services';
+
+import { AuthorizationService, RoutingService } from '../../services';
 
 @Component({
   selector: 'app-modal',
@@ -9,12 +10,13 @@ import { RoutingService } from '../../services';
 })
 export class ModalComponent {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-              private routingService: RoutingService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: object,
+              private routingService: RoutingService,
+              private authService: AuthorizationService) {
   }
 
   public goToLogin(): void {
-    localStorage.clear();
+    this.authService.clearLocalStorage();
     this.routingService.goToLoginPage();
   }
 }

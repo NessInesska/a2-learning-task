@@ -37,7 +37,7 @@
     justify-content: space-around;
 
     > * {
-      margin: 20px;
+      margin: 15px;
     }
 
     .rating-filter {
@@ -53,15 +53,6 @@
     background: $app-buttons;
     color: $white;
   }
-
-  .gender {
-    width: 80px;
-  }
-
-  .category {
-    width: 150px;
-  }
-
 }
 
 .products {
@@ -79,19 +70,11 @@
   }
 }
 
-.footer {
-  display: flex;
-  align-content: center;
-  order: 1;
-  width: 100vw;
-  padding: 20px 0;
-  background: $black;
-  color: $white;
-  margin: 0;
-
-  .text {
-    margin: 0 20px;
-  }
+.nothing-to-show {
+  height: 60vh;
+  font-family: $font-hiragino-sans-gb;
+  font-size: 30px;
+  text-align: center;
 }
 
 @media only screen and (max-width: 800px) {

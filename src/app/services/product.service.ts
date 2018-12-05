@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { environment } from '../../environments/environment';
 import { Category, Product } from '../classes';
 import { ENDPOINTS } from '../constants';
 
@@ -17,20 +16,20 @@ export class ProductService {
   constructor(private http: HttpClient) {
   }
 
-  public getProducts(): Observable<any> {
-    return this.http.get<any>(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}`);
+  public getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${ENDPOINTS.PRODUCTS}`);
   }
 
   public getProductById(id: string): Observable<Product> {
-    return this.http.get<Product>(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}/${id}`);
+    return this.http.get<Product>(`${ENDPOINTS.PRODUCTS}/${id}`);
   }
 
   public patchNumberOfProducts(id, count, soldCount): Observable<Response> {
-    return this.http.patch<Response>(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}/${id}`, {count: count - 1, soldCount: soldCount + 1});
+    return this.http.patch<Response>(`${ENDPOINTS.PRODUCTS}/${id}`, {count: count - 1, soldCount: soldCount + 1});
   }
 
   public patchEditedProduct(data, id: string): Observable<Response> {
-    return this.http.patch<Response>(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}/${id}`,
+    return this.http.patch<Response>(`${ENDPOINTS.PRODUCTS}/${id}`,
       {name: data.itemNameInput,
         description: data.descriptionInput,
         cost: data.itemCostInput,
@@ -41,10 +40,10 @@ export class ProductService {
   }
 
   public getCategories(): Observable<Category> {
-    return this.http.get<Category>(`${environment.baseUrl}${ENDPOINTS.CATEGORIES}`);
+    return this.http.get<Category>(`${ENDPOINTS.CATEGORIES}`);
   }
 
-  public deleteItemById(id: string) {
-    return this.http.delete(`${environment.baseUrl}${ENDPOINTS.PRODUCTS}/${id}`);
+  public deleteItemById(id: string): Observable<Object> {
+    return this.http.delete(`${ENDPOINTS.PRODUCTS}/${id}`);
   }
 }

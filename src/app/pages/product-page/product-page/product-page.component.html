@@ -5,14 +5,14 @@
 
   <div class="row">
     <div class="col-xs-1 back-to-main-page">
-        <a class="navigate-back-button" (click)="goToMainPage()">
-          <mat-icon class="arrow-left-icon">keyboard_arrow_left</mat-icon>
-          <label>Back</label>
-        </a>
+      <a class="navigate-back-button" (click)="goToMainPage()">
+        <mat-icon class="arrow-left-icon">keyboard_arrow_left</mat-icon>
+        <label>Back</label>
+      </a>
     </div>
 
     <div class="col-xs">
-      <div class="row edit-button end-xs">
+      <div class="row end-xs">
         <button class="product-edit-button"
                 mat-button mat-raised-button
                 color="primary"
@@ -39,9 +39,26 @@
           </div>
 
           <div class="row product-info">
-            <div class="box"> {{item.cost | currency}}</div>
-            <div class="box"> {{item.gender}}</div>
-            <div class="box"> {{categoryName}}</div>
+            <div class="box">
+              <div class="row title"> Price</div>
+              <div class="row"> {{item.cost | currency}}</div>
+            </div>
+            <div class="box">
+              <div class="row title">
+                Gender
+              </div>
+              <div class="row">
+                {{item.gender}}
+              </div>
+            </div>
+            <div class="box">
+              <div class="row title">
+                Category
+              </div>
+              <div class="row">
+                {{categoryName}}
+              </div>
+            </div>
             <div class="box"> {{item.count | number}} pieces is left in stock.</div>
           </div>
         </div>
@@ -68,8 +85,6 @@
 
 
   <div class="row">
-    <footer class="footer">
-      <div class="text"> Copyright "Demo Shop", 2018</div>
-    </footer>
+    <app-page-footer></app-page-footer>
   </div>
 </div>

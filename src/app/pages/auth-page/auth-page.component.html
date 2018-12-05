@@ -5,18 +5,22 @@
     </div>
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
 
+<!--TODO: add flexboxgrid to this layout-->
+
       <div class="login-page login-page-inputs form-group"
            [ngClass]="{ 'has-error': submitted && getFormControls.login.errors }">
-        <label for="loginInput"> Your login: </label>
-
         <div class="login-page-inputs input-and-icon-row">
           <mat-icon>person</mat-icon>
           <div class="input-element">
-            <input id="loginInput"
-                   name="loginInput"
-                   type="text"
-                   class="form-control"
-                   formControlName="loginInput">
+            <mat-form-field>
+              <input id="loginInput"
+                     matInput
+                     name="loginInput"
+                     type="text"
+                     class="form-control"
+                     placeholder="Login"
+                     formControlName="loginInput">
+            </mat-form-field>
           </div>
         </div>
 
@@ -33,16 +37,18 @@
           </div>
         </div>
 
-        <label for="passwordInput">Password: </label>
-
         <div class="login-page-inputs input-and-icon-row">
           <mat-icon>lock</mat-icon>
           <div class="input-element">
+            <mat-form-field>
             <input id="passwordInput"
+                   matInput
                    name="passwordInput"
                    type="password"
                    class="form-control"
+                   placeholder="Password"
                    formControlName="passwordInput">
+            </mat-form-field>
           </div>
         </div>
 

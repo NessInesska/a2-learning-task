@@ -9,10 +9,10 @@
   font-family: $font-hiragino-sans-gb;
   height: 100vh;
 
-  .not-found {
-    color: $white;
+  .picture-wrapper {
+    color: $alert-message;
     text-align: center;
     height: 100%;
-    background: $error-not-found-bg;
+    background: $internal-server-error-bg;
   }
 }

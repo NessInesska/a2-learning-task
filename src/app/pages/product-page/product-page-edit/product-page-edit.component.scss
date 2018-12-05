@@ -40,6 +40,10 @@
     }
   }
 
+  .main-row {
+    width: 100vw;
+  }
+
   .row {
     font-family: $font-hiragino-sans-gb;
     margin: 0;
@@ -56,6 +60,7 @@
     .product-rating {
       .rating {
         float: left;
+        border: none;
       }
 
       .rating:not(:checked) > input {
@@ -123,25 +128,12 @@
       border: none;
       cursor: pointer;
       width: 300px;
+      margin: 10px;
 
       &:disabled {
         background: $product-page-disabled;
         cursor: not-allowed;
       }
-    }
-  }
-
-  .footer {
-    display: flex;
-    align-content: center;
-    order: 1;
-    width: 100vw;
-    padding: 20px 0;
-    background: $black;
-    color: $white;
-
-    .text {
-      padding: 0 20px;
     }
   }
 }
@@ -159,6 +151,18 @@
     .product-info-pic {
       width: 90vw;
     }
+
+    .row {
+      justify-content: center;
+
+      .form-field {
+        width: 200px;
+      }
+    }
+  }
+
+  .buy-product-button {
+    margin: 5px;
   }
 
   .col-xs-6 {

@@ -17,6 +17,7 @@ import { AuthPageComponent } from './auth-page.component';
     MatIconModule,
     MatFormFieldModule,
     ReactiveFormsModule,
+    MatInputModule,
   ],
   declarations: [
     AuthPageComponent,
