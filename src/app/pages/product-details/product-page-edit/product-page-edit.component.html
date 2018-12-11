@@ -1,0 +1,161 @@
+<div class="row main-row">
+  <div class="col-xs-1 back-to-main-page">
+    <a class="navigate-back-button" (click)="goToProductPage()">
+      <mat-icon class="arrow-left-icon">keyboard_arrow_left</mat-icon>
+      <label>Back</label>
+    </a>
+  </div>
+
+  <div class="col-xs">
+    <div class="row end-xs">
+      <button class="product-edit-button"
+              mat-button mat-raised-button
+              color="primary"
+              [disabled]="true">
+        Edit
+      </button>
+    </div>
+
+    <form [formGroup]="editMainPageForm" (ngSubmit)="onSubmit()">
+      <div class="row center-xs">
+        <mat-form-field class="item-name-input">
+          <input id="itemNameInput"
+                 matInput
+                 name="itemNameControl"
+                 type="text"
+                 class="form-control"
+                 placeholder="Product name: "
+                 formControlName="itemNameControl">
+        </mat-form-field>
+      </div>
+
+      <div class="row center-xs">
+        <div *ngIf="itemNameControl.invalid && (itemNameControl.dirty || itemNameControl.touched)"
+             class="alert alert-danger">
+          <div *ngIf="itemNameControl.errors.required">
+            Product name is required.
+          </div>
+          <div *ngIf="itemNameControl.errors?.pattern">
+            Product name should contain only English language.
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs picture-and-description">
+          <div class="row">
+            <img src="{{item?.image}}">
+          </div>
+
+          <div class="row product-rating center-xs rating">
+            <!--TODO: make checked work-->
+            <fieldset class="rating">
+              <ng-container *ngFor="let r of ratingArray; let rating = index;">
+                <input type="radio"
+                       [name]="inputName"
+                       value="5 - rating"
+                       [checked]="5 - rating"/>
+                <label (click)='onRatingMouseEnter(5 - rating)'>
+                </label>
+              </ng-container>
+            </fieldset>
+          </div>
+
+          <div class="row">
+            <div class="row box">
+              <mat-form-field class="form-field item-name-input">
+                <input id="itemCostInput"
+                       matInput
+                       name="itemCostControl"
+                       class="form-control"
+                       placeholder="Price: "
+                       formControlName="itemCostControl">
+              </mat-form-field>
+            </div>
+
+            <div class="row">
+              <div *ngIf="itemCostControl.invalid && (itemCostControl.dirty || itemCostControl.touched)"
+                   class="alert alert-danger">
+                <div *ngIf="itemCostControl.errors.required">
+                  Item cost is required.
+                </div>
+                <div *ngIf="itemCostControl.errors.pattern">
+                  Item cost should be numeric.
+                </div>
+              </div>
+            </div>
+
+            <div class="box">
+              <mat-form-field class="form-field">
+                <mat-select placeholder="Gender"
+                            formControlName="genderSelect">
+                  <mat-option *ngFor="let gender of genders" [value]="gender.name">
+                    {{gender.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="box">
+              <mat-form-field class="form-field">
+                <mat-select placeholder="Category"
+                            formControlName="categorySelectControl">
+                  <mat-option *ngFor="let category of categories"
+                              [value]="category.id">
+                    {{category.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div> {{item?.category}}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs description">
+          <div class="row">
+            <mat-form-field>
+                <textarea id="descriptionInput"
+                          matInput
+                          rows="5"
+                          name="descriptionControl"
+                          type="text"
+                          class="form-control"
+                          placeholder="Description: "
+                          formControlName="descriptionControl">
+                </textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <div *ngIf="descriptionControl.invalid && (descriptionControl.dirty || descriptionControl.touched)"
+                 class="alert alert-danger">
+              <div *ngIf="descriptionControl.errors.required">
+                Description is required.
+              </div>
+              <div *ngIf="descriptionControl.errors.pattern">
+                Description should contain only English language.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="row center-xs product-full-page-footer">
+      <button #buyButton
+              type="submit"
+              mat-button mat-raised-button
+              class="buy-product-button"
+              [disabled]="editMainPageForm.invalid" (click)="onSubmit()">
+        Save
+      </button>
+      <button #buyButton
+              type="reset"
+              mat-button mat-raised-button
+              class="buy-product-button"
+              (click)="onCancel()">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>

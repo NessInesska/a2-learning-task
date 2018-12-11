@@ -18,7 +18,7 @@ export class RoutingService {
     return this.router.navigate([ROUTING_PATHES.LOGIN]);
   }
 
-  public goToProductPage(id: string): Promise<boolean> {
+  public goToProductDetailsPage(id: string): Promise<boolean> {
     return this.router.navigate([ROUTING_PATHES.PRODUCT, id]);
   }
 

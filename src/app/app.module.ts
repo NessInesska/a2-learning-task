@@ -8,18 +8,18 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { ModalComponent } from './components/modal';
-import { PageFooterModule } from './components/page-footer/page-footer.module';
-import { GlobalErrorHandler } from './global-error-handler';
+import { PageFooterModule } from './components/page-footer';
 import { AuthPageModule } from './pages/auth-page';
 import { PageHeaderModule } from './components/page-header';
 import { ProductCardModule } from './components/product-card';
-import { ProductPageModule } from './pages/product-page/product-page';
 import { AuthGuard } from './guards';
 import { MainPageModule } from './pages/main-page';
-import { Interceptor } from './interceptor';
+import { RequestsInterceptor } from './requests-interceptor.service';
 import { AuthorizationService, RoutingService, UserService, ProductService, ModalService } from './services';
 import { ErrorNotFoundPageComponent } from './pages/error-not-found-page';
 import { InternalServerErrorComponent } from './pages/internal-server-error';
+import { ProductDetailsModule } from './pages/product-details';
+import { GlobalErrorHandler } from './global-error-handler';
 
 @NgModule({
   declarations: [
@@ -35,7 +35,6 @@ import { InternalServerErrorComponent } from './pages/internal-server-error';
     AuthPageModule,
     MainPageModule,
     ProductCardModule,
-    ProductPageModule,
     PageHeaderModule,
     PageFooterModule,
     BrowserModule,
@@ -46,6 +45,7 @@ import { InternalServerErrorComponent } from './pages/internal-server-error';
     ),
     MatDialogModule,
     MatButtonModule,
+    ProductDetailsModule,
   ],
   providers: [
     AuthGuard,
@@ -55,13 +55,10 @@ import { InternalServerErrorComponent } from './pages/internal-server-error';
     UserService,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: Interceptor,
+      useClass: RequestsInterceptor,
       multi: true,
     },
-    {
-      provide: ErrorHandler,
-      useClass: GlobalErrorHandler
-    },
+    GlobalErrorHandler,
     ModalService
   ],
   bootstrap: [

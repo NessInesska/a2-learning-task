@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Product } from '../../classes';
-import { MESSAGES } from '../../constants';
+import { MESSAGES, NUMBER } from '../../constants';
 import { ModalService, ProductService, RoutingService } from '../../services';
 
 @Component({
@@ -9,36 +9,31 @@ import { ModalService, ProductService, RoutingService } from '../../services';
   templateUrl: './product-card.component.html',
   styleUrls: ['./product-card.component.scss'],
 })
-export class ProductCardComponent implements OnInit {
+export class ProductCardComponent {
 
   @Input() item: Product;
   @Input() isAdmin: boolean;
 
   @Output() remove: EventEmitter<string> = new EventEmitter<string>();
 
-  public range: number[] = [];
-  public emptyRange: number[] = [];
+  public maxRatingRange = new Array(NUMBER.FIVE);
 
   constructor(private routingService: RoutingService,
               private productService: ProductService,
               private modalService: ModalService) {
   }
 
-  public ngOnInit() {
-    this.range = new Array(this.item.rating);
-    this.emptyRange = new Array((5 - this.item.rating));
-  }
-
   public goToProductPage(): void {
     this.productService.getProductById(this.item.id)
-      .subscribe(res => {
-        this.productService.item = res;
-        this.routingService.goToProductPage(res.id);
-      });
+      .subscribe(
+        res => {
+          this.productService.item = res;
+          this.routingService.goToProductDetailsPage(res.id);
+        });
   }
 
   public deleteProduct(): void {
-    this.modalService.openModal({message: MESSAGES.YOU_DELETED + this.item.name, isUnauthorised: false});
+    this.modalService.openModal({message: MESSAGES.YOU_DELETED + this.item.name});
     this.remove.emit(this.item.id);
   }
 }

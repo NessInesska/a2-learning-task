@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { forkJoin } from 'rxjs';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { LOCAL_STORAGE, STATUS_CODES, LOGIN_FORM_CONTROLS, MESSAGES } from '../../constants';
-import { AuthorizationService, ModalService, ProductService, RoutingService, UserService } from '../../services';
+import { ABSTRACT_FORM_CONTROLS } from '../../constants';
+import { AuthorizationService, RoutingService, LoginStorageService } from '../../services';
 
 @Component({
   selector: 'app-auth-page',
@@ -11,84 +10,58 @@ import { AuthorizationService, ModalService, ProductService, RoutingService, Use
   styleUrls: ['./auth-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AuthPageComponent {
+export class AuthPageComponent implements OnInit {
 
-  public loginForm = this.formBuild.group({
-    loginInput: ['', {
-      validators: [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z ]*')],
-      updateOn: 'blur'
-    }],
-    passwordInput: ['', {
-      validators: [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z0-9 ]*')],
-      updateOn: 'blur'
-    }]
-  });
-
-  public wrongPassword: boolean = false;
+  public loginForm: FormGroup;
+  public wrongPassword = false;
 
   constructor(private authorizationService: AuthorizationService,
-              private userService: UserService,
-              private productService: ProductService,
               private routingService: RoutingService,
-              private modalService: ModalService,
+              private loginStorageService: LoginStorageService,
               private cd: ChangeDetectorRef,
               private formBuild: FormBuilder) {
   }
 
-  public onLogin(): void {
-    const login = this.loginInput.value;
-    const password = this.passwordInput.value;
+  public ngOnInit() {
+    this.handleLoginFormGroup();
+  }
 
-    this.userService.login = login;
+  public onLogin(): void {
+    const login = this.loginControl.value;
+    const password = this.passwordControl.value;
+
+    this.loginStorageService.setLogin(login);
 
     if (this.loginForm.valid) {
       this.authorizationService.login(login, password).subscribe(
-        (res) => {
-          this.authorizationService.handleLogin(res);
-
-          const getRoles = this.userService.getRoles();
-          const getCurrentUser = this.userService.getUserByLogin();
-
-          forkJoin([getRoles, getCurrentUser])
-            .subscribe(data => {
-              // data[0][0] is admin role
-              // data[1][0] is current user
-              this.userService.adminRole = data[0][0];
-              this.userService.currentUser = data[1][0];
-
-              this.authorizationService.setLocalStorageItem(LOCAL_STORAGE.LOGIN, this.userService.currentUser.login);
-              if (this.userService.adminRole.id === this.userService.currentUser.roleId) {
-                this.userService.isAdmin = true;
-                this.authorizationService.setLocalStorageItem(LOCAL_STORAGE.IS_ADMIN, this.userService.isAdmin.toString());
-              }
-            });
-
-          setTimeout(() => {
-            this.routingService.goToMainPage();
-          });
-        },
-        (res: Response) => {
-          if (res.status === STATUS_CODES.BAD_REQUEST) {
-            this.wrongPassword = true;
-            this.modalService.openModal({message: MESSAGES.WRONG_LOGIN_PASSWORD, isUnauthorised: false});
-          } else if (res.status === STATUS_CODES.NOT_FOUND) {
-            this.routingService.goToNotFoundPage();
-          } else if (res.status === STATUS_CODES.INTERNAL_SERVER_ERROR) {
-            this.routingService.goToNotFoundPage();
-          }
+        () => {
+          this.routingService.goToMainPage();
         });
     }
   }
 
-  public get getFormControls(): object {
+  public get formControls(): { [key: string]: AbstractControl; } {
     return this.loginForm.controls;
   }
 
-  public get loginInput(): AbstractControl {
-    return this.loginForm.controls[LOGIN_FORM_CONTROLS.LOGIN_INPUT];
+  public get loginControl(): AbstractControl {
+    return this.loginForm.controls[ABSTRACT_FORM_CONTROLS.LOGIN_CONTROL];
   }
 
-  public get passwordInput(): AbstractControl {
-    return this.loginForm.controls[LOGIN_FORM_CONTROLS.PASSWORD_INPUT];
+  public get passwordControl(): AbstractControl {
+    return this.loginForm.controls[ABSTRACT_FORM_CONTROLS.PASSWORD_CONTROL];
+  }
+
+  private handleLoginFormGroup(): void {
+    this.loginForm = this.formBuild.group({
+      loginControl: ['', {
+        validators: [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z ]*')],
+        updateOn: 'blur'
+      }],
+      passwordControl: ['', {
+        validators: [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z0-9 ]*')],
+        updateOn: 'blur'
+      }]
+    });
   }
 }

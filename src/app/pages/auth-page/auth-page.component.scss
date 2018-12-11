@@ -28,10 +28,6 @@
         height: fit-content;
         display: flex;
 
-        label{
-          padding: 0 20px;
-        }
-
         .input-and-icon-row {
           align-items: center;
           flex-direction: row;
@@ -64,7 +60,7 @@
         align-items: flex-end;
         margin-top: 10px;
 
-        button {
+        .login-button {
           right: 20px;
         }
       }

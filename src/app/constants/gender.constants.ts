@@ -1,7 +1,7 @@
-import { Gender } from '../classes/gender.class';
+import { Gender } from '../classes';
 
 export const GENDERS: Gender[] = [
-  {name: 'Male'},
-  {name: 'Female'},
+  {name: 'Man'},
+  {name: 'Woman'},
   {name: 'Unisex'}
 ];

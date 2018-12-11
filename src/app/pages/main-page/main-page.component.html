@@ -1,8 +1,4 @@
 <div class="row">
-  <app-page-header [login]="login"></app-page-header>
-</div>
-
-<div class="row">
   <div class="col-xs-1 left"></div>
   <div class="col-xs">
     <div class="row filters-and-search">
@@ -35,8 +31,8 @@
               <div class="box gender">
                 <mat-form-field>
                   <mat-select #genderFilter placeholder="Gender" formControlName="genderFilterControl">
-                    <mat-option *ngFor="let gender of genders" [value]="gender">
-                      {{gender}}
+                    <mat-option *ngFor="let gender of genders" [value]="gender.name">
+                      {{gender.name}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -109,14 +105,14 @@
 
     <div class="row products" *ngIf="!isLoading">
       <app-product-card class="product-card"
-                        *ngFor="let item of (_filteredProducts.value | search: searchString)"
+                        *ngFor="let item of (filteredProducts$.value | search: searchString)"
                         [item]="item"
                         [isAdmin]="isAdmin"
                         (remove)="removeProductCard($event)">
       </app-product-card>
     </div>
 
-    <div class="row center-xs middle-xs nothing-to-show" *ngIf="!isLoading && (_filteredProducts.value.length === 0)">
+    <div class="row center-xs middle-xs nothing-to-show" *ngIf="!isLoading && (filteredProducts$.value.length === 0)">
       Sorry, there is nothing to show.
     </div>
 
@@ -126,8 +122,4 @@
 
   </div>
   <div class="col-xs-1 right"></div>
-</div>
-
-<div class="row">
-  <app-page-footer></app-page-footer>
 </div>
