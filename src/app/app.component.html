@@ -1,3 +1,3 @@
-<app-page-header *ngIf="!isLoginPage"></app-page-header>
+<app-page-header *ngIf="router.url !== loginRoute"></app-page-header>
 <router-outlet></router-outlet>
-<app-page-footer *ngIf="!isLoginPage"></app-page-footer>
+<app-page-footer *ngIf="router.url !== loginRoute"></app-page-footer>

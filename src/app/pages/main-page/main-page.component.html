@@ -4,7 +4,10 @@
     <div class="row filters-and-search">
       <form class="searchString">
         <mat-form-field class="search-input">
-          <input class="search-input" matInput placeholder="Search" [(ngModel)]="searchString" name="searchString">
+          <input class="search-input"
+                 matInput placeholder="Search"
+                 [(ngModel)]="searchString"
+                 name="searchString">
         </mat-form-field>
       </form>
     </div>
@@ -23,14 +26,16 @@
             <div class="row filters">
 
               <div class="box">
-                <mat-checkbox formControlName="availabilityFilterControl"
+                <mat-checkbox [formControlName]="filterControlNames.availabilityFilterControl"
                               color="primary"> Available only
                 </mat-checkbox>
               </div>
 
               <div class="box gender">
                 <mat-form-field>
-                  <mat-select #genderFilter placeholder="Gender" formControlName="genderFilterControl">
+                  <mat-select #genderFilter
+                              placeholder="Gender"
+                              [formControlName]="filterControlNames.genderFilterControl">
                     <mat-option *ngFor="let gender of genders" [value]="gender.name">
                       {{gender.name}}
                     </mat-option>
@@ -40,8 +45,13 @@
 
               <div class="box category">
                 <mat-form-field>
-                  <mat-select #categoryFilter placeholder="Category" formControlName="categoryFilterControl">
-                    <mat-option *ngFor="let category of categories" [value]="category.id">
+                  <mat-select
+                    #categoryFilter
+                    placeholder="Category"
+                    [formControlName]="filterControlNames.categoryFilterControl">
+                    <mat-option
+                      *ngFor="let category of categories"
+                      [value]="category.id">
                       {{category.name}}
                     </mat-option>
                   </mat-select>
@@ -61,7 +71,7 @@
                       [thumbLabel]="true"
                       [tickInterval]="tickInterval"
                       color="primary"
-                      formControlName="ratingFilterControl">
+                      [formControlName]="filterControlNames.ratingFilterControl">
                     </mat-slider>
                     To 5
                   </div>
@@ -81,7 +91,7 @@
                       [thumbLabel]="true"
                       [tickInterval]="tickInterval"
                       color="primary"
-                      formControlName="priceFilterControl">
+                      [formControlName]="filterControlNames.priceFilterControl">
                     </mat-slider>
                     To {{maxPriceValue}}
                   </div>

@@ -4,7 +4,7 @@ import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
 
 import { Category, Gender, Product } from '../../classes';
 import { UnsubscribeComponent } from '../../components/unsubscribe/unsubscribe.component';
-import { GENDERS } from '../../constants';
+import { EDIT_FORM_CONTROLS, GENDERS } from '../../constants';
 import { ROLE } from '../../constants';
 import { FILTER_FORM_CONTROLS } from '../../constants/filter-form-controls.constants';
 import { CategoriesService, LocalStorageService, ProductService, UserService, LoginStorageService } from '../../services';
@@ -14,7 +14,7 @@ import { CategoriesService, LocalStorageService, ProductService, UserService, Lo
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.scss'],
 })
-export class MainPageComponent extends UnsubscribeComponent implements OnInit, OnDestroy {
+export class MainPageComponent extends UnsubscribeComponent implements OnInit {
 
   public login: string;
   public item: Product;
@@ -31,12 +31,20 @@ export class MainPageComponent extends UnsubscribeComponent implements OnInit, O
   public filteredProducts$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
   public pricesArray: number [] = [];
 
+  public filterControlNames = {
+    [FILTER_FORM_CONTROLS.AVAILABILITY_FILTER_CONTROL]: 'availabilityFilterControl',
+    [FILTER_FORM_CONTROLS.GENDER_FILTER_CONTROL]: 'genderFilterControl',
+    [FILTER_FORM_CONTROLS.CATEGORY_FILTER_CONTROL]: 'categoryFilterControl',
+    [FILTER_FORM_CONTROLS.RATING_FILTER_CONTROL]: 'ratingFilterControl',
+    [FILTER_FORM_CONTROLS.PRICE_FILTER_CONTROL]: 'priceFilterControl',
+  };
+
   public filtersForm: FormGroup = this.formBuild.group({
-    genderFilterControl: new FormControl(),
-    categoryFilterControl: new FormControl(),
-    availabilityFilterControl: new FormControl(),
-    ratingFilterControl: new FormControl(),
-    priceFilterControl: new FormControl(),
+    [this.filterControlNames.availabilityFilterControl]: new FormControl(),
+    [this.filterControlNames.genderFilterControl]: new FormControl(),
+    [this.filterControlNames.categoryFilterControl]: new FormControl(),
+    [this.filterControlNames.ratingFilterControl]: new FormControl(),
+    [this.filterControlNames.priceFilterControl]: new FormControl(),
   });
 
   public timerOptions = {
@@ -51,11 +59,14 @@ export class MainPageComponent extends UnsubscribeComponent implements OnInit, O
               private localStorageService: LocalStorageService,
               private categoriesService: CategoriesService) {
     super();
+    super.ngOnDestroy();
   }
 
   private _tickInterval = 1;
 
   public ngOnInit(): void {
+    console.log(this.filterControlNames);
+
     this.login = this.loginStorageService.getLogin();
 
     const roles$ = this.userService.getRoles();
@@ -73,17 +84,10 @@ export class MainPageComponent extends UnsubscribeComponent implements OnInit, O
         if (this.userService.adminRole.id === this.userService.currentUser.roleId) {
           this.isAdmin = true;
         }
-      },
-      () => {},
-      () => {
-        this.subscriptions.push(this.filtersForm.valueChanges.subscribe());
       });
 
     this.setProductsInfo();
-  }
-
-  public ngOnDestroy(): void {
-    super.ngOnDestroy();
+    this.subscriptions.push(this.filtersForm.valueChanges.subscribe());
   }
 
   public removeProductCard(id: string): void {
@@ -125,7 +129,6 @@ export class MainPageComponent extends UnsubscribeComponent implements OnInit, O
   public get tickInterval(): number | 'auto' {
     return this.timerOptions.showTicks ? (this.timerOptions.autoTicks ? 'auto' : this._tickInterval) : 0;
   }
-
 
   private setProductsInfo(): void {
     this.isLoading = true;

@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UnsubscribeComponent } from '../../components/unsubscribe/unsubscribe.component';
 
+import { UnsubscribeComponent } from '../../components/unsubscribe';
 import { LOGIN_FORM_CONTROLS } from '../../constants/login-form-controls.constants';
 import { AuthorizationService, RoutingService, LoginStorageService } from '../../services';
 
@@ -11,10 +11,15 @@ import { AuthorizationService, RoutingService, LoginStorageService } from '../..
   styleUrls: ['./auth-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AuthPageComponent extends UnsubscribeComponent implements OnInit, OnDestroy {
+export class AuthPageComponent extends UnsubscribeComponent implements OnInit {
 
   public loginForm: FormGroup;
   public wrongPassword = false;
+
+  public loginControlNames = {
+    [LOGIN_FORM_CONTROLS.LOGIN_CONTROL]: 'loginControl',
+    [LOGIN_FORM_CONTROLS.PASSWORD_CONTROL]: 'passwordControl',
+  };
 
   constructor(private authorizationService: AuthorizationService,
               private routingService: RoutingService,
@@ -22,15 +27,12 @@ export class AuthPageComponent extends UnsubscribeComponent implements OnInit, O
               private cd: ChangeDetectorRef,
               private formBuild: FormBuilder) {
     super();
+    super.ngOnDestroy();
   }
 
   public ngOnInit(): void {
     this.handleLoginFormGroup();
     this.subscriptions.push(this.loginForm.valueChanges.subscribe());
-  }
-
-  public ngOnDestroy(): void {
-    super.ngOnDestroy();
   }
 
   public onLogin(): void {
@@ -61,11 +63,11 @@ export class AuthPageComponent extends UnsubscribeComponent implements OnInit, O
 
   private handleLoginFormGroup(): void {
     this.loginForm = this.formBuild.group({
-      loginControl: ['', {
+      [this.loginControlNames.loginControl]: ['', {
         validators: [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z ]*')],
         updateOn: 'blur'
       }],
-      passwordControl: ['', {
+      [this.loginControlNames.passwordControl]: ['', {
         validators: [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z0-9 ]*')],
         updateOn: 'blur'
       }]

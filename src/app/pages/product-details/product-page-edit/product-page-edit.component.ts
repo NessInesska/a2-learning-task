@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
@@ -36,22 +36,33 @@ export class ProductPageEditComponent extends UnsubscribeComponent implements On
   public login: string;
   public isLoading = false;
 
+  public editPageFormControls = {
+    ...EDIT_FORM_CONTROLS
+    // TODO change this to commented code
+    // [EDIT_FORM_CONTROLS.ITEM_NAME_CONTROL]: 'itemNameControl',
+    // [EDIT_FORM_CONTROLS.DESCRIPTION_CONTROL]: 'descriptionControl',
+    // [EDIT_FORM_CONTROLS.ITEM_COST_CONTROL]: 'itemCostControl',
+    // [EDIT_FORM_CONTROLS.CATEGORY_SELECT_CONTROL]: 'categorySelectControl',
+    // [EDIT_FORM_CONTROLS.GENDER_SELECT_CONTROL]: 'genderSelect',
+    // [EDIT_FORM_CONTROLS.RATING_SELECT]: 'ratingSelect',
+  };
+
   public editMainPageForm: FormGroup = this.formBuild.group({
-    itemNameControl: ['', {
+    [this.editPageFormControls.ITEM_NAME_CONTROL]: ['', {
       validators: [Validators.required, Validators.pattern('[a-zA-Z0-9.,! ]*')],
       updateOn: 'blur'
     }],
-    descriptionControl: ['', {
+    [this.editPageFormControls.DESCRIPTION_CONTROL]: ['', {
       validators: [Validators.required, Validators.pattern('[a-zA-Z0-9.,! ]*')],
       updateOn: 'blur'
     }],
-    itemCostControl: ['', {
+    [this.editPageFormControls.ITEM_COST_CONTROL]: ['', {
       validators: [Validators.required, Validators.min(0), Validators.pattern('[0-9.$ ]*')],
       updateOn: 'blur'
     }],
-    categorySelectControl: ['', Validators.required],
-    genderSelect: ['', Validators.required],
-    ratingSelect: [Validators.required],
+    [this.editPageFormControls.CATEGORY_SELECT_CONTROL]: ['', Validators.required],
+    [this.editPageFormControls.GENDER_SELECT_CONTROL]: ['', Validators.required],
+    [this.editPageFormControls.RATING_SELECT]: [Validators.required],
   });
 
   public ratingArray: number[];
@@ -63,8 +74,10 @@ export class ProductPageEditComponent extends UnsubscribeComponent implements On
               private route: ActivatedRoute,
               private modalService: ModalService,
               private loginStorageService: LoginStorageService,
-              private categoriesService: CategoriesService) {
+              private categoriesService: CategoriesService,
+              private cd: ChangeDetectorRef) {
     super();
+    super.ngOnDestroy();
   }
 
   public ngOnInit(): void {
@@ -92,13 +105,8 @@ export class ProductPageEditComponent extends UnsubscribeComponent implements On
       () => {
         this.setEditPageControlsValues();
         this.isLoading = false;
-        this.subscriptions.push(this.editMainPageForm.valueChanges.subscribe());
       });
-  }
-
-  public ngOnDestroy(): void {
-    super.ngOnDestroy();
-    console.log('usubscribe' + this.subscriptions);
+    this.subscriptions.push(this.editMainPageForm.valueChanges.subscribe());
   }
 
   public onSubmit(): void {

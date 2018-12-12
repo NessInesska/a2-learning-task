@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
@@ -11,7 +11,7 @@ import { CategoriesService, ModalService, ProductService, RoutingService, UserSe
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.scss']
 })
-export class ProductDetailsComponent implements OnInit {
+export class ProductDetailsComponent implements OnChanges, OnInit {
 
   public login: string;
   public isEditPage = false;
@@ -28,6 +28,12 @@ export class ProductDetailsComponent implements OnInit {
               private userService: UserService,
               private categoriesService: CategoriesService) {
     location.pathname === ROUTING_PATHES.EDIT ? this.isEditPage = true : this.isEditPage = false;
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes['itemNameInput']) {
+      console.log(changes);
+    }
   }
 
   public ngOnInit(): void {

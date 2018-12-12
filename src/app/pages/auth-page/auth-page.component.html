@@ -19,7 +19,7 @@
                      type="text"
                      class="form-control"
                      placeholder="Login"
-                     formControlName="loginControl">
+                     [formControlName]="loginControlNames.loginControl">
             </mat-form-field>
           </div>
         </div>
@@ -47,7 +47,7 @@
                    type="password"
                    class="form-control"
                    placeholder="Password"
-                   formControlName="passwordControl">
+                   [formControlName]="loginControlNames.passwordControl">
             </mat-form-field>
           </div>
         </div>
