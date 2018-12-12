@@ -14,7 +14,7 @@ import { LocalStorageService } from '../../services';
 export class UserService {
 
   public login: string;
-  public adminRole;
+  public adminRole: Role;
   public currentUser: User;
   public isAdmin = false;
 

@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
 
-import { Product } from '../../classes';
-import { ABSTRACT_FORM_CONTROLS, GENDERS } from '../../constants';
+import { Category, Gender, Product } from '../../classes';
+import { UnsubscribeComponent } from '../../components/unsubscribe/unsubscribe.component';
+import { GENDERS } from '../../constants';
 import { ROLE } from '../../constants';
+import { FILTER_FORM_CONTROLS } from '../../constants/filter-form-controls.constants';
 import { CategoriesService, LocalStorageService, ProductService, UserService, LoginStorageService } from '../../services';
 
 @Component({
@@ -12,24 +14,24 @@ import { CategoriesService, LocalStorageService, ProductService, UserService, Lo
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.scss'],
 })
-export class MainPageComponent implements OnInit {
+export class MainPageComponent extends UnsubscribeComponent implements OnInit, OnDestroy {
 
   public login: string;
   public item: Product;
   public isAdmin = false;
-  public categories;
+  public categories: Category;
   public panelOpenState = false;
   public searchString = '';
   public isLoading = false;
   public maxPriceValue: number;
   public minPriceValue: number;
 
-  public genders = GENDERS;
+  public genders: Gender[] = GENDERS;
   public products$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
   public filteredProducts$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
   public pricesArray: number [] = [];
 
-  public filtersInput: FormGroup = this.formBuild.group({
+  public filtersForm: FormGroup = this.formBuild.group({
     genderFilterControl: new FormControl(),
     categoryFilterControl: new FormControl(),
     availabilityFilterControl: new FormControl(),
@@ -48,6 +50,7 @@ export class MainPageComponent implements OnInit {
               private loginStorageService: LoginStorageService,
               private localStorageService: LocalStorageService,
               private categoriesService: CategoriesService) {
+    super();
   }
 
   private _tickInterval = 1;
@@ -70,9 +73,17 @@ export class MainPageComponent implements OnInit {
         if (this.userService.adminRole.id === this.userService.currentUser.roleId) {
           this.isAdmin = true;
         }
+      },
+      () => {},
+      () => {
+        this.subscriptions.push(this.filtersForm.valueChanges.subscribe());
       });
 
     this.setProductsInfo();
+  }
+
+  public ngOnDestroy(): void {
+    super.ngOnDestroy();
   }
 
   public removeProductCard(id: string): void {
@@ -92,23 +103,23 @@ export class MainPageComponent implements OnInit {
   }
 
   public get genderFilterControl(): AbstractControl {
-    return this.filtersInput.controls[ABSTRACT_FORM_CONTROLS.GENDER_FILTER_CONTROL];
+    return this.filtersForm.controls[FILTER_FORM_CONTROLS.GENDER_FILTER_CONTROL];
   }
 
   public get categoryFilterControl(): AbstractControl {
-    return this.filtersInput.controls[ABSTRACT_FORM_CONTROLS.CATEGORY_FILTER_CONTROL];
+    return this.filtersForm.controls[FILTER_FORM_CONTROLS.CATEGORY_FILTER_CONTROL];
   }
 
   public get availabilityFilterControl(): AbstractControl {
-    return this.filtersInput.controls[ABSTRACT_FORM_CONTROLS.AVAILABILITY_FILTER_CONTROL];
+    return this.filtersForm.controls[FILTER_FORM_CONTROLS.AVAILABILITY_FILTER_CONTROL];
   }
 
   public get ratingFilterControl(): AbstractControl {
-    return this.filtersInput.controls[ABSTRACT_FORM_CONTROLS.RATING_FILTER_CONTROL];
+    return this.filtersForm.controls[FILTER_FORM_CONTROLS.RATING_FILTER_CONTROL];
   }
 
   public get priceFilterControl(): AbstractControl {
-    return this.filtersInput.controls[ABSTRACT_FORM_CONTROLS.PRICE_FILTER_CONTROL];
+    return this.filtersForm.controls[FILTER_FORM_CONTROLS.PRICE_FILTER_CONTROL];
   }
 
   public get tickInterval(): number | 'auto' {
@@ -135,7 +146,8 @@ export class MainPageComponent implements OnInit {
 
         this.setFilters();
       },
-      () => {},
+      () => {
+      },
       () => this.isLoading = false
     );
   }

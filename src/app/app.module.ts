@@ -20,6 +20,7 @@ import { ErrorNotFoundPageComponent } from './pages/error-not-found-page';
 import { InternalServerErrorComponent } from './pages/internal-server-error';
 import { ProductDetailsModule } from './pages/product-details';
 import { GlobalErrorHandler } from './global-error-handler';
+import { UnsubscribeComponent } from './components/unsubscribe/unsubscribe.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { GlobalErrorHandler } from './global-error-handler';
     ErrorNotFoundPageComponent,
     ModalComponent,
     InternalServerErrorComponent,
+    UnsubscribeComponent,
   ],
   entryComponents: [
     ModalComponent,

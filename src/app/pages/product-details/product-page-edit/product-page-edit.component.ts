@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
-import { Gender } from '../../../classes';
-import { ABSTRACT_FORM_CONTROLS, GENDERS, MESSAGES, NUMBER, ROUTING_PATHES } from '../../../constants';
+import { Gender, Product } from '../../../classes';
+import { UnsubscribeComponent } from '../../../components/unsubscribe/unsubscribe.component';
+import { EDIT_FORM_CONTROLS, GENDERS, MESSAGES, NUMBER, ROUTING_PATHES } from '../../../constants';
 import {
   AuthorizationService,
   CategoriesService,
@@ -19,19 +20,21 @@ import {
   templateUrl: './product-page-edit.component.html',
   styleUrls: ['./product-page-edit.component.scss'],
 })
-export class ProductPageEditComponent implements OnInit {
+export class ProductPageEditComponent extends UnsubscribeComponent implements OnInit, OnDestroy {
 
   @Input() rating: number;
   @Input() itemId: number;
 
   @Output() ratingClick: EventEmitter<any> = new EventEmitter<any>();
+
   public inputName: string;
 
   public genders: Gender[] = [];
-  public item;
+  public item: Product;
   public categories;
   public id = this.route.snapshot.params[ROUTING_PATHES.ID];
   public login: string;
+  public isLoading = false;
 
   public editMainPageForm: FormGroup = this.formBuild.group({
     itemNameControl: ['', {
@@ -51,7 +54,7 @@ export class ProductPageEditComponent implements OnInit {
     ratingSelect: [Validators.required],
   });
 
-  public ratingArray;
+  public ratingArray: number[];
 
   constructor(private productService: ProductService,
               private formBuild: FormBuilder,
@@ -61,9 +64,11 @@ export class ProductPageEditComponent implements OnInit {
               private modalService: ModalService,
               private loginStorageService: LoginStorageService,
               private categoriesService: CategoriesService) {
+    super();
   }
 
   public ngOnInit(): void {
+    this.isLoading = true;
     this.ratingArray = new Array(NUMBER.FIVE);
 
     this.inputName = this.itemId + '_rating';
@@ -82,12 +87,18 @@ export class ProductPageEditComponent implements OnInit {
         this.item = data[1];
         this.login = this.loginStorageService.getLogin();
       },
-      () => {},
       () => {
-        this.itemNameControl.setValue(this.item.name);
-        this.descriptionControl.setValue(this.item.description);
-        this.itemCostControl.setValue(this.item.cost);
+      },
+      () => {
+        this.setEditPageControlsValues();
+        this.isLoading = false;
+        this.subscriptions.push(this.editMainPageForm.valueChanges.subscribe());
       });
+  }
+
+  public ngOnDestroy(): void {
+    super.ngOnDestroy();
+    console.log('usubscribe' + this.subscriptions);
   }
 
   public onSubmit(): void {
@@ -106,7 +117,7 @@ export class ProductPageEditComponent implements OnInit {
 
   public onRatingMouseEnter(rating: number): void {
     this.rating = rating;
-    this.editMainPageForm.controls[ABSTRACT_FORM_CONTROLS.RATING_SELECT].setValue(rating);
+    this.editMainPageForm.controls[EDIT_FORM_CONTROLS.RATING_SELECT].setValue(rating);
     this.ratingClick.emit({
       itemId: this.itemId,
       rating: rating
@@ -119,22 +130,28 @@ export class ProductPageEditComponent implements OnInit {
   }
 
   public get itemNameControl(): AbstractControl {
-    return this.editMainPageForm.controls[ABSTRACT_FORM_CONTROLS.ITEM_NAME_CONTROL];
+    return this.editMainPageForm.controls[EDIT_FORM_CONTROLS.ITEM_NAME_CONTROL];
   }
 
   public get descriptionControl(): AbstractControl {
-    return this.editMainPageForm.controls[ABSTRACT_FORM_CONTROLS.DESCRIPTION_CONTROL];
+    return this.editMainPageForm.controls[EDIT_FORM_CONTROLS.DESCRIPTION_CONTROL];
   }
 
   public get itemCostControl(): AbstractControl {
-    return this.editMainPageForm.controls[ABSTRACT_FORM_CONTROLS.ITEM_COST_CONTROL];
+    return this.editMainPageForm.controls[EDIT_FORM_CONTROLS.ITEM_COST_CONTROL];
   }
 
   public get categorySelectControl(): AbstractControl {
-    return this.editMainPageForm.controls[ABSTRACT_FORM_CONTROLS.CATEGORY_SELECT_CONTROL];
+    return this.editMainPageForm.controls[EDIT_FORM_CONTROLS.CATEGORY_SELECT_CONTROL];
   }
 
   public goToProductPage(): void {
     this.routingService.goToProductDetailsPage(this.id);
+  }
+
+  private setEditPageControlsValues() {
+    this.itemNameControl.setValue(this.item.name);
+    this.descriptionControl.setValue(this.item.description);
+    this.itemCostControl.setValue(this.item.cost);
   }
 }

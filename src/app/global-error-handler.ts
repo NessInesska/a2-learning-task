@@ -3,7 +3,7 @@ import { Injectable, Injector } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 
 import { MESSAGES, STATUS_CODES } from './constants';
-import { ModalService, RoutingService } from './services';
+import { LocalStorageService, ModalService, RoutingService } from './services';
 
 @Injectable()
 export class GlobalErrorHandler {
@@ -17,6 +17,7 @@ export class GlobalErrorHandler {
 
     const routingService = this.injector.get(RoutingService);
     const modalService = this.injector.get(ModalService);
+    const localStorageService = this.injector.get(LocalStorageService);
 
     if (error instanceof HttpErrorResponse) {
 
@@ -31,7 +32,7 @@ export class GlobalErrorHandler {
       }
 
       if (error.status === STATUS_CODES.UNAUTHORIZED) {
-        localStorage.clear();
+        localStorageService.clear();
         routingService.goToLoginPage();
       }
 

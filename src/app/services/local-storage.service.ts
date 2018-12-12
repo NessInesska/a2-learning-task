@@ -20,4 +20,8 @@ export class LocalStorageService {
   public hasItem(key: string): boolean {
     return !!this.getItem(key);
   }
+
+  public clear(): void {
+    localStorage.clear();
+  }
 }

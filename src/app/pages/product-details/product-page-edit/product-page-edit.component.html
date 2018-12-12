@@ -6,7 +6,7 @@
     </a>
   </div>
 
-  <div class="col-xs">
+  <div class="col-xs" *ngIf="!isLoading">
     <div class="row end-xs">
       <button class="product-edit-button"
               mat-button mat-raised-button
@@ -158,4 +158,9 @@
       </button>
     </div>
   </div>
+
+  <div class="row spinner" *ngIf="isLoading">
+    <mat-spinner color="primary"></mat-spinner>
+  </div>
+
 </div>

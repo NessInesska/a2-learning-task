@@ -1,4 +1,4 @@
-export * from './abstract-controls.constants';
+export * from './edit-form-controls.constants';
 export * from './endpoints';
 export * from './gender.constants';
 export * from './local-storage.constants';

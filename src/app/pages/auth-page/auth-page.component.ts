@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UnsubscribeComponent } from '../../components/unsubscribe/unsubscribe.component';
 
-import { ABSTRACT_FORM_CONTROLS } from '../../constants';
+import { LOGIN_FORM_CONTROLS } from '../../constants/login-form-controls.constants';
 import { AuthorizationService, RoutingService, LoginStorageService } from '../../services';
 
 @Component({
@@ -10,7 +11,7 @@ import { AuthorizationService, RoutingService, LoginStorageService } from '../..
   styleUrls: ['./auth-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AuthPageComponent implements OnInit {
+export class AuthPageComponent extends UnsubscribeComponent implements OnInit, OnDestroy {
 
   public loginForm: FormGroup;
   public wrongPassword = false;
@@ -20,10 +21,16 @@ export class AuthPageComponent implements OnInit {
               private loginStorageService: LoginStorageService,
               private cd: ChangeDetectorRef,
               private formBuild: FormBuilder) {
+    super();
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.handleLoginFormGroup();
+    this.subscriptions.push(this.loginForm.valueChanges.subscribe());
+  }
+
+  public ngOnDestroy(): void {
+    super.ngOnDestroy();
   }
 
   public onLogin(): void {
@@ -45,11 +52,11 @@ export class AuthPageComponent implements OnInit {
   }
 
   public get loginControl(): AbstractControl {
-    return this.loginForm.controls[ABSTRACT_FORM_CONTROLS.LOGIN_CONTROL];
+    return this.loginForm.controls[LOGIN_FORM_CONTROLS.LOGIN_CONTROL];
   }
 
   public get passwordControl(): AbstractControl {
-    return this.loginForm.controls[ABSTRACT_FORM_CONTROLS.PASSWORD_CONTROL];
+    return this.loginForm.controls[LOGIN_FORM_CONTROLS.PASSWORD_CONTROL];
   }
 
   private handleLoginFormGroup(): void {

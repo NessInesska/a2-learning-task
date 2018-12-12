@@ -40,8 +40,8 @@ export class ProductService {
       );
   }
 
-  public patchEditedProduct(data, id: string): Observable<Response> {
-    return this.http.patch<Response>(`${ENDPOINTS.PRODUCTS}/${id}`,
+  public patchEditedProduct(data, id: string): Observable<Product> {
+    return this.http.patch<Product>(`${ENDPOINTS.PRODUCTS}/${id}`,
       {
         name: data.itemNameControl,
         description: data.descriptionControl,

@@ -17,12 +17,12 @@ export class PageHeaderComponent implements OnInit {
               private loginStorageService: LoginStorageService) {
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.login = this.loginStorageService.getLogin();
   }
 
   public logout(login): void {
-    this.authService.logout(login).subscribe(res => console.log(res));
+    this.authService.logout(login).subscribe();
     this.tokenService.removeToken();
     this.loginStorageService.removeLogin();
     this.routingService.goToLoginPage();
