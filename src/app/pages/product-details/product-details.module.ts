@@ -1,16 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule } from '@angular/material';
-import { MatSelectModule } from '@angular/material/select';
-import { PageFooterModule } from '../../../components/page-footer/page-footer.module';
+import {
+  MatButtonModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatProgressSpinnerModule,
+  MatSelectModule,
+} from '@angular/material';
 
-import { PageHeaderModule } from '../../../components/page-header';
-import { ProductPageEditComponent } from '../product-page-edit';
-import { ProductPageComponent } from './product-page.component';
+import { PageFooterModule } from '../../components/page-footer';
+import { PageHeaderModule } from '../../components/page-header';
+import { ProductPageComponent } from './product-page';
+import { ProductPageEditComponent } from './product-page-edit';
 
 @NgModule({
   imports: [
+    CommonModule,
     CommonModule,
     MatIconModule,
     PageHeaderModule,
@@ -22,6 +29,7 @@ import { ProductPageComponent } from './product-page.component';
     MatIconModule,
     MatInputModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
   ],
   declarations: [
     ProductPageComponent,
@@ -29,6 +37,7 @@ import { ProductPageComponent } from './product-page.component';
   ],
   exports: [
     ProductPageComponent,
-  ],
+    ProductPageEditComponent,
+  ]
 })
-export class ProductPageModule { }
+export class ProductDetailsModule { }

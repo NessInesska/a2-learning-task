@@ -1,19 +1,20 @@
 <div class="wrapper">
   <div class="product-top-part-wrapper">
     <div class="product-img-and-rating">
-      <img src="{{item.image}}" class="product-image">
+      <img src="{{item?.image}}" class="product-image">
       <div class="product-rating">
-        <mat-icon color="primary" *ngFor="let i of range">star</mat-icon>
-        <mat-icon color="primary" *ngFor="let i of emptyRange">star_border</mat-icon>
+        <mat-icon color="primary" *ngFor="let range of maxRatingRange; let i = index;">
+          {{ i < item?.rating ? 'star' : 'star_border' }}
+        </mat-icon>
       </div>
     </div>
 
     <div class="product-information">
       <div class="product-title">
-        {{item.name}}
+        {{item?.name}}
       </div>
       <div class="product-description">
-        {{item.description}}
+        {{item?.description}}
       </div>
     </div>
   </div>
@@ -29,7 +30,7 @@
     </button>
 
     <div class="product-card-user-buttons">
-      {{item.cost | currency}}
+      {{item?.cost | currency}}
       <button class="btn btn-primary product-details-button"
               mat-button
               mat-raised-button

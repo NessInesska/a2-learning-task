@@ -8,7 +8,7 @@
 <!--TODO: add flexboxgrid to this layout-->
 
       <div class="login-page login-page-inputs form-group"
-           [ngClass]="{ 'has-error': submitted && getFormControls.login.errors }">
+           [ngClass]="{ 'has-error': submitted && formControls.login.errors }">
         <div class="login-page-inputs input-and-icon-row">
           <mat-icon>person</mat-icon>
           <div class="input-element">
@@ -19,20 +19,20 @@
                      type="text"
                      class="form-control"
                      placeholder="Login"
-                     formControlName="loginInput">
+                     [formControlName]="LOGIN_FORM_CONTROLS.LOGIN_INPUT">
             </mat-form-field>
           </div>
         </div>
 
-        <div *ngIf="loginInput.invalid && (loginInput.dirty || loginInput.touched)"
+        <div *ngIf="loginControl.invalid && (loginControl.dirty || loginControl.touched)"
              class="alert alert-danger">
-          <div *ngIf="loginInput.errors.required">
+          <div *ngIf="loginControl.errors.required">
             Login is required.
           </div>
-          <div *ngIf="loginInput.errors.minlength">
+          <div *ngIf="loginControl.errors.minlength">
             Login must be at least 3 characters long.
           </div>
-          <div *ngIf="loginInput.errors?.pattern">
+          <div *ngIf="loginControl.errors?.pattern">
             Login must include only english letters.
           </div>
         </div>
@@ -47,21 +47,21 @@
                    type="password"
                    class="form-control"
                    placeholder="Password"
-                   formControlName="passwordInput">
+                   [formControlName]="LOGIN_FORM_CONTROLS.PASSWORD_INPUT">
             </mat-form-field>
           </div>
         </div>
 
-        <div *ngIf="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)"
+        <div *ngIf="passwordControl.invalid && (passwordControl.dirty || passwordControl.touched)"
              class="alert alert-danger">
 
-          <div *ngIf="passwordInput.errors.required">
+          <div *ngIf="passwordControl.errors.required">
             Password is required.
           </div>
-          <div *ngIf="passwordInput.errors.minlength">
+          <div *ngIf="passwordControl.errors.minlength">
             Password must be at least 3 characters long.
           </div>
-          <div *ngIf="passwordInput.errors?.pattern">
+          <div *ngIf="passwordControl.errors?.pattern">
             Password must include only english letters.
           </div>
           <div *ngIf="wrongPassword">

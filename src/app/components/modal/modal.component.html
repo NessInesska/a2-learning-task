@@ -1,6 +1,5 @@
 <mat-dialog-content>
-  "{{data.message}}".
+  <div *ngIf="data?.message">
+    "{{data.message}}".
+  </div>
 </mat-dialog-content>
-<mat-dialog-actions *ngIf="data.isUnauthorised">
-  <button mat-button mat-raised-button (click)="goToLogin()"> Go to login </button>
-</mat-dialog-actions>

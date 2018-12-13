@@ -1,49 +1,56 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { Category, Product } from '../classes';
 import { ENDPOINTS } from '../constants';
+import { GlobalErrorHandler } from '../global-error-handler';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  public item;
-  public categories;
+  public item: Product;
+  public categories: Category[];
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private globalErrorHandler: GlobalErrorHandler) {
   }
 
   public getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${ENDPOINTS.PRODUCTS}`);
+    return this.http.get<Product[]>(`${ENDPOINTS.PRODUCTS}`)
+      .pipe(
+        catchError(error => this.globalErrorHandler.handleError(error))
+      );
   }
 
   public getProductById(id: string): Observable<Product> {
-    return this.http.get<Product>(`${ENDPOINTS.PRODUCTS}/${id}`);
+    return this.http.get<Product>(`${ENDPOINTS.PRODUCTS}/${id}`)
+      .pipe(
+        catchError(error => this.globalErrorHandler.handleError(error))
+      );
   }
 
-  public patchNumberOfProducts(id, count, soldCount): Observable<Response> {
-    return this.http.patch<Response>(`${ENDPOINTS.PRODUCTS}/${id}`, {count: count - 1, soldCount: soldCount + 1});
+  public buyProducts(item: Product, count: number): Observable<Response> {
+    return this.http.patch<Response>(`${ENDPOINTS.PRODUCTS}/${item.id}`, {count: count - 1, [item.soldCount]: item.soldCount + 1})
+      .pipe(
+        catchError(error => this.globalErrorHandler.handleError(error))
+      );
   }
 
-  public patchEditedProduct(data, id: string): Observable<Response> {
-    return this.http.patch<Response>(`${ENDPOINTS.PRODUCTS}/${id}`,
-      {name: data.itemNameInput,
-        description: data.descriptionInput,
-        cost: data.itemCostInput,
-        gender: data.genderSelect,
-        categoryId: data.categorySelect,
-        rating: data.ratingSelect
-      });
-  }
-
-  public getCategories(): Observable<Category> {
-    return this.http.get<Category>(`${ENDPOINTS.CATEGORIES}`);
+  public patchEditedProduct(editForm: Object, id: string): Observable<Product> {
+    return this.http.patch<Product>(`${ENDPOINTS.PRODUCTS}/${id}`, { editForm })
+      .pipe(
+        catchError(error => this.globalErrorHandler.handleError(error))
+      );
   }
 
   public deleteItemById(id: string): Observable<Object> {
-    return this.http.delete(`${ENDPOINTS.PRODUCTS}/${id}`);
+    return this.http.delete(`${ENDPOINTS.PRODUCTS}/${id}`)
+      .pipe(
+        catchError(error => this.globalErrorHandler.handleError(error))
+      );
   }
 }

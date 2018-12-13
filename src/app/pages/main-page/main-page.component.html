@@ -1,14 +1,13 @@
 <div class="row">
-  <app-page-header [login]="login"></app-page-header>
-</div>
-
-<div class="row">
   <div class="col-xs-1 left"></div>
   <div class="col-xs">
     <div class="row filters-and-search">
       <form class="searchString">
         <mat-form-field class="search-input">
-          <input class="search-input" matInput placeholder="Search" [(ngModel)]="searchString" name="searchString">
+          <input class="search-input"
+                 matInput placeholder="Search"
+                 [(ngModel)]="searchString"
+                 name="searchString">
         </mat-form-field>
       </form>
     </div>
@@ -23,20 +22,22 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <form [formGroup]="filtersInput" class="filters-form">
+          <form [formGroup]="filtersForm" class="filters-form">
             <div class="row filters">
 
               <div class="box">
-                <mat-checkbox formControlName="availabilityFilterControl"
+                <mat-checkbox [formControlName]="FILTER_FORM_CONTROLS.AVAILABILITY_FILTER"
                               color="primary"> Available only
                 </mat-checkbox>
               </div>
 
               <div class="box gender">
                 <mat-form-field>
-                  <mat-select #genderFilter placeholder="Gender" formControlName="genderFilterControl">
-                    <mat-option *ngFor="let gender of genders" [value]="gender">
-                      {{gender}}
+                  <mat-select #genderFilter
+                              placeholder="Gender"
+                              [formControlName]="FILTER_FORM_CONTROLS.GENDER_FILTER">
+                    <mat-option *ngFor="let gender of genders" [value]="gender.name">
+                      {{gender.name}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -44,8 +45,13 @@
 
               <div class="box category">
                 <mat-form-field>
-                  <mat-select #categoryFilter placeholder="Category" formControlName="categoryFilterControl">
-                    <mat-option *ngFor="let category of categories" [value]="category.id">
+                  <mat-select
+                    #categoryFilter
+                    placeholder="Category"
+                    [formControlName]="FILTER_FORM_CONTROLS.CATEGORY_FILTER">
+                    <mat-option
+                      *ngFor="let category of categories"
+                      [value]="category.id">
                       {{category.name}}
                     </mat-option>
                   </mat-select>
@@ -65,7 +71,7 @@
                       [thumbLabel]="true"
                       [tickInterval]="tickInterval"
                       color="primary"
-                      formControlName="ratingFilterControl">
+                      [formControlName]="FILTER_FORM_CONTROLS.RATING_FILTER">
                     </mat-slider>
                     To 5
                   </div>
@@ -85,7 +91,7 @@
                       [thumbLabel]="true"
                       [tickInterval]="tickInterval"
                       color="primary"
-                      formControlName="priceFilterControl">
+                      [formControlName]="FILTER_FORM_CONTROLS.PRICE_FILTER">
                     </mat-slider>
                     To {{maxPriceValue}}
                   </div>
@@ -109,25 +115,22 @@
 
     <div class="row products" *ngIf="!isLoading">
       <app-product-card class="product-card"
-                        *ngFor="let item of (_filteredProducts.value | search: searchString)"
+                        *ngFor="let item of (filteredProducts$.value | search: searchString)"
                         [item]="item"
                         [isAdmin]="isAdmin"
                         (remove)="removeProductCard($event)">
       </app-product-card>
     </div>
 
-    <div class="row center-xs middle-xs nothing-to-show" *ngIf="!isLoading && (_filteredProducts.value.length === 0)">
+    <div class="row center-xs middle-xs nothing-to-show"
+         *ngIf="!isLoading && (filteredProducts$.value.length === 0)
+         || !isLoading && (filteredProducts$.value | search: searchString).length === 0">
       Sorry, there is nothing to show.
     </div>
 
     <div class="row spinner" *ngIf="isLoading">
       <mat-spinner color="primary"></mat-spinner>
     </div>
-
   </div>
   <div class="col-xs-1 right"></div>
-</div>
-
-<div class="row">
-  <app-page-footer></app-page-footer>
 </div>

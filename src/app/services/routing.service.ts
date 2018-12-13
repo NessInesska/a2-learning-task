@@ -18,7 +18,7 @@ export class RoutingService {
     return this.router.navigate([ROUTING_PATHES.LOGIN]);
   }
 
-  public goToProductPage(id: string): Promise<boolean> {
+  public goToProductDetailsPage(id: string): Promise<boolean> {
     return this.router.navigate([ROUTING_PATHES.PRODUCT, id]);
   }
 
@@ -34,7 +34,7 @@ export class RoutingService {
     return this.router.navigate([ROUTING_PATHES.INTERNAL_SERVER_ERROR]);
   }
 
-  public navigate(path): Promise<boolean> {
+  public navigate(path: string[]): Promise<boolean> {
     return this.router.navigate(path);
   }
 }

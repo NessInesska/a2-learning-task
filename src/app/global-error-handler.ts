@@ -1,34 +1,50 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorHandler, Injectable, Injector } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
 
-import { ModalService, RoutingService } from './services';
+import { MESSAGES, STATUS_CODES } from './constants';
+import { LocalStorageService, ModalService, RoutingService } from './services';
 
 @Injectable()
-export class GlobalErrorHandler implements ErrorHandler {
+export class GlobalErrorHandler {
 
-  constructor (private injector: Injector) {}
+  public wrongPassword = false;
 
-  handleError(error) {
-    if (error.status === 404) {
-      const routingService = this.injector.get(RoutingService);
+  constructor(private injector: Injector) {
+  }
 
-      routingService.goToNotFoundPage();
-    }
+  public handleError(error: HttpErrorResponse): Observable<any> {
 
-    if (error.status === 500) {
-      const routingService = this.injector.get(RoutingService);
-
-      routingService.goToServerErrorPage();
-    }
+    const routingService = this.injector.get(RoutingService);
+    const modalService = this.injector.get(ModalService);
+    const localStorageService = this.injector.get(LocalStorageService);
 
     if (error instanceof HttpErrorResponse) {
-    const modal = this.injector.get(ModalService);
 
-    setTimeout(() => {
-      modal.openModal({message: error.message, isUnauthorised: true});
-    });
+      if (error.error instanceof ErrorEvent) {
+        const errMsg = `Error: ${error.error.message}`;
+        console.log('Error: ' + errMsg);
+      }
 
-    throw error;
+      if (error.status === STATUS_CODES.BAD_REQUEST) {
+        this.wrongPassword = true;
+        modalService.openModal({message: MESSAGES.WRONG_LOGIN_PASSWORD});
+      }
+
+      if (error.status === STATUS_CODES.UNAUTHORIZED) {
+        localStorageService.clear();
+        routingService.goToLoginPage();
+      }
+
+
+      if (error.status === STATUS_CODES.NOT_FOUND) {
+        routingService.goToNotFoundPage();
+      }
+
+      if (error.status === STATUS_CODES.INTERNAL_SERVER_ERROR) {
+        routingService.goToServerErrorPage();
+      }
     }
+    return throwError(error);
   }
 }

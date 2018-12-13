@@ -3,6 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angul
 import { ROUTING_PATHES } from '../constants';
 
 import { AuthorizationService, RoutingService } from '../services';
+import { TokenService } from '../services/token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,8 @@ import { AuthorizationService, RoutingService } from '../services';
 export class MainPageGuard implements CanActivate {
 
   constructor(private routingService: RoutingService,
-              private authService: AuthorizationService) {}
+              private authService: AuthorizationService,
+              private tokenService: TokenService) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -19,7 +21,7 @@ export class MainPageGuard implements CanActivate {
   }
 
   public checkLogin(): boolean {
-    if (!this.authService.hasToken()) {
+    if (!this.tokenService.hasToken()) {
       return true;
     } else {
       this.routingService.navigate([ROUTING_PATHES.MAIN_PAGE]);

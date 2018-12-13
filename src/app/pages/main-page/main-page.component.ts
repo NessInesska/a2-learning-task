@@ -1,149 +1,166 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
-import { Product } from '../../classes';
-import { STATUS_CODES } from '../../constants';
-import { AuthorizationService, ProductService, RoutingService, UserService } from '../../services';
+import { Category, Gender, Product } from '../../classes';
+import { UnsubscribeComponent } from '../../components/unsubscribe';
+import { GENDERS } from '../../constants';
+import { ROLE, FILTER_FORM_CONTROLS } from '../../constants';
+import { CategoriesService, LocalStorageService, ProductService, UserService, LoginStorageService } from '../../services';
 
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.scss'],
 })
-export class MainPageComponent implements OnInit {
+export class MainPageComponent extends UnsubscribeComponent implements OnInit {
 
-  public hasLogin: boolean = false;
   public login: string;
   public item: Product;
   public isAdmin = false;
-  public categories;
+  public categories: Category[];
   public panelOpenState = false;
   public searchString = '';
   public isLoading = false;
   public maxPriceValue: number;
   public minPriceValue: number;
-  public isNothingFound: boolean = false;
 
-  public genders: string[] = ['Woman', 'Man', 'Unisex'];
-  public _products: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
-  public _filteredProducts: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
+  public genders: Gender[] = GENDERS;
+  public products$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
+  public filteredProducts$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
   public pricesArray: number [] = [];
 
-  public filtersInput: FormGroup = this.formBuild.group({
-    genderFilterControl: new FormControl(),
-    categoryFilterControl: new FormControl(),
-    availabilityFilterControl: new FormControl(),
-    ratingFilterControl: new FormControl(),
-    priceFilterControl: new FormControl(),
+  public FILTER_FORM_CONTROLS = FILTER_FORM_CONTROLS;
+
+  public filtersForm: FormGroup = this.formBuild.group({
+    [FILTER_FORM_CONTROLS.AVAILABILITY_FILTER]: new FormControl(),
+    [FILTER_FORM_CONTROLS.GENDER_FILTER]: new FormControl(),
+    [FILTER_FORM_CONTROLS.CATEGORY_FILTER]: new FormControl(),
+    [FILTER_FORM_CONTROLS.RATING_FILTER]: new FormControl(),
+    [FILTER_FORM_CONTROLS.PRICE_FILTER]: new FormControl(),
   });
 
-  public showTicks = false;
-  public autoTicks = false;
+  public timerOptions = {
+    showTicks: false,
+    autoTicks: false,
+  };
 
   constructor(private userService: UserService,
               private formBuild: FormBuilder,
-              private routingService: RoutingService,
               private productService: ProductService,
-              private authService: AuthorizationService) {
-  }
-
-  public ngOnInit() {
-    this.login = this.authService.getLogin();
-    this.isLoading = true;
-    this._products.next(this.getProductsInfo());
-    setTimeout(() => {
-      this.setFilters();
-      this.isLoading = false;
-    }, 1000);
-  }
-
-  public removeProductCard(id: string): void {
-    this.productService.deleteItemById(id).subscribe((result: Response) => {
-      if (result.status === STATUS_CODES.NOT_FOUND) {
-        this.routingService.goToNotFoundPage();
-      }
-    this._filteredProducts.next(this._filteredProducts.value
-      .filter( product => product.id !== id));
-    });
-  }
-
-  public clearFormControls(): void {
-    this.genderFilterControl.setValue('');
-    this.categoryFilterControl.setValue('');
-    this.availabilityFilterControl.setValue('');
-    this.ratingFilterControl.setValue('');
-    this.priceFilterControl.setValue('');
-  }
-
-  public get genderFilterControl(): AbstractControl {
-    return this.filtersInput.controls['genderFilterControl'];
-  }
-
-  public get categoryFilterControl(): AbstractControl {
-    return this.filtersInput.controls['categoryFilterControl'];
-  }
-
-  public get availabilityFilterControl(): AbstractControl {
-    return this.filtersInput.controls['availabilityFilterControl'];
-  }
-
-  public get ratingFilterControl(): AbstractControl {
-    return this.filtersInput.controls['ratingFilterControl'];
-  }
-
-  public get priceFilterControl(): AbstractControl {
-    return this.filtersInput.controls['priceFilterControl'];
-  }
-
-  public get tickInterval(): number | 'auto' {
-    return this.showTicks ? (this.autoTicks ? 'auto' : this._tickInterval) : 0;
+              private loginStorageService: LoginStorageService,
+              private localStorageService: LocalStorageService,
+              private categoriesService: CategoriesService) {
+    super();
+    super.ngOnDestroy();
   }
 
   private _tickInterval = 1;
 
-  private getProductsInfo(): any {
-    this.isLoading = true;
-    const getCategories = this.productService.getCategories();
-    const getProductItems = this.productService.getProducts();
+  public ngOnInit(): void {
+    this.login = this.loginStorageService.getLogin();
 
-    forkJoin([getCategories, getProductItems]).subscribe(data => {
-      // data [0] is categories
-      // data [1] is products
-      this.categories = data[0];
-      this._products.next(data[1]);
+    const roles$ = this.userService.getRoles();
+    const currentUser$ = this.userService.getUserByLogin();
 
-      this.hasLogin = this.authService.hasLogin();
+    forkJoin([roles$, currentUser$]).subscribe(
+      data => {
+        // data[0] is admin role
+        // data[1] is current user
+        this.userService.adminRole = Array.isArray(data[0]) ?
+          data[0].find(role => role.name === ROLE.ADMIN) : null;
 
-      if (this.authService.hasIsAdmin()) {
-        this.isAdmin = true;
-      }
+        this.userService.currentUser = data[1];
 
-      this._products.forEach((productArr) => {
-        productArr.filter(pr => this.pricesArray.push(+pr.cost));
+        if (this.userService.adminRole.id === this.userService.currentUser.roleId) {
+          this.isAdmin = true;
+        }
       });
 
-      this.maxPriceValue = Math.max.apply(null, this.pricesArray);
-      this.minPriceValue = Math.min.apply(null, this.pricesArray);
-    });
+    this.setProductsInfo();
+    this.subscriptions.push(this.filtersForm.valueChanges.subscribe());
+  }
+
+  public removeProductCard(id: string): void {
+    this.productService.deleteItemById(id).subscribe(
+      () => {
+        this.filteredProducts$.next(this.filteredProducts$.value
+          .filter(product => product.id !== id));
+      });
+  }
+
+  public clearFormControls(): void {
+    this.genderFilterControl.reset();
+    this.categoryFilterControl.reset();
+    this.availabilityFilterControl.reset();
+    this.ratingFilterControl.reset();
+    this.priceFilterControl.reset();
+  }
+
+  public get genderFilterControl(): AbstractControl {
+    return this.filtersForm.controls[FILTER_FORM_CONTROLS.GENDER_FILTER];
+  }
+
+  public get categoryFilterControl(): AbstractControl {
+    return this.filtersForm.controls[FILTER_FORM_CONTROLS.CATEGORY_FILTER];
+  }
+
+  public get availabilityFilterControl(): AbstractControl {
+    return this.filtersForm.controls[FILTER_FORM_CONTROLS.AVAILABILITY_FILTER];
+  }
+
+  public get ratingFilterControl(): AbstractControl {
+    return this.filtersForm.controls[FILTER_FORM_CONTROLS.RATING_FILTER];
+  }
+
+  public get priceFilterControl(): AbstractControl {
+    return this.filtersForm.controls[FILTER_FORM_CONTROLS.PRICE_FILTER];
+  }
+
+  public get tickInterval(): number | 'auto' {
+    return this.timerOptions.showTicks ? (this.timerOptions.autoTicks ? 'auto' : this._tickInterval) : 0;
+  }
+
+  private setProductsInfo(): void {
+    this.isLoading = true;
+    const categories$ = this.categoriesService.getCategories();
+    const products$ = this.productService.getProducts();
+
+    forkJoin([categories$, products$])
+      .pipe(finalize(() => this.isLoading = false))
+      .subscribe(
+      data => {
+        // data [0] is categories
+        // data [1] is products
+        this.categories = data[0];
+        this.products$.next(data[1]);
+
+        this.pricesArray = this.products$.value.map(product => +product.cost);
+
+        this.maxPriceValue = Math.max(...this.pricesArray);
+        this.minPriceValue = Math.min(...this.pricesArray);
+
+        this.setFilters();
+      });
   }
 
   private setFilters(): void {
-    this._filteredProducts.next(this._products.value);
+    this.filteredProducts$.next(this.products$.value);
 
     combineLatest(
-      this._products,
+      this.products$,
       this.genderFilterControl.valueChanges,
       this.categoryFilterControl.valueChanges,
       this.availabilityFilterControl.valueChanges,
       this.ratingFilterControl.valueChanges,
       this.priceFilterControl.valueChanges,
     ).subscribe(([productArray,
-                       genderFilter,
-                       categoryFilter,
-                       availabilityFilter,
-                       ratingFilter,
-                       priceFilter]) => {
+                   genderFilter,
+                   categoryFilter,
+                   availabilityFilter,
+                   ratingFilter,
+                   priceFilter]) => {
       let filteredProducts = [...productArray];
 
       if (genderFilter) {
@@ -166,13 +183,13 @@ export class MainPageComponent implements OnInit {
         filteredProducts = filteredProducts.filter(product => product.cost > priceFilter);
       }
 
-      this._filteredProducts.next(filteredProducts);
+      this.filteredProducts$.next(filteredProducts);
     });
 
-    this.genderFilterControl.setValue('');
-    this.categoryFilterControl.setValue('');
-    this.availabilityFilterControl.setValue('');
-    this.ratingFilterControl.setValue('');
-    this.priceFilterControl.setValue('');
+    this.genderFilterControl.reset();
+    this.categoryFilterControl.reset();
+    this.availabilityFilterControl.reset();
+    this.ratingFilterControl.reset();
+    this.priceFilterControl.reset();
   }
 }
