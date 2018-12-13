@@ -1,11 +1,12 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { forkJoin } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
-import { Gender, Product } from '../../../classes';
-import { UnsubscribeComponent } from '../../../components/unsubscribe/unsubscribe.component';
-import { EDIT_FORM_CONTROLS, GENDERS, MESSAGES, NUMBER, ROUTING_PATHES } from '../../../constants';
+import { Category, Gender, Product } from '../../../classes';
+import { UnsubscribeComponent } from '../../../components/unsubscribe';
+import { EDIT_FORM_CONTROLS, GENDERS, MESSAGES, RATING_NUMBER, ROUTING_PATH_PARAMS } from '../../../constants';
 import {
   AuthorizationService,
   CategoriesService,
@@ -25,47 +26,39 @@ export class ProductPageEditComponent extends UnsubscribeComponent implements On
   @Input() rating: number;
   @Input() itemId: number;
 
-  @Output() ratingClick: EventEmitter<any> = new EventEmitter<any>();
+  @Output() ratingClick: EventEmitter<{ itemId: number, rating: number }> = new EventEmitter<{ itemId: number, rating: number }>();
 
   public inputName: string;
 
   public genders: Gender[] = [];
   public item: Product;
-  public categories;
-  public id = this.route.snapshot.params[ROUTING_PATHES.ID];
+  public categories: Category[];
+  public id = this.route.snapshot.params[ROUTING_PATH_PARAMS.ID];
   public login: string;
   public isLoading = false;
 
-  public editPageFormControls = {
-    ...EDIT_FORM_CONTROLS
-    // TODO change this to commented code
-    // [EDIT_FORM_CONTROLS.ITEM_NAME_CONTROL]: 'itemNameControl',
-    // [EDIT_FORM_CONTROLS.DESCRIPTION_CONTROL]: 'descriptionControl',
-    // [EDIT_FORM_CONTROLS.ITEM_COST_CONTROL]: 'itemCostControl',
-    // [EDIT_FORM_CONTROLS.CATEGORY_SELECT_CONTROL]: 'categorySelectControl',
-    // [EDIT_FORM_CONTROLS.GENDER_SELECT_CONTROL]: 'genderSelect',
-    // [EDIT_FORM_CONTROLS.RATING_SELECT]: 'ratingSelect',
-  };
+  public EDIT_FORM_CONTROLS = EDIT_FORM_CONTROLS;
 
   public editMainPageForm: FormGroup = this.formBuild.group({
-    [this.editPageFormControls.ITEM_NAME_CONTROL]: ['', {
+    [EDIT_FORM_CONTROLS.ITEM_NAME]: ['', {
       validators: [Validators.required, Validators.pattern('[a-zA-Z0-9.,! ]*')],
       updateOn: 'blur'
     }],
-    [this.editPageFormControls.DESCRIPTION_CONTROL]: ['', {
+    [EDIT_FORM_CONTROLS.DESCRIPTION]: ['', {
       validators: [Validators.required, Validators.pattern('[a-zA-Z0-9.,! ]*')],
       updateOn: 'blur'
     }],
-    [this.editPageFormControls.ITEM_COST_CONTROL]: ['', {
+    [EDIT_FORM_CONTROLS.ITEM_COST]: ['', {
       validators: [Validators.required, Validators.min(0), Validators.pattern('[0-9.$ ]*')],
       updateOn: 'blur'
     }],
-    [this.editPageFormControls.CATEGORY_SELECT_CONTROL]: ['', Validators.required],
-    [this.editPageFormControls.GENDER_SELECT_CONTROL]: ['', Validators.required],
-    [this.editPageFormControls.RATING_SELECT]: [Validators.required],
+    [EDIT_FORM_CONTROLS.CATEGORY_SELECT]: ['', Validators.required],
+    [EDIT_FORM_CONTROLS.GENDER_SELECT]: ['', Validators.required],
+    [EDIT_FORM_CONTROLS.RATING_SELECT]: [Validators.required],
   });
 
   public ratingArray: number[];
+  public isChecked: boolean;
 
   constructor(private productService: ProductService,
               private formBuild: FormBuilder,
@@ -74,15 +67,14 @@ export class ProductPageEditComponent extends UnsubscribeComponent implements On
               private route: ActivatedRoute,
               private modalService: ModalService,
               private loginStorageService: LoginStorageService,
-              private categoriesService: CategoriesService,
-              private cd: ChangeDetectorRef) {
+              private categoriesService: CategoriesService) {
     super();
     super.ngOnDestroy();
   }
 
   public ngOnInit(): void {
     this.isLoading = true;
-    this.ratingArray = new Array(NUMBER.FIVE);
+    this.ratingArray = new Array(RATING_NUMBER.FIVE);
 
     this.inputName = this.itemId + '_rating';
 
@@ -91,21 +83,22 @@ export class ProductPageEditComponent extends UnsubscribeComponent implements On
     const categories$ = this.categoriesService.getCategories();
     const currentProduct$ = this.productService.getProductById(this.id);
 
-    forkJoin([categories$, currentProduct$]).subscribe(
-      data => {
-        // data[0] is categories
-        // data[1] is currentProduct
-        this.productService.categories = data[0];
-        this.categories = this.productService.categories;
-        this.item = data[1];
-        this.login = this.loginStorageService.getLogin();
-      },
-      () => {
-      },
-      () => {
-        this.setEditPageControlsValues();
-        this.isLoading = false;
-      });
+    forkJoin([categories$, currentProduct$])
+      .pipe(
+        finalize(
+          () => {
+            this.setEditPageControlsValues();
+            this.isLoading = false;
+          }))
+      .subscribe(
+        data => {
+          // data[0] is categories
+          // data[1] is currentProduct
+          this.productService.categories = data[0];
+          this.categories = this.productService.categories;
+          this.item = data[1];
+          this.login = this.loginStorageService.getLogin();
+        });
     this.subscriptions.push(this.editMainPageForm.valueChanges.subscribe());
   }
 
@@ -113,7 +106,16 @@ export class ProductPageEditComponent extends UnsubscribeComponent implements On
     this.modalService.openModal({message: MESSAGES.YOU_EDITED_PRODUCT_PAGE});
 
     if (this.editMainPageForm.valid) {
-      this.productService.patchEditedProduct(this.editMainPageForm.value, this.id)
+      const editForm = {
+        name: this.itemNameControl,
+        description: this.descriptionControl,
+        cost: this.itemCostControl,
+        gender: this.genderSelectControl,
+        categoryId: this.categorySelectControl,
+        rating: this.rating
+      };
+
+      this.productService.patchEditedProduct(editForm, this.id)
         .subscribe(
           res => {
             this.item = res;
@@ -123,8 +125,12 @@ export class ProductPageEditComponent extends UnsubscribeComponent implements On
     }
   }
 
-  public onRatingMouseEnter(rating: number): void {
+  public onRatingMouseEnter(rating: number, index: number): void {
+    this.isChecked = false;
     this.rating = rating;
+
+    this.isChecked = this.rating === 4;
+
     this.editMainPageForm.controls[EDIT_FORM_CONTROLS.RATING_SELECT].setValue(rating);
     this.ratingClick.emit({
       itemId: this.itemId,
@@ -138,19 +144,23 @@ export class ProductPageEditComponent extends UnsubscribeComponent implements On
   }
 
   public get itemNameControl(): AbstractControl {
-    return this.editMainPageForm.controls[EDIT_FORM_CONTROLS.ITEM_NAME_CONTROL];
+    return this.editMainPageForm.controls[EDIT_FORM_CONTROLS.ITEM_NAME];
   }
 
   public get descriptionControl(): AbstractControl {
-    return this.editMainPageForm.controls[EDIT_FORM_CONTROLS.DESCRIPTION_CONTROL];
+    return this.editMainPageForm.controls[EDIT_FORM_CONTROLS.DESCRIPTION];
   }
 
   public get itemCostControl(): AbstractControl {
-    return this.editMainPageForm.controls[EDIT_FORM_CONTROLS.ITEM_COST_CONTROL];
+    return this.editMainPageForm.controls[EDIT_FORM_CONTROLS.ITEM_COST];
   }
 
   public get categorySelectControl(): AbstractControl {
-    return this.editMainPageForm.controls[EDIT_FORM_CONTROLS.CATEGORY_SELECT_CONTROL];
+    return this.editMainPageForm.controls[EDIT_FORM_CONTROLS.CATEGORY_SELECT];
+  }
+
+  public get genderSelectControl(): AbstractControl {
+    return this.editMainPageForm.controls[EDIT_FORM_CONTROLS.GENDER_SELECT];
   }
 
   public goToProductPage(): void {

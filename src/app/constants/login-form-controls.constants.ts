@@ -1,4 +1,4 @@
 export const LOGIN_FORM_CONTROLS = {
-  LOGIN_CONTROL: 'loginControl',
-  PASSWORD_CONTROL: 'passwordControl',
+  LOGIN_INPUT: 'loginControl',
+  PASSWORD_INPUT: 'passwordControl',
 };

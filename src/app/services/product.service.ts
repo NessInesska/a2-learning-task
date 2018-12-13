@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { Product } from '../classes';
+import { Category, Product } from '../classes';
 import { ENDPOINTS } from '../constants';
 import { GlobalErrorHandler } from '../global-error-handler';
 
@@ -13,7 +13,7 @@ import { GlobalErrorHandler } from '../global-error-handler';
 export class ProductService {
 
   public item: Product;
-  public categories;
+  public categories: Category[];
 
   constructor(private http: HttpClient,
               private globalErrorHandler: GlobalErrorHandler) {
@@ -33,23 +33,15 @@ export class ProductService {
       );
   }
 
-  public buyProducts(id, count, soldCount): Observable<Response> {
-    return this.http.patch<Response>(`${ENDPOINTS.PRODUCTS}/${id}`, {count: count - 1, soldCount: soldCount + 1})
+  public buyProducts(item: Product, count: number): Observable<Response> {
+    return this.http.patch<Response>(`${ENDPOINTS.PRODUCTS}/${item.id}`, {count: count - 1, [item.soldCount]: item.soldCount + 1})
       .pipe(
         catchError(error => this.globalErrorHandler.handleError(error))
       );
   }
 
-  public patchEditedProduct(data, id: string): Observable<Product> {
-    return this.http.patch<Product>(`${ENDPOINTS.PRODUCTS}/${id}`,
-      {
-        name: data.itemNameControl,
-        description: data.descriptionControl,
-        cost: data.itemCostControl,
-        gender: data.genderSelect,
-        categoryId: data.categorySelectControl,
-        rating: data.ratingSelect
-      })
+  public patchEditedProduct(editForm: Object, id: string): Observable<Product> {
+    return this.http.patch<Product>(`${ENDPOINTS.PRODUCTS}/${id}`, { editForm })
       .pipe(
         catchError(error => this.globalErrorHandler.handleError(error))
       );

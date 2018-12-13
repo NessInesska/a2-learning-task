@@ -26,7 +26,7 @@
             <div class="row filters">
 
               <div class="box">
-                <mat-checkbox [formControlName]="filterControlNames.availabilityFilterControl"
+                <mat-checkbox [formControlName]="FILTER_FORM_CONTROLS.AVAILABILITY_FILTER"
                               color="primary"> Available only
                 </mat-checkbox>
               </div>
@@ -35,7 +35,7 @@
                 <mat-form-field>
                   <mat-select #genderFilter
                               placeholder="Gender"
-                              [formControlName]="filterControlNames.genderFilterControl">
+                              [formControlName]="FILTER_FORM_CONTROLS.GENDER_FILTER">
                     <mat-option *ngFor="let gender of genders" [value]="gender.name">
                       {{gender.name}}
                     </mat-option>
@@ -48,7 +48,7 @@
                   <mat-select
                     #categoryFilter
                     placeholder="Category"
-                    [formControlName]="filterControlNames.categoryFilterControl">
+                    [formControlName]="FILTER_FORM_CONTROLS.CATEGORY_FILTER">
                     <mat-option
                       *ngFor="let category of categories"
                       [value]="category.id">
@@ -71,7 +71,7 @@
                       [thumbLabel]="true"
                       [tickInterval]="tickInterval"
                       color="primary"
-                      [formControlName]="filterControlNames.ratingFilterControl">
+                      [formControlName]="FILTER_FORM_CONTROLS.RATING_FILTER">
                     </mat-slider>
                     To 5
                   </div>
@@ -91,7 +91,7 @@
                       [thumbLabel]="true"
                       [tickInterval]="tickInterval"
                       color="primary"
-                      [formControlName]="filterControlNames.priceFilterControl">
+                      [formControlName]="FILTER_FORM_CONTROLS.PRICE_FILTER">
                     </mat-slider>
                     To {{maxPriceValue}}
                   </div>
@@ -122,14 +122,15 @@
       </app-product-card>
     </div>
 
-    <div class="row center-xs middle-xs nothing-to-show" *ngIf="!isLoading && (filteredProducts$.value.length === 0)">
+    <div class="row center-xs middle-xs nothing-to-show"
+         *ngIf="!isLoading && (filteredProducts$.value.length === 0)
+         || !isLoading && (filteredProducts$.value | search: searchString).length === 0">
       Sorry, there is nothing to show.
     </div>
 
     <div class="row spinner" *ngIf="isLoading">
       <mat-spinner color="primary"></mat-spinner>
     </div>
-
   </div>
   <div class="col-xs-1 right"></div>
 </div>

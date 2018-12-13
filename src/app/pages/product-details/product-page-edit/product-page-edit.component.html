@@ -25,7 +25,7 @@
                  type="text"
                  class="form-control"
                  placeholder="Product name: "
-                 [formControlName]="editPageFormControls.ITEM_NAME_CONTROL">
+                 [formControlName]="EDIT_FORM_CONTROLS.ITEM_NAME">
         </mat-form-field>
       </div>
 
@@ -51,12 +51,11 @@
             <!--TODO: make checked work-->
             <fieldset class="rating">
               <ng-container *ngFor="let r of ratingArray; let rating = index;">
-                <input type="radio"
-                       [name]="inputName"
-                       value="5 - rating"
-                       [checked]="5 - rating"/>
-                <label (click)='onRatingMouseEnter(5 - rating)'>
-                </label>
+                  <input type="radio"
+                         [name]="inputName"
+                         value="5-rating"
+                         [checked]="isChecked"/>
+                <label (click)='onRatingMouseEnter(5-rating, rating)'></label>
               </ng-container>
             </fieldset>
           </div>
@@ -69,7 +68,7 @@
                        name="itemCostControl"
                        class="form-control"
                        placeholder="Price: "
-                       [formControlName]="editPageFormControls.ITEM_COST_CONTROL">
+                       [formControlName]="EDIT_FORM_CONTROLS.ITEM_COST">
               </mat-form-field>
             </div>
 
@@ -88,7 +87,7 @@
             <div class="box">
               <mat-form-field class="form-field">
                 <mat-select placeholder="Gender"
-                            [formControlName]="editPageFormControls.GENDER_SELECT_CONTROL">
+                            [formControlName]="EDIT_FORM_CONTROLS.GENDER_SELECT">
                   <mat-option *ngFor="let gender of genders" [value]="gender.name">
                     {{gender.name}}
                   </mat-option>
@@ -99,7 +98,7 @@
             <div class="box">
               <mat-form-field class="form-field">
                 <mat-select placeholder="Category"
-                            [formControlName]="editPageFormControls.CATEGORY_SELECT_CONTROL">
+                            [formControlName]="EDIT_FORM_CONTROLS.CATEGORY_SELECT">
                   <mat-option *ngFor="let category of categories"
                               [value]="category.id">
                     {{category.name}}
@@ -121,7 +120,7 @@
                           type="text"
                           class="form-control"
                           placeholder="Description: "
-                          [formControlName]="editPageFormControls.DESCRIPTION_CONTROL">
+                          [formControlName]="EDIT_FORM_CONTROLS.DESCRIPTION">
                 </textarea>
             </mat-form-field>
           </div>
@@ -162,5 +161,4 @@
   <div class="row spinner" *ngIf="isLoading">
     <mat-spinner color="primary"></mat-spinner>
   </div>
-
 </div>

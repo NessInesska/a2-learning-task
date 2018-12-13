@@ -5,12 +5,12 @@ import { ErrorNotFoundPageComponent } from './pages/error-not-found-page';
 import { InternalServerErrorComponent } from './pages/internal-server-error';
 import { MainPageComponent } from './pages/main-page';
 import { AuthGuard, EditProductPageGuard, MainPageGuard } from './guards';
-import { ProductDetailsComponent, ProductPageEditComponent } from './pages/product-details';
+import { ProductPageComponent, ProductPageEditComponent } from './pages/product-details';
 
 export const appRoutes: Routes = [
   {path: 'main', component: MainPageComponent, canActivate: [AuthGuard]},
   {path: 'product-details/:id/edit', component: ProductPageEditComponent, canActivate: [EditProductPageGuard]},
-  {path: 'product-details/:id', component: ProductDetailsComponent, canActivate: [AuthGuard], pathMatch: 'full'},
+  {path: 'product-details/:id', component: ProductPageComponent, canActivate: [AuthGuard], pathMatch: 'full'},
   {path: 'login', component: AuthPageComponent, canActivate: [MainPageGuard]},
   {path: '404', component: ErrorNotFoundPageComponent},
   {path: '500', component: InternalServerErrorComponent},

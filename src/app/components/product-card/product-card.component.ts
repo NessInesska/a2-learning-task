@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Product } from '../../classes';
-import { MESSAGES, NUMBER } from '../../constants';
+import { MESSAGES, RATING_NUMBER } from '../../constants';
 import { ModalService, ProductService, RoutingService } from '../../services';
 
 @Component({
@@ -16,7 +16,7 @@ export class ProductCardComponent {
 
   @Output() remove: EventEmitter<string> = new EventEmitter<string>();
 
-  public maxRatingRange = new Array(NUMBER.FIVE);
+  public maxRatingRange = new Array(RATING_NUMBER.FIVE);
 
   constructor(private routingService: RoutingService,
               private productService: ProductService,

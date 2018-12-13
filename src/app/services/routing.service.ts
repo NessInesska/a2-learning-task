@@ -34,7 +34,7 @@ export class RoutingService {
     return this.router.navigate([ROUTING_PATHES.INTERNAL_SERVER_ERROR]);
   }
 
-  public navigate(path): Promise<boolean> {
+  public navigate(path: string[]): Promise<boolean> {
     return this.router.navigate(path);
   }
 }

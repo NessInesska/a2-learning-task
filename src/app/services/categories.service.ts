@@ -16,8 +16,8 @@ export class CategoriesService {
               private globalErrorHandler: GlobalErrorHandler) {
   }
 
-  public getCategories(): Observable<Category> {
-    return this.http.get<Category>(`${ENDPOINTS.CATEGORIES}`)
+  public getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`${ENDPOINTS.CATEGORIES}`)
       .pipe(
         catchError(error => this.globalErrorHandler.handleError(error))
       );

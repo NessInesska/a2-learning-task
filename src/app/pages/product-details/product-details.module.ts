@@ -12,8 +12,6 @@ import {
 
 import { PageFooterModule } from '../../components/page-footer';
 import { PageHeaderModule } from '../../components/page-header';
-import { ProductDetailsComponent } from './product-details.component';
-import { ProductDetailsService } from './product-details.service';
 import { ProductPageComponent } from './product-page';
 import { ProductPageEditComponent } from './product-page-edit';
 
@@ -34,17 +32,12 @@ import { ProductPageEditComponent } from './product-page-edit';
     MatProgressSpinnerModule,
   ],
   declarations: [
-    ProductDetailsComponent,
     ProductPageComponent,
     ProductPageEditComponent,
   ],
   exports: [
     ProductPageComponent,
-    ProductDetailsComponent,
     ProductPageEditComponent,
-  ],
-  providers: [
-    ProductDetailsService,
   ]
 })
 export class ProductDetailsModule { }

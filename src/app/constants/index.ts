@@ -1,5 +1,6 @@
 export * from './edit-form-controls.constants';
 export * from './endpoints';
+export * from './filter-form-controls.constants';
 export * from './gender.constants';
 export * from './local-storage.constants';
 export * from './messages.constants';

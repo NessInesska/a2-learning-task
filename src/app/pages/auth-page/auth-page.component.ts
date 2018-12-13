@@ -15,11 +15,7 @@ export class AuthPageComponent extends UnsubscribeComponent implements OnInit {
 
   public loginForm: FormGroup;
   public wrongPassword = false;
-
-  public loginControlNames = {
-    [LOGIN_FORM_CONTROLS.LOGIN_CONTROL]: 'loginControl',
-    [LOGIN_FORM_CONTROLS.PASSWORD_CONTROL]: 'passwordControl',
-  };
+  public LOGIN_FORM_CONTROLS = LOGIN_FORM_CONTROLS;
 
   constructor(private authorizationService: AuthorizationService,
               private routingService: RoutingService,
@@ -54,20 +50,20 @@ export class AuthPageComponent extends UnsubscribeComponent implements OnInit {
   }
 
   public get loginControl(): AbstractControl {
-    return this.loginForm.controls[LOGIN_FORM_CONTROLS.LOGIN_CONTROL];
+    return this.loginForm.controls[LOGIN_FORM_CONTROLS.LOGIN_INPUT];
   }
 
   public get passwordControl(): AbstractControl {
-    return this.loginForm.controls[LOGIN_FORM_CONTROLS.PASSWORD_CONTROL];
+    return this.loginForm.controls[LOGIN_FORM_CONTROLS.PASSWORD_INPUT];
   }
 
   private handleLoginFormGroup(): void {
     this.loginForm = this.formBuild.group({
-      [this.loginControlNames.loginControl]: ['', {
+      [LOGIN_FORM_CONTROLS.LOGIN_INPUT]: ['', {
         validators: [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z ]*')],
         updateOn: 'blur'
       }],
-      [this.loginControlNames.passwordControl]: ['', {
+      [LOGIN_FORM_CONTROLS.PASSWORD_INPUT]: ['', {
         validators: [Validators.required, Validators.minLength(3), Validators.pattern('[a-zA-Z0-9 ]*')],
         updateOn: 'blur'
       }]

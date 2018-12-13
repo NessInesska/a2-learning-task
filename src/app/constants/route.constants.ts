@@ -5,5 +5,8 @@ export const ROUTING_PATHES = {
   EDIT: 'edit',
   NOT_FOUND: '/404',
   INTERNAL_SERVER_ERROR: '/500',
+};
+
+export const ROUTING_PATH_PARAMS = {
   ID: 'id'
 };

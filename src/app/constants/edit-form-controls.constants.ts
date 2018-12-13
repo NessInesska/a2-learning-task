@@ -1,8 +1,8 @@
 export const EDIT_FORM_CONTROLS = {
-  ITEM_NAME_CONTROL: 'itemNameControl',
-  DESCRIPTION_CONTROL: 'descriptionControl',
-  ITEM_COST_CONTROL: 'itemCostControl',
-  CATEGORY_SELECT_CONTROL: 'categorySelectControl',
-  GENDER_SELECT_CONTROL: 'genderSelect',
+  ITEM_NAME: 'itemNameControl',
+  DESCRIPTION: 'descriptionControl',
+  ITEM_COST: 'itemCostControl',
+  CATEGORY_SELECT: 'categorySelectControl',
+  GENDER_SELECT: 'genderSelect',
   RATING_SELECT: 'ratingSelect'
 };

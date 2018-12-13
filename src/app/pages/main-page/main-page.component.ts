@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 import { Category, Gender, Product } from '../../classes';
-import { UnsubscribeComponent } from '../../components/unsubscribe/unsubscribe.component';
-import { EDIT_FORM_CONTROLS, GENDERS } from '../../constants';
-import { ROLE } from '../../constants';
-import { FILTER_FORM_CONTROLS } from '../../constants/filter-form-controls.constants';
+import { UnsubscribeComponent } from '../../components/unsubscribe';
+import { GENDERS } from '../../constants';
+import { ROLE, FILTER_FORM_CONTROLS } from '../../constants';
 import { CategoriesService, LocalStorageService, ProductService, UserService, LoginStorageService } from '../../services';
 
 @Component({
@@ -19,7 +19,7 @@ export class MainPageComponent extends UnsubscribeComponent implements OnInit {
   public login: string;
   public item: Product;
   public isAdmin = false;
-  public categories: Category;
+  public categories: Category[];
   public panelOpenState = false;
   public searchString = '';
   public isLoading = false;
@@ -31,20 +31,14 @@ export class MainPageComponent extends UnsubscribeComponent implements OnInit {
   public filteredProducts$: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
   public pricesArray: number [] = [];
 
-  public filterControlNames = {
-    [FILTER_FORM_CONTROLS.AVAILABILITY_FILTER_CONTROL]: 'availabilityFilterControl',
-    [FILTER_FORM_CONTROLS.GENDER_FILTER_CONTROL]: 'genderFilterControl',
-    [FILTER_FORM_CONTROLS.CATEGORY_FILTER_CONTROL]: 'categoryFilterControl',
-    [FILTER_FORM_CONTROLS.RATING_FILTER_CONTROL]: 'ratingFilterControl',
-    [FILTER_FORM_CONTROLS.PRICE_FILTER_CONTROL]: 'priceFilterControl',
-  };
+  public FILTER_FORM_CONTROLS = FILTER_FORM_CONTROLS;
 
   public filtersForm: FormGroup = this.formBuild.group({
-    [this.filterControlNames.availabilityFilterControl]: new FormControl(),
-    [this.filterControlNames.genderFilterControl]: new FormControl(),
-    [this.filterControlNames.categoryFilterControl]: new FormControl(),
-    [this.filterControlNames.ratingFilterControl]: new FormControl(),
-    [this.filterControlNames.priceFilterControl]: new FormControl(),
+    [FILTER_FORM_CONTROLS.AVAILABILITY_FILTER]: new FormControl(),
+    [FILTER_FORM_CONTROLS.GENDER_FILTER]: new FormControl(),
+    [FILTER_FORM_CONTROLS.CATEGORY_FILTER]: new FormControl(),
+    [FILTER_FORM_CONTROLS.RATING_FILTER]: new FormControl(),
+    [FILTER_FORM_CONTROLS.PRICE_FILTER]: new FormControl(),
   });
 
   public timerOptions = {
@@ -65,8 +59,6 @@ export class MainPageComponent extends UnsubscribeComponent implements OnInit {
   private _tickInterval = 1;
 
   public ngOnInit(): void {
-    console.log(this.filterControlNames);
-
     this.login = this.loginStorageService.getLogin();
 
     const roles$ = this.userService.getRoles();
@@ -107,23 +99,23 @@ export class MainPageComponent extends UnsubscribeComponent implements OnInit {
   }
 
   public get genderFilterControl(): AbstractControl {
-    return this.filtersForm.controls[FILTER_FORM_CONTROLS.GENDER_FILTER_CONTROL];
+    return this.filtersForm.controls[FILTER_FORM_CONTROLS.GENDER_FILTER];
   }
 
   public get categoryFilterControl(): AbstractControl {
-    return this.filtersForm.controls[FILTER_FORM_CONTROLS.CATEGORY_FILTER_CONTROL];
+    return this.filtersForm.controls[FILTER_FORM_CONTROLS.CATEGORY_FILTER];
   }
 
   public get availabilityFilterControl(): AbstractControl {
-    return this.filtersForm.controls[FILTER_FORM_CONTROLS.AVAILABILITY_FILTER_CONTROL];
+    return this.filtersForm.controls[FILTER_FORM_CONTROLS.AVAILABILITY_FILTER];
   }
 
   public get ratingFilterControl(): AbstractControl {
-    return this.filtersForm.controls[FILTER_FORM_CONTROLS.RATING_FILTER_CONTROL];
+    return this.filtersForm.controls[FILTER_FORM_CONTROLS.RATING_FILTER];
   }
 
   public get priceFilterControl(): AbstractControl {
-    return this.filtersForm.controls[FILTER_FORM_CONTROLS.PRICE_FILTER_CONTROL];
+    return this.filtersForm.controls[FILTER_FORM_CONTROLS.PRICE_FILTER];
   }
 
   public get tickInterval(): number | 'auto' {
@@ -135,7 +127,9 @@ export class MainPageComponent extends UnsubscribeComponent implements OnInit {
     const categories$ = this.categoriesService.getCategories();
     const products$ = this.productService.getProducts();
 
-    forkJoin([categories$, products$]).subscribe(
+    forkJoin([categories$, products$])
+      .pipe(finalize(() => this.isLoading = false))
+      .subscribe(
       data => {
         // data [0] is categories
         // data [1] is products
@@ -148,11 +142,7 @@ export class MainPageComponent extends UnsubscribeComponent implements OnInit {
         this.minPriceValue = Math.min(...this.pricesArray);
 
         this.setFilters();
-      },
-      () => {
-      },
-      () => this.isLoading = false
-    );
+      });
   }
 
   private setFilters(): void {
