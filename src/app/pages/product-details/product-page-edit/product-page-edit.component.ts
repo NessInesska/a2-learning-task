@@ -106,16 +106,8 @@ export class ProductPageEditComponent extends UnsubscribeComponent implements On
     this.modalService.openModal({message: MESSAGES.YOU_EDITED_PRODUCT_PAGE});
 
     if (this.editMainPageForm.valid) {
-      const editForm = {
-        name: this.itemNameControl,
-        description: this.descriptionControl,
-        cost: this.itemCostControl,
-        gender: this.genderSelectControl,
-        categoryId: this.categorySelectControl,
-        rating: this.rating
-      };
 
-      this.productService.patchEditedProduct(editForm, this.id)
+      this.productService.patchEditedProduct(this.editMainPageForm.value, this.id)
         .subscribe(
           res => {
             this.item = res;
@@ -125,11 +117,12 @@ export class ProductPageEditComponent extends UnsubscribeComponent implements On
     }
   }
 
+  // TODO make stars checked
   public onRatingMouseEnter(rating: number, index: number): void {
     this.isChecked = false;
     this.rating = rating;
 
-    this.isChecked = this.rating === 4;
+    this.isChecked = this.rating === (5 - index);
 
     this.editMainPageForm.controls[EDIT_FORM_CONTROLS.RATING_SELECT].setValue(rating);
     this.ratingClick.emit({

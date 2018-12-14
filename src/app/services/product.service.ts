@@ -40,8 +40,15 @@ export class ProductService {
       );
   }
 
-  public patchEditedProduct(editForm: Object, id: string): Observable<Product> {
-    return this.http.patch<Product>(`${ENDPOINTS.PRODUCTS}/${id}`, { editForm })
+  public patchEditedProduct(data: Product, id: string): Observable<Product> {
+    return this.http.patch<Product>(`${ENDPOINTS.PRODUCTS}/${id}`, {
+      name: data.itemNameControl,
+      description: data.descriptionControl,
+      cost: data.itemCostControl,
+      gender: data.genderSelect,
+      categoryId: data.categorySelectControl,
+      rating: data.ratingSelect
+    })
       .pipe(
         catchError(error => this.globalErrorHandler.handleError(error))
       );
