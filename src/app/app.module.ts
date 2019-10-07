@@ -8,19 +8,20 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { ModalComponent } from './components/modal';
-import { PageFooterModule } from './components/page-footer';
+import { PageFooterModule } from './components/page-footer/page-footer.module';
 import { AuthPageModule } from './pages/auth-page';
 import { PageHeaderModule } from './components/page-header';
 import { ProductCardModule } from './components/product-card';
 import { AuthGuard } from './guards';
 import { MainPageModule } from './pages/main-page';
 import { RequestsInterceptor } from './requests-interceptor.service';
-import { AuthorizationService, RoutingService, UserService, ProductService, ModalService } from './services';
+import { AuthorizationService, RoutingService, ProductService, ModalService } from './services';
 import { ErrorNotFoundPageComponent } from './pages/error-not-found-page';
 import { InternalServerErrorComponent } from './pages/internal-server-error';
 import { ProductDetailsModule } from './pages/product-details';
 import { GlobalErrorHandler } from './global-error-handler';
 import { UnsubscribeComponent } from './components/unsubscribe/unsubscribe.component';
+import { ShoppingCartPageComponent } from './pages/shopping-cart-page/shopping-cart-page.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { UnsubscribeComponent } from './components/unsubscribe/unsubscribe.compo
     ModalComponent,
     InternalServerErrorComponent,
     UnsubscribeComponent,
+    ShoppingCartPageComponent
   ],
   entryComponents: [
     ModalComponent,
@@ -54,7 +56,7 @@ import { UnsubscribeComponent } from './components/unsubscribe/unsubscribe.compo
     AuthorizationService,
     ProductService,
     RoutingService,
-    UserService,
+    // UserService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RequestsInterceptor,
