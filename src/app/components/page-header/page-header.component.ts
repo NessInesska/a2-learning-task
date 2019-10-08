@@ -31,4 +31,8 @@ export class PageHeaderComponent implements OnInit {
   public goToMainPage(): void {
     this.routingService.goToMainPage();
   }
+
+  public goToShoppingCart (login): void {
+    this.routingService.goToShoppingCartPage(login);
+  }
 }
