@@ -34,6 +34,10 @@ export class RoutingService {
     return this.router.navigate([ROUTING_PATHES.INTERNAL_SERVER_ERROR]);
   }
 
+  public goToShoppingCartPage(login: string): Promise<boolean> {
+    return this.router.navigate([ROUTING_PATHES.SHOPPING_CART, login]);
+  }
+
   public navigate(path: string[]): Promise<boolean> {
     return this.router.navigate(path);
   }
