@@ -22,6 +22,7 @@ import { ProductDetailsModule } from './pages/product-details';
 import { GlobalErrorHandler } from './global-error-handler';
 import { UnsubscribeComponent } from './components/unsubscribe/unsubscribe.component';
 import { ShoppingCartPageComponent } from './pages/shopping-cart-page/shopping-cart-page.component';
+import { ProductSummaryComponent } from './components/product-summary/product-summary.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ShoppingCartPageComponent } from './pages/shopping-cart-page/shopping-c
     ModalComponent,
     InternalServerErrorComponent,
     UnsubscribeComponent,
-    ShoppingCartPageComponent
+    ShoppingCartPageComponent,
+    ProductSummaryComponent,
   ],
   entryComponents: [
     ModalComponent,

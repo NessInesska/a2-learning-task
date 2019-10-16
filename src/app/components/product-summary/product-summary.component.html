@@ -1,0 +1,39 @@
+<div class="wrapper">
+  <div class="product-top-part-wrapper row">
+    <div class="product-img-and-rating">
+      <img src="{{item.image}}" class="product-image">
+      <div class="product-rating">
+        <mat-icon color="primary" *ngFor="let i of range">star</mat-icon>
+        <mat-icon color="primary" *ngFor="let i of emptyRange">star_border</mat-icon>
+      </div>
+    </div>
+
+    <div class="product-information">
+      <div class="product-title">
+        {{item.name}}
+      </div>
+    </div>
+  </div>
+
+  <div class="product-card-buttons">
+    <button class="btn btn-primary product-details-button"
+            mat-button
+            mat-raised-button
+            color="primary"
+            *ngIf="isAdmin"
+            (click)="deleteProduct()">
+      Delete
+    </button>
+
+    <div class="product-card-user-buttons">
+      {{item.cost | currency}}
+      <button class="btn btn-primary product-details-button"
+              mat-button
+              mat-raised-button
+              color="accent"
+              (click)="goToProductPage()">
+        Details
+      </button>
+    </div>
+  </div>
+</div>
