@@ -6,7 +6,6 @@
   flex-wrap: nowrap;
   padding: 15px;
   margin: 0;
-  min-height: 550px;
   justify-content: space-between;
 
   .product-top-part-wrapper {
@@ -42,7 +41,7 @@
     .product-card-user-buttons {
       display: flex;
       justify-content: space-between;
-      width: -webkit-fill-available;
+      width: 100%;
       margin-top: 10px;
     }
 

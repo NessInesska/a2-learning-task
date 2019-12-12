@@ -1,9 +1,66 @@
 <header class="header">
-  <div class="header-logo">
-    <mat-icon> <a (click)="goToMainPage()">location_city</a></mat-icon>
-  </div>
-  <div class="user-info" *ngIf="!notFound">
-    Hello, {{login}} :)
-    <button class="logout-button" (click)="logout(login)"> Logout </button>
+  <div class="header-wrapper">
+
+    <div class="header-logo">
+      <mat-icon><a (click)="goToMainPage()">location_city</a></mat-icon>
+      <span>LARNE STORE</span>
+    </div>
+
+    <ul class="mens-womens" data-testid="floornav">
+      <li>
+        <a class="womens-clothes">ЖЕНСКОЕ</a>
+      </li>
+      <li>
+        <a class="mens-clothes">МУЖСКОЕ</a>
+      </li>
+    </ul>
+    <div style="width: 50%;"></div>
+
+    <ul class="right-menu">
+      <li>
+        <div>
+          <div>
+            <div id="myAccountDropdown" class="account-drop" role="presentation">
+              <button type="button"
+                      class="clickable person_outline_button"
+                      aria-expanded="false"
+                      aria-controls="myaccount-dropdown">
+                <mat-icon><a>person_outline</a></mat-icon>
+              </button>
+
+              <div class="myaccount-dropdown-menu" id="myaccount-dropdown">
+                <div class="dropdown-wrapper">
+                  <div class="dropdown-wrapper-container bg">
+                    <div class="drop-header">
+                      <span>Привет, {{login}}</span>
+                      <span>
+                          <a class="logout-btn"
+                             (click)="logout(login)">Выйти</a>
+                        </span>
+                    </div>
+
+                    <div class="drop-items-container">
+                      <a class="drop-menu-item">Личный кабинет</a>
+                      <a class="drop-menu-item">Мои заказы</a>
+                      <a class="drop-menu-item">Информация</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li>
+        <a class="clickable">
+          <mat-icon><a>favorite_border</a></mat-icon>
+        </a>
+      </li>
+      <li>
+        <a class="clickable">
+          <mat-icon><a>card_travel</a></mat-icon>
+        </a>
+      </li>
+    </ul>
   </div>
 </header>
