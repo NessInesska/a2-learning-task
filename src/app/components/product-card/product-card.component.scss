@@ -8,6 +8,10 @@
   margin: 0;
   justify-content: space-between;
 
+  &:hover {
+    cursor: pointer;
+  }
+
   .product-top-part-wrapper {
 
     .product-image {

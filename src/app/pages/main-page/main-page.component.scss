@@ -22,7 +22,7 @@
   justify-content: center;
 
   .searchString {
-    width: 90%;
+    width: 95%;
 
     .search-input {
       width: 100%;
@@ -59,14 +59,14 @@
   justify-content: space-around;
 
   .product-card {
-    background: $product-card-background;
+    //background: $product-card-background;
     font-family: $font-hiragino-sans-gb;
-    margin: 20px 10px;
+    margin: 20px 5px;
     height: fit-content;
     //min-height: 500px;
-    width: 25%;
+    width: 30%;
     min-width: 200px;
-    box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.75);
+    //box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.75);
   }
 }
 
