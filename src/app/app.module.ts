@@ -20,7 +20,8 @@ import { ErrorNotFoundPageComponent } from './pages/error-not-found-page';
 import { InternalServerErrorComponent } from './pages/internal-server-error';
 import { ProductDetailsModule } from './pages/product-details';
 import { GlobalErrorHandler } from './global-error-handler';
-import { UnsubscribeComponent } from './components/unsubscribe/unsubscribe.component';
+import { UnsubscribeComponent } from './components/unsubscribe';
+import { CartPageModule } from './pages/cart-page/cart-page.module';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { UnsubscribeComponent } from './components/unsubscribe/unsubscribe.compo
     MatDialogModule,
     MatButtonModule,
     ProductDetailsModule,
+    CartPageModule,
   ],
   providers: [
     AuthGuard,

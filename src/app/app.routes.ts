@@ -6,11 +6,13 @@ import { InternalServerErrorComponent } from './pages/internal-server-error';
 import { MainPageComponent } from './pages/main-page';
 import { AuthGuard, EditProductPageGuard, MainPageGuard } from './guards';
 import { ProductPageComponent, ProductPageEditComponent } from './pages/product-details';
+import { CartPageComponent } from './pages/cart-page/cart-page.component';
 
 export const appRoutes: Routes = [
   {path: 'main', component: MainPageComponent, canActivate: [AuthGuard]},
   {path: 'product-details/:id/edit', component: ProductPageEditComponent, canActivate: [EditProductPageGuard]},
   {path: 'product-details/:id', component: ProductPageComponent, canActivate: [AuthGuard], pathMatch: 'full'},
+  {path: 'cart/:login', component: CartPageComponent, canActivate: [AuthGuard], pathMatch: 'full'},
   {path: 'login', component: AuthPageComponent, canActivate: [MainPageGuard]},
   {path: '404', component: ErrorNotFoundPageComponent},
   {path: '500', component: InternalServerErrorComponent},

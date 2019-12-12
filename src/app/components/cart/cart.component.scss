@@ -1,0 +1,24 @@
+.cart-wrapper {
+  height: 98vh;
+
+  .empty-cart-message {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .cart-continue-shopping {
+      color: #2d2d2d;
+      text-decoration: none;
+      height: 20px;
+      padding: 10px;
+      border: 1px solid #2d2d2d;
+
+      &:hover {
+        cursor: pointer;
+        text-decoration: dashed;
+      }
+    }
+  }
+}

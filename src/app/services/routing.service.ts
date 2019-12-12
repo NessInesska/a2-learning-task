@@ -22,6 +22,10 @@ export class RoutingService {
     return this.router.navigate([ROUTING_PATHES.PRODUCT, id]);
   }
 
+  public goToCartPage(login: string): Promise<boolean> {
+    return this.router.navigate([ROUTING_PATHES.CART, login]);
+  }
+
   public goToEditProductPage(id: string): Promise<boolean> {
     return this.router.navigate([ROUTING_PATHES.PRODUCT, id, ROUTING_PATHES.EDIT]);
   }
